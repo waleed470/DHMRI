@@ -98,7 +98,7 @@
                                             oc_obj = oc;
                                         }
                                     }
-                                    @if (item.Opening_ClosingDays_id==oc_obj.Opening_ClosingDays_id&& item.Transaction_item_type == "Manual")
+                                    @if (item.Opening_ClosingDays_id==oc_obj.Opening_ClosingDays_id&& (item.Transaction_item_type == "Manual"|| item.Transaction_item_type == "DriverExpense"))
                                     {
                                         <td class="actions">
                                             <a href="~/Transaction/Edit?id=@item.Transaction_id" class="on-default edit-row"><i class="fa fa-pencil"></i></a>

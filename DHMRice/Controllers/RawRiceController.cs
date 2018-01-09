@@ -53,7 +53,7 @@ namespace DHMRice.Controllers
                         {
                             Transaction rem_trans = new Transaction();
                             rem_trans.Transaction_item_id = RawRice_Remaining[i].RawRice_id;
-                            rem_trans.Transaction_item_type = "RawRice";
+                            rem_trans.Transaction_item_type = "RawRice Remaining";
                             rem_trans.Transaction_Description = "Pay Remaining Amount of " + RawRice_Remaining[i].Item_Name + " from Party " + db.Parties.Find(rawRice.Party_Id).Party_Name;
                             rem_trans.Transaction_DateTime = DateTime.Now;
                             if (form["isBankAccount"] != null)
@@ -290,7 +290,7 @@ namespace DHMRice.Controllers
                         {
                             Transaction rem_trans = new Transaction();
                             rem_trans.Transaction_item_id = RawRice_Remaining[i].RawRice_id;
-                            rem_trans.Transaction_item_type = "RawRice";
+                            rem_trans.Transaction_item_type = "RawRice Remaining";
                             rem_trans.Transaction_Description = "Pay Remaining Amount of " + RawRice_Remaining[i].Item_Name + " from Party " + db.Parties.Find(rawRice.Party_Id).Party_Name;
                             rem_trans.Transaction_DateTime = DateTime.Now;
                             if (form["isBankAccount"] != null)

@@ -50,6 +50,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                Driver Expense: <input type="checkbox" class="" name="IsDriverExpense" id="IsDriverExpense" value="1" placeholder="Transaction Description">
+
+                            </div>
+                            <script>
+                                if ("@Model.Transaction_item_type" == "DriverExpense") {
+                                    $('#IsDriverExpense').prop( "checked", true );
+                                }
+                            </script>
+                            <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="col-md-10">
@@ -121,6 +130,26 @@
         $('#Description').mouseout(function () {
             ValidateDescription();
         });
+        $('#IsDriverExpense').click(function () {
+
+            var credit = $('#Credit').val();
+            var debit = $('#Debit').val();
+            if ($(this).prop("checked")) {
+                console.log("invoked");
+                // checked
+                $('#Description').val("Driver Expense");
+                ValidateDebit();
+                ValidateCredit();
+                ValidateDescription();
+                return;
+            }
+            // not checked
+            $('#Description').val(null);
+            ValidateDescription();
+            $('#Credit').val(0);
+            ValidateDebit();
+            ValidateCredit();
+        });
         function ValidateDebit() {
             $('span.error-Debit').remove();
             $('span.valid-Debit').remove();
@@ -166,6 +195,7 @@
         $('#Debit').mouseout(function () {
             ValidateDebit();
         });
+
         function ValidateCredit() {
             $('span.error-Credit').remove();
             $('span.valid-Credit').remove();
@@ -214,12 +244,12 @@
         function ValidateDescription() {
             $('span.error-Description').remove();
             $('span.valid-Description').remove();
-            var inputVal = $(this).val();
+            var inputVal = $('#Description').val();
             if (inputVal.length > 0) {
-                $(this).after('<span class="valid valid-Description hidden" style="color:green;"></br></span>');
+                $('#Description').after('<span class="valid valid-Description hidden" style="color:green;"></br></span>');
             }
             else {
-                $(this).after('<span class="error error-Description" style="color:red;"></br>*Required!</span>');
+                $('#Description').after('<span class="error error-Description" style="color:red;"></br>*Required!</span>');
             }
         }
        
@@ -275,7 +305,6 @@
         ValidateCredit();
         $('#submit').click(function () {
             $('span.error-btn').remove();
-            alert($('span.valid').length);
             if ($('span.valid').length == 3) {
                 return true;
             }
