@@ -1004,11 +1004,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="SqlScripts\15-11-2017.sql" />
-    <Content Include="SqlScripts\17-11-2017.sql" />
-    <Content Include="SqlScripts\20-11.sql" />
-    <Content Include="SqlScripts\22-11.sql" />
-    <Content Include="SqlScripts\DHMR 8 Nnov.sql" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1108,6 +1103,7 @@
     <Content Include="Views\Reports\TodaySale.cshtml" />
     <Content Include="Views\Reports\RawStock.cshtml" />
     <Content Include="Views\Reports\PartyDetail.cshtml" />
+    <Content Include="SqlScripts\10-1.rar" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
