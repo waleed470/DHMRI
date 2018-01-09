@@ -1,0 +1,168 @@
+﻿@model DHMRice.Models.RawRice
+@{
+    ViewBag.Title = "GatePassInwawrd";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script>
+    CheckIntialOpening();
+</script>
+<!-- Start content -->
+<div class="content">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">GatePass Inward</h4>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="container card-box">
+            <div class="">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+
+
+                    <div class="form-horizontal">
+                        @using (Html.BeginForm("GatePassInwawrd", "RawRice", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.RawRice_id)
+                            <div class="col-md-2">
+                                <div class="form-group">
+
+                                    <label for="Section Name">Rice Name</label>
+
+                                    <input type="text" class="form-control" name="" value="@(Model.Item_Name)" id="RiceName" readonly="readonly">
+
+
+                                    <div style="color:red"></div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+
+                                    <label for="Section Name">Rice Code</label>
+
+                                    <input type="text" class="form-control" name="Rice_Production_Code" value="@(Model.Item_Code)" id="RiceCode" readonly="readonly">
+
+
+                                    <div style="color:red"></div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+
+                                    <label for="Section Name">Pkg Type</label>
+
+                                    <input type="text" class="form-control" name="Packing_Id" value="@(Model.packing.Packing_Type)" id="" readonly="readonly">
+
+
+                                    <div style="color:red"></div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+
+                                    <label for="Section Name">Total Bags</label>
+
+                                    <input type="text" class="form-control" name="Rice_Production_Code" value="@(Model.Bags_qty)" id="" readonly="readonly">
+
+
+                                    <div style="color:red"></div>
+
+                                </div>
+                            </div>
+
+
+
+                        
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-10">
+                                            <label for="Section Name">Vehicle No</label>
+                                            <input type="text" class="form-control" name="Vehicle_No" id="Vehicle_No" placeholder="Vehicle No">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-10">
+                                            <label for="Section Name">Driver Name</label>
+                                            <input type="text" class="form-control" name="Driver_Name" id="Driver_Name" placeholder="Driver Name">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                             <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-10">
+                                            <label for="Section Name">Bility No</label>
+                                            <input type="text" class="form-control" name="Bility_No" id="Bility_No" placeholder="Bility No">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-10">
+                                            <label for="Section Name">Purshaed By</label>
+                                            <input type="text" class="form-control" name="Purchased_By" id="Purchased_By" placeholder="Purshed By">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-10">
+                                            <label for="Section Name">Designation</label>
+                                            <input type="text" class="form-control" name="Designation" id="Designation" placeholder="Designation">
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+
+
+                            </div>
+
+                                <br />
+
+                                <div class="form-group">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6">
+                                        <input type="submit" id="submit" value="Add Transaction" class="btn btn-success" style="width:100%" />
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                        }
+                    </div>
+
+
+                </div>
+                <div class="col-lg-1"></div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+

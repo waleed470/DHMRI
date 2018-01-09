@@ -1,0 +1,75 @@
+﻿@model DHMRice.Models.Shop
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Shop</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Shop_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shop_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Shop_Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shop_Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Shop_MobileNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shop_MobileNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Shop_BankName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shop_BankName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Shop_ACcountNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shop_ACcountNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Shop_Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shop_Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Shop_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

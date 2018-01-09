@@ -1,0 +1,126 @@
+﻿@model DHMRice.Models.Broker
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script>
+    CheckIntialOpening();
+</script>
+<!-- Start content -->
+<div class="content">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Broker </h4>
+                    <ol class="breadcrumb p-0 m-0">
+
+                        <li>
+                            <a href="~/Brokers/Index">Broker </a>
+                        </li>
+                        <li class="active">
+                            Add New Broker
+                        </li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="container card-box">
+            <div class="">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+
+
+                    <div class="form-horizontal">
+                        @using (Html.BeginForm("Create", "Brokers", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div style="color:red">
+                                @Html.ValidationSummary()
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Broker Name</label>
+                                    <input type="text" class="form-control" name="Broker_Name" placeholder="Enter Broker Name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Broker Code</label>
+                                    <input type="text" class="form-control" name="Broker_Code" placeholder="Enter Broker Code">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Broker Mobile Number</label>
+                                    <input type="text" class="form-control" name="Broker_MobileNo" placeholder="Enter Broker Mobile Number">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Broker Bank Name</label>
+                                    <input type="text" class="form-control" name="Broker_BankName" placeholder="Enter Broker Bank Name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Broker Bank Account Number</label>
+                                    <input type="text" class="form-control" name="Broker_ACcountNo" placeholder="Enter Broker Bank Account Number">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Broker Address</label>
+                                    <TextArea type="textarea" class="form-control" col="20" rows="8" name="Broker_Address" placeholder="Enter Broker Address"></TextArea>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <br />
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+
+                                    <input type="submit" value="submit" class="btn btn-success" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+                <div class="col-lg-1"></div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>

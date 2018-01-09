@@ -1,0 +1,126 @@
+﻿@model DHMRice.Models.Party
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script>
+    CheckIntialOpening();
+</script>
+<!-- Start content -->
+<div class="content">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Party </h4>
+                    <ol class="breadcrumb p-0 m-0">
+
+                        <li>
+                            <a href="~/AdminClass/Index" >Party </a>
+                        </li>
+                        <li class="active">
+                            Add New Party
+                        </li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="container card-box">
+            <div class="">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+
+
+                    <div class="form-horizontal">
+@using (Html.BeginForm("Create", "Parties", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div style="color:red">
+        @Html.ValidationSummary()
+    </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <label for="Section Name">Party Name</label>
+                                <input type="text" class="form-control" name="Party_Name" placeholder="Enter Party Name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <label for="Section Name">Party Code</label>
+                                <input type="text" class="form-control" name="Party_Code" placeholder="Enter Party Code">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <label for="Section Name">Party Mobile Number</label>
+                                <input type="text" class="form-control" name="Party_MobileNo" placeholder="Enter Party Mobile Number">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <label for="Section Name">Party Bank Name</label>
+                                <input type="text" class="form-control" name="Party_BankName" placeholder="Enter Party Bank Name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <label for="Section Name">Party Bank Account Number</label>
+                                <input type="text" class="form-control" name="Party_ACcountNo" placeholder="Enter Party Bank Account Number">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <label for="Section Name">Party Address</label>
+                                <TextArea type="textarea" class="form-control" col="20" rows="8" name="Party_Address" placeholder="Enter Party Address"></TextArea>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <br />
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+
+                                <input type="submit" value="submit" class="btn btn-success" />
+                            </div>
+                        </div>
+}
+                    </div>
+
+
+                </div>
+                <div class="col-lg-1"></div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>

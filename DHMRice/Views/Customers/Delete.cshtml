@@ -1,0 +1,83 @@
+﻿@model DHMRice.Models.Customer
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script>
+    CheckIntialOpening();
+</script>
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer_Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer_Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer_MobileNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer_MobileNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer_BankName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer_BankName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer_ACcountNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer_ACcountNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer_Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer_Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

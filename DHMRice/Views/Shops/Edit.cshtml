@@ -1,0 +1,154 @@
+﻿@model DHMRice.Models.Shop
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Css {
+    <!-- Modal -->
+    <link href="~/Content/assets/plugins/custombox/css/custombox.min.css" rel="stylesheet">
+    <link href="~/Content/assets/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
+
+}
+<!-- Start content -->
+<div class="content">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Edit Shop </h4>
+                    <ol class="breadcrumb p-0 m-0">
+
+                        <li>
+                            <a href="~/Shops/Index">Shop </a>
+                        </li>
+                        <li class="active">
+                            Edit Shop
+                        </li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="container card-box">
+            <div class="">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+
+                    @using (Html.BeginForm("Edit", "Shops", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Shop_Id)
+
+                        <div class="form-horizontal">
+
+
+
+
+
+
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop Name </label>
+                                    <input type="text" class="form-control" name="Shop_Name" placeholder="Enter service Name" value="@(Model.Shop_Name)">
+                                    <div style="color:red">  @Html.ValidationMessageFor(m => m.Shop_Name)</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop Code </label>
+                                    <input type="text" class="form-control" name="Shop_Code" placeholder="Enter service Name" value="@(Model.Shop_Code)">
+                                    <div style="color:red">  @Html.ValidationMessageFor(m => m.Shop_Code)</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop MobileNo</label>
+                                    <input type="text" class="form-control" name="Shop_MobileNo" placeholder="Enter service Name" value="@(Model.Shop_MobileNo)">
+                                    <div style="color:red">  @Html.ValidationMessageFor(m => m.Shop_MobileNo)</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop Bank Name</label>
+                                    <input type="text" class="form-control" name="Shop_BankName" placeholder="Enter service Name" value="@(Model.Shop_BankName)">
+                                    <div style="color:red">  @Html.ValidationMessageFor(m => m.Shop_BankName)</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop ACcount No </label>
+                                    <input type="text" class="form-control" name="Shop_ACcountNo" placeholder="Enter service Name" value="@(Model.Shop_ACcountNo)">
+                                    <div style="color:red">  @Html.ValidationMessageFor(m => m.Shop_ACcountNo)</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop Address </label>
+                                    <input type="text" class="form-control" name="Shop_Address" placeholder="Enter service Name" value="@(Model.Shop_Address)">
+                                    <div style="color:red">  @Html.ValidationMessageFor(m => m.Shop_Address)</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="select-style">
+                                        <select name="Status" class="selectpicker" data-style="btn-custom">
+
+                                            <option value="True">Active</option>
+                                            <option value="False">In-Active</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                            <br />
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+
+                                    <input type="submit" value="submit" class="btn btn-success" />
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+                <div class="col-lg-1"></div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <!-- Modal-Effect -->
+    <script src="~/Content/assets/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/plugins/custombox/js/custombox.min.js"></script>
+    <script src="~/Content/assets/plugins/custombox/js/legacy.min.js"></script>
+}

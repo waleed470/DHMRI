@@ -1,0 +1,375 @@
+﻿@model IEnumerable<DHMRice.Models.RawRice>
+@using DHMRice.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+
+@section Css {
+    <!-- Modal -->
+    <link href="~/Content/assets/plugins/custombox/css/custombox.min.css" rel="stylesheet">
+    <link href="~/Content/assets/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">*@
+
+
+}
+<!-- Start content -->
+<div class="content">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Raw Rice Sale Report </h4>
+                    <ol class="breadcrumb p-0 m-0">
+                        <li>
+                            <a href="#">Users</a>
+                        </li>
+
+                        <li class="active">
+                            Search Report
+                        </li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+        <!-- start search area -->
+
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h3 class="m-t-20">Search Report</h3>
+                <div class="border center-block m-b-20"></div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="row">
+            <form method="post" action="~/Reports/RawPurchase">
+            <div class="col-sm-12">
+              
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <select id="mySelect" onchange="myFunction()" class="form-control"  name="ReportType" data-style="btn-default">
+                                    <option value="">Report Type</option>
+                                    <option value="1">Monthly </option>
+                                    <option value="2">Weekly</option>
+                                   
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+
+                                    <select id="Month" class="form-control"  name="Month" disabled>
+
+                                        <option value="">Months</option>
+                                        <option value="1">January </option>
+                                        <option value="2">Febuary</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May </option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">Octubar</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+
+                                    </select>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-2">
+                            <div class="form-group">
+                                    <select  id="Week" class="form-control col-lg-2" name="DateFrom" data-style="btn-default" disabled>
+                                        <option value="">Date From </option>
+                                       @for (int i = 1; i < 32; i++)
+                                       {
+                                        <option value="@i">@i </option>
+
+                                       }
+                                    </select>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-2">
+                            <div class="form-group">
+                                <select id="Week2" class="form-control col-lg-2" name="DateTo" data-style="btn-default" disabled>
+                                    <option value="">Date to </option>
+                                    @for (int i = 1; i < 32; i++)
+                                    {
+                                        <option value="@i">@i </option>
+
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+             
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="form-group">
+
+
+                                <select  class="form-control col-lg-4" name="RawRice_id" data-style="btn-default">
+                                    <option value="">Select Rice</option>
+                                    @foreach (var item in Model)
+                                    {
+                                        <option value="@item.RawRice_id">@item.Item_Name</option>
+                                    }
+
+                                        
+
+
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 m-b-30 text-center m-t-10">
+                        <a href="~/Reports/RawPurchase"><button type="submit" name="Invoice" value="1" class="btn btn-purple waves-effect waves-light"><i class="mdi mdi-magnify m-r-5"></i>All Rice</button></a>
+                        <a href="~/Reports/RawPurchase">
+                            <button type="submit" name="Invoice" value="2" class="btn btn-purple waves-effect waves-light"><i class="mdi mdi-magnify m-r-5"></i>check Sales</button></a>
+                        <a href="~/Reports/RawPurchase"> <button type="submit" value="3" name="Invoice" class="btn btn-purple waves-effect waves-light"><i class="mdi mdi-magnify m-r-5"></i>Check Purchasing</button></a>
+</div>
+         
+            </div>
+                </form>
+        </div>
+        <!-- end row -->
+        <!-- end search area -->
+
+        <div class="row">
+            <div class="col-sm-4">
+
+            </div><!-- end col -->
+        </div>
+
+
+
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h3 class="m-t-20">Daily Report </h3>
+                <div class="border center-block m-b-20"></div>
+            </div>
+        </div>
+        <div class="row">
+            <form method="post" action="~/Reports/DailyReport">
+                <div class="col-sm-12">
+
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <select id="mySelect" onchange="myFunction()" class="form-control" name="ReportType" data-style="btn-default">
+                                    <option value="">Report Type</option>
+                                    <option value="1">Monthly </option>
+                                    <option value="2">Weekly</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+
+                                <select id="Month" class="form-control" name="Month" disabled>
+
+                                    <option value="">Months</option>
+                                    <option value="1">January </option>
+                                    <option value="2">Febuary</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May </option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">Octubar</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-2">
+                            <div class="form-group">
+                                <select id="Week" class="form-control col-lg-2" name="DateFrom" data-style="btn-default" disabled>
+                                    <option value="">Date From </option>
+                                    @for (int i = 1; i < 32; i++)
+                                    {
+                                        <option value="@i">@i </option>
+
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-2">
+                            <div class="form-group">
+                                <select id="Week2" class="form-control col-lg-2" name="DateTo" data-style="btn-default" disabled>
+                                    <option value="">Date to </option>
+                                    @for (int i = 1; i < 32; i++)
+                                    {
+                                        <option value="@i">@i </option>
+
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="col-xs-12 m-b-30 text-center m-t-10">
+                        <a href="~/Reports/DailyReport"><button type="submit" name="Invoice" value="1" class="btn btn-purple waves-effect waves-light"><i class="mdi mdi-magnify m-r-5"></i>Today Sale </button></a>
+                        <a href="~/Reports/DailyReport"><button type="submit" name="Invoice" value="2" class="btn btn-purple waves-effect waves-light"><i class="mdi mdi-magnify m-r-5"></i>Today Purchase  </button></a>
+                        <a href="~/Reports/DailyReport">
+                            <button type="submit" name="Invoice" value="3" class="btn btn-purple waves-effect waves-light"><i class="mdi mdi-magnify m-r-5"></i>check Sales</button>
+                        </a>
+                        <a href="~/Reports/DailyReport"> <button type="submit" value="4" name="Invoice" class="btn btn-purple waves-effect waves-light"><i class="mdi mdi-magnify m-r-5"></i>Check Purchasing</button></a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h3 class="m-t-20">Stock  </h3>
+                <div class="border center-block m-b-20"></div>
+            </div>
+        </div>
+        <div class="row">
+            <form method="post" action="~/Reports/Stock">
+                <div class="col-sm-12">
+
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <select id="mySelect2" onchange="myFunction()" class="form-control" name="ReportType" data-style="btn-default">
+                                    <option value="">Check stock</option>
+                                    <option value="1">Raw Rice </option>
+                                    <option value="2">Produced Rice </option>
+
+                                </select>
+                            </div>
+                        </div>
+                      
+                       
+                        <div class="col-sm-3 col-lg-2">
+                            <div class="form-group">
+                                <select class="form-control col-lg-4" id="RawRice" name="RawRice_id" data-style="btn-default">
+                                    <option value="">Select Rice</option>
+                                    @foreach (var item in Model)
+                                    {
+                                        <option value="@item.RawRice_id">@item.Item_Name</option>
+                                    }
+
+
+
+
+                                </select>
+
+                            </div>
+                        </div>
+                        @{
+                            var producedRice = db.Rice_Productions.ToList();
+                         }
+                        <div class="col-sm-3 col-lg-2">
+                            <div class="form-group">
+                                <select class="form-control col-lg-4" id="Rice_Production_id" name="ProducedRice" data-style="btn-default">
+                                    <option value="">Select Rice</option>
+                                    @foreach (var item2 in producedRice)
+                                    {
+                                        <option value="@item2.Rice_Production_id">@item2.Rice_Production_name</option>
+                                    }
+
+
+
+
+                                </select>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="col-xs-12 m-b-30 text-center m-t-10">
+                        <a href="~/Reports/Stock"><button type="submit" name="Invoice" value="1" class="btn btn-purple waves-effect waves-light"><i class="mdi mdi-magnify m-r-5"></i>Raw Rice </button></a>
+                        <a href="~/Reports/Stock"><button type="submit" name="Invoice" value="2" class="btn btn-purple waves-effect waves-light"><i class="mdi mdi-magnify m-r-5"></i>Produced Rice  </button></a>
+                       
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+
+
+    </div> <!-- container -->
+
+</div> <!-- content -->
+@section Scripts {
+
+    <script>
+function myFunction() {
+    var x = document.getElementById("mySelect").value;
+    var x2 = document.getElementById("mySelect2").value;
+    if (x == 1) {
+      //  $('#Month').removeClass("hidden");
+        document.getElementById("Month").disabled = false;
+        document.getElementById("Week").disabled = true;
+//$('#Week').addClass("hidden");
+    }
+    if (x == 2) {
+        document.getElementById("Month").disabled = false;
+        document.getElementById("Week").disabled = false;
+        document.getElementById("Week2").disabled = false;
+       // $('#Month').addClass("hidden");
+
+      //  $('#Week').removeClass("hidden");
+    }
+
+    if (x2 == 1) {
+        //  $('#Month').removeClass("hidden");
+        document.getElementById("RawRice_id").disabled = false;
+        document.getElementById("ProducedRice").disabled = true;
+        //$('#Week').addClass("hidden");
+    }
+    if (x2 == 2) {
+        document.getElementById("ProducedRice").disabled = false;
+        document.getElementById("RawRice_id").disabled = true;
+       
+    }
+
+
+}
+</script>
+
+    <!-- Modal-Effect -->
+    <script src="~/Content/assets/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/plugins/custombox/js/custombox.min.js"></script>
+    <script src="~/Content/assets/plugins/custombox/js/legacy.min.js"></script>
+}
+
+
+
+

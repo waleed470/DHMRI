@@ -1,0 +1,218 @@
+﻿@model DHMRice.Models.Shop
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!-- Start content -->
+<div class="content">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Shop </h4>
+                    <ol class="breadcrumb p-0 m-0">
+
+                        <li>
+                            <a href="~/Shops/Index">Shop </a>
+                        </li>
+                        <li class="active">
+                            Add New Shop
+                        </li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="container card-box">
+            <div class="">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+
+
+                    <div class="form-horizontal">
+                        @using (Html.BeginForm("Create", "Shops", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div style="color:red">
+                                @Html.ValidationSummary()
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop Name</label>
+                                    <input type="text" class="form-control" name="Shop_Name" placeholder="Enter Shop Name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop Code</label>
+                                    <input type="text" class="form-control" name="Shop_Code" placeholder="Enter Shop Code">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop  Number</label>
+                                    <input type="text" class="form-control" name="Shop_MobileNo" placeholder="Enter Shop  Number">
+                                </div>
+                            </div>
+                           
+                            <div id="Expenses">
+                                <div class="row" id="row_0">
+                                  
+
+                                        <div class="col-sm-6">
+                                            <label >Bank Name</label>
+                                            
+                                                <input name="Shop_Account[0].Shop_BankName" id="Shop_BankName_0" class="form-control" />
+                                           
+                                        </div>
+                                        <div class="col-sm-4">
+
+                                            <label >Account Number</label>
+                                           
+                                                <input name="Shop_Account[0].Shop_ACcountNo" id="Shop_ACcountNo_0" onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()" class="form-control" />
+                                          
+                                        </div>
+                                        <div class="col-sm-2 text-center">
+                                            <button type="button" id="btnAdd_RawRiceExpense_0" class="btn btn-warning" onclick="JavaScript: return Add_ShopBank_0();" required>Add</button>
+                                            <button id="btnDelete_RawRiceExpense_0" class="btn btn-danger" onclick="JavaScript: return Delete_ShopBank_0();" required>Delete</button>
+
+                                        </div>
+                                   
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop Bank Name</label>
+                                    <input type="text" class="form-control" name="Shop_BankName" placeholder="Enter Shop Bank Name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop Bank Account Number</label>
+                                    <input type="text" class="form-control" name="Shop_ACcountNo" placeholder="Enter Shop Bank Account Number">
+                                </div>
+                            </div>*@
+                            <br />
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Shop Address</label>
+                                    <TextArea type="textarea" class="form-control" col="20" rows="8" name="Shop_Address" placeholder="Enter Shop Address"></TextArea>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <br />
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+
+                                    <input type="submit" value="submit" class="btn btn-success" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+                <div class="col-lg-1"></div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<script type="text/javascript">
+ @for (int i = 0; i < 100; i++)
+    {
+                int i_new = i + 1;
+                <text>
+    var isAdded_@i=false;
+    function Add_ShopBank_@(i)() {
+        event.preventDefault();
+        if (!isAdded_@i) {
+            var temp = '';
+            temp += '								<div class="row" id="row_@i_new">';
+           
+            temp += '                                            <div class="col-sm-6">';
+            temp += '                                                <label >Bank Name</label>';
+        
+            temp += '                                                    <input name="Shop_Account[@i_new].Shop_BankName" id="Shop_BankName_@i_new" class="form-control" required/>';
+      
+            temp += '                                            </div>';
+            temp += '                                            <div class="col-sm-4">';
+            temp += '                                                <label >Account Number</label>';
+    
+            temp += '                                                    <input type="number" name="Shop_Account[@i_new].Shop_ACcountNo" id="Shop_ACcountNo_@i_new"  onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()"  class="form-control" required/>';
+
+            temp += '                                            </div>';
+            temp += '                                            <div class="col-sm-2 text-center">';
+            temp += '											    <button id="btnAdd_RawRiceExpense_@i_new" class="btn btn-warning"  onclick="JavaScript: return Add_ShopBank_@(i_new)();">Add</button> ';
+            temp += '                                                 <button id="btnDelete_RawRiceExpense_@i_new" class="btn btn-danger"  onclick="JavaScript: return Delete_ShopBank_@(i_new)();">Delete</button>';
+            temp += '                                            </div>';
+            temp += '                                        <div>';
+            temp += '                                    </div>';
+     //temp += '</div>';
+            $('#Expenses').append(temp);
+            isAdded_@i = true;
+ }
+        return (false);
+
+ }
+
+    </text>
+ }
+
+     @for (int i = 0; i < 100; i++)
+    {
+          if (i == 0)
+    {
+
+            <text>
+
+            function Delete_ShopBank_@(i)(){
+                event.preventDefault();
+                return (false);
+     }
+             </text>
+     }
+     else
+     {
+
+            <text>
+                function Delete_RawRiceExpense_@(i)() {
+                    event.preventDefault();
+                    isAdded_@(i-1) = false;
+                    $('#row_@i').remove();
+                    CalculateNetTotal();
+                    return (false);
+     }
+            </text>
+     }
+     }
+</script>

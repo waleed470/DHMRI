@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
+    <meta name="author" content="Coderthemes">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/Content/assets/images/favicon.ico">
+    <!-- App title -->
+    <title>Admin Panel</title>
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="../plugins/morris/morris.css">
+    <!-- App css -->
+    <link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/css/core.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/css/components.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/css/pages.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/css/menu.css" rel="stylesheet" type="text/css" />j
+    <link href="~/Content/assets/css/responsive.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/Content/assets/plugins/switchery/switchery.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+        </script>*@
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+    <script>
+        function CheckIntialOpening() {
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                async: false,
+                cache: false,
+                url: '/OpeningClosing/CheckIntialOpening',
+                context: document.body,
+                success: function (json) {
+                    if(json==1)
+                    {
+                        window.location = "/OpeningClosing/AddInitialOpenningDay";
+                    }
+                }
+                ,
+                error: function (xhr) {
+                    //debugger;
+                    alert('error');
+                }
+            });
+
+        }
+
+    </script>
+    <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script src="~/Content/assets/js/modernizr.min.js"></script>
+    @RenderSection("Css", false)
+</head>
+
+<body class="fixed-left">
+    <!-- Loader -->
+    @*<div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="spinner-wrapper">
+                        <div class="rotator">
+                            <div class="inner-spin"></div>
+                            <div class="inner-spin"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    <!-- Begin page -->
+    <div id="wrapper">
+        <!-- Top Bar Start -->
+        <div class="topbar">
+            <!-- LOGO -->
+            <div class="topbar-left">
+                <a href="index.html" class="logo"><span>ADmin<span>Panel</span></span><i class="mdi mdi-cube"></i></a>
+            </div>
+            <!-- Button mobile view to collapse sidebar menu -->
+            <div class="navbar navbar-default" role="navigation">
+                <div class="container">
+                    <!-- Navbar-left -->
+                    <ul class="nav navbar-nav navbar-left">
+                        <li>
+                            <button class="button-menu-mobile open-left waves-effect waves-light">
+                                <i class="mdi mdi-menu"></i>
+                            </button>
+                        </li>
+
+                    </ul>
+                    <!-- Right(Notification) -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <h5 style="color:white">Opening Balance</h5>
+                            <div id="openingBal"></div>
+                        </li>
+                        <li>
+                            <button class="btn btn-danger" style="margin-top:10%;margin-left:10%" onclick="ClosingdayConfirmation()">Close the Day</button>
+                        </li>
+
+
+                        <li class="dropdown user-box">
+                            <a href="" class="dropdown-toggle waves-effect waves-light user-link" data-toggle="dropdown" aria-expanded="true">
+                                <img src="~/Content/assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle user-img">
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
+                                <li>
+                                    <h5>Hi, waleed</h5>
+                                </li>
+                                <li><a href="javascript:void(0)"><i class="ti-user m-r-5"></i> Profile</a></li>
+                                <li><a href="javascript:void(0)"><i class="ti-settings m-r-5"></i> Settings</a></li>
+                                <li><a href="javascript:void(0)"><i class="ti-power-off m-r-5"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul> <!-- end navbar-right -->
+                </div><!-- end container -->
+            </div><!-- end navbar -->
+        </div>
+        <script>
+                        function GetCureentOpeningBalance() {
+                            $.ajax({
+                                type: "POST",
+                                traditional: true,
+                                async: false,
+                                cache: false,
+                                url: '/OpeningClosing/GetCureentOpeningBalance',
+                                context: document.body,
+                                success: function (json) {
+                                    var temp = ' <p style="color:white">' + json + '</p>';
+                                    $('#openingBal').append(temp);
+                                }
+                            });
+                        }
+                        GetCureentOpeningBalance();
+                        function ClosingdayConfirmation() {
+
+                            window.location = "/OpeningClosing/ClosingdayConfirmation";
+                        }
+
+        </script>
+        <!-- Top Bar End -->
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="left side-menu">
+            <div class="sidebar-inner slimscrollleft">
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <div class="user-details">
+                        <div class="overlay"></div>
+                        <div class="text-center">
+                            <img src="~/Content/assets/images/users/avatar-1.jpg" alt="" class="thumb-md img-circle">
+                        </div>
+                        <div class="user-info">
+                            <div>
+                                <a href="#setting-dropdown" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">waleed <span class="mdi mdi-menu-down"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown" id="setting-dropdown">
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0)"><i class="mdi mdi-face-profile m-r-5"></i> Profile</a></li>
+                            <li><a href="javascript:void(0)"><i class="mdi mdi-account-settings-variant m-r-5"></i> Settings</a></li>
+                            <li><a href="javascript:void(0)"><i class="mdi mdi-logout m-r-5"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                    <ul>
+                        <li class="menu-title">Navigation</li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Raw Rice </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="~/RawRice/Index">View RawRice Purchasing</a></li>
+                                <li><a href="~/RawRice/AddNew">Add RawRice Purchasing</a></li>
+                               
+                                <li><a href="~/RawRice_Sales">RawRice Selling</a></li>
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span>Rice Production </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="~/RiceProduction/Index">View RawRice Purchasing</a></li>
+                                <li><a href="~/RiceProduction/AddNew">View RawRice Purchasing</a></li>
+                                <li><a href="~/ProducedRiceSales">Produced Rice Selling</a></li>
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Factory </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="~/Factories/Index">View Factory</a></li>
+                                <li><a href="~/Factories/Create">Add Factory</a></li>
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Shop </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="~/Shops/Index">View Shop</a></li>
+                                <li><a href="~/Shops/Create">Add Shop</a></li>
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Party / Customer</span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="~/Parties/Index">View Parties</a></li>
+                                <li><a href="~/RawRicePartyRemaining">Party Remainings</a></li>
+                                <li><a href="~/Parties/ViewCutomer">View Customers</a></li>
+                                <li><a href="~/Parties/Create">Add Party/Customer</a></li>
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Broker </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="~/Brokers/Index">View Broker</a></li>
+                                <li><a href="~/Brokers/Create">Add Broker</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Packing </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="~/Packings/Index">View Packing</a></li>
+                                <li><a href="~/Packings/Create">Add Packing</a></li>
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Transactions </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="~/OpeningClosing/">Opening Closing of Days</a></li>
+                                <li><a href="~/Transaction/ViewToday">View Today Transactions</a></li>
+                                <li><a href="~/Transaction/ViewAll">View All Transactions</a></li>
+                                <li><a href="~/Transaction/Add">Add Transaction</a></li>
+                            </ul>
+                        </li>
+                        @*<li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Rice_category </span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="~/Rice_category/Index">View Rice_category</a></li>
+                                    <li><a href="~/Rice_category/Create">Add Rice_category</a></li>
+                                </ul>
+                            </li>*@
+
+
+
+
+
+                    </ul>
+                </div>
+                <!-- Sidebar -->
+                <div class="clearfix"></div>
+
+            </div>
+            <!-- Sidebar -left -->
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="content-page">
+            <!-- Start content -->
+            <div>
+                @RenderBody()
+            </div>
+            <footer class="footer text-right">
+                2017 © DHMRIce
+            </footer>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Right content here -->
+        <!-- ============================================================== -->
+        <!-- Right Sidebar -->
+        <div class="side-bar right-bar">
+            <a href="javascript:void(0);" class="right-bar-toggle">
+                <i class="mdi mdi-close-circle-outline"></i>
+            </a>
+            <h4 class="">Settings</h4>
+            <div class="setting-list nicescroll">
+                <div class="row m-t-20">
+                    <div class="col-xs-8">
+                        <h5 class="m-0">Notifications</h5>
+                        <p class="text-muted m-b-0"><small>Do you need them?</small></p>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <input type="checkbox" checked data-plugin="switchery" data-color="#7fc1fc" data-size="small" />
+                    </div>
+                </div>
+                <div class="row m-t-20">
+                    <div class="col-xs-8">
+                        <h5 class="m-0">API Access</h5>
+                        <p class="m-b-0 text-muted"><small>Enable/Disable access</small></p>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <input type="checkbox" checked data-plugin="switchery" data-color="#7fc1fc" data-size="small" />
+                    </div>
+                </div>
+                <div class="row m-t-20">
+                    <div class="col-xs-8">
+                        <h5 class="m-0">Auto Updates</h5>
+                        <p class="m-b-0 text-muted"><small>Keep up to date</small></p>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <input type="checkbox" checked data-plugin="switchery" data-color="#7fc1fc" data-size="small" />
+                    </div>
+                </div>
+                <div class="row m-t-20">
+                    <div class="col-xs-8">
+                        <h5 class="m-0">Online Status</h5>
+                        <p class="m-b-0 text-muted"><small>Show your status to all</small></p>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <input type="checkbox" checked data-plugin="switchery" data-color="#7fc1fc" data-size="small" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Right-bar -->
+    </div>
+    <!-- END wrapper -->
+
+    <script>
+            var resizefunc = [];
+    </script>
+    <!-- jQuery  -->
+    @*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>*@
+
+
+
+    <script src="~/Content/assets/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/js/detect.js"></script>
+    <script src="~/Content/assets/js/fastclick.js"></script>
+    <script src="~/Content/assets/js/jquery.blockUI.js"></script>
+    <script src="~/Content/assets/js/waves.js"></script>
+    <script src="~/Content/assets/js/jquery.slimscroll.js"></script>
+    <script src="~/Content/assets/js/jquery.scrollTo.min.js"></script>
+    <script src="~/Content/assets/plugins/switchery/switchery.min.js"></script>
+    <!-- Counter js  -->
+    <script src="~/Content/assets/plugins/waypoints/jquery.waypoints.min.js"></script>
+    <script src="~/Content/assets/plugins/counterup/jquery.counterup.min.js"></script>
+    <!--Morris Chart-->
+    <script src="~/Content/assets/plugins/morris/morris.min.js"></script>
+    <script src="~/Content/assets/plugins/raphael/raphael-min.js"></script>
+    <!-- Dashboard init -->
+    <script src="~/Content/assets/pages/jquery.dashboard.js"></script>
+    <!-- App js -->
+    <script src="~/Content/assets/js/jquery.core.js"></script>
+    <script src="~/Content/assets/js/jquery.app.js"></script>
+    @RenderSection("Scripts", false)
+</body>
+</html>

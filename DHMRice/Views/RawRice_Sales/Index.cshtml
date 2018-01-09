@@ -1,0 +1,706 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script>
+    CheckIntialOpening();
+</script>
+@section Css {
+    <!-- DataTables -->
+    <link href="~/Content/assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/buttons.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/dataTables.colVis.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/fixedColumns.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+
+}
+
+<!-- Start content -->
+    <script>
+        var App = angular.module("DHM", []);
+        App.controller("RawRiceSalesCtrl", function ($scope, $http) {
+            $scope.Grid = [];
+            $scope.RemainingList = [];
+            $scope.RawRice_Sales_pt = {};
+            $scope.RawRice_Sales_pt.rsp_id = 0;
+            $scope.RawRice_Sales_pt.rsp_Title = "";
+            $scope.RawRice_Sales_pt.rsp_TotalWeight_Mann = 0;
+            $scope.RawRice_Sales_pt.rsp_TotalWeight_KG = 0;
+            $scope.RawRice_Sales_pt.rsp_Total_Amount = 0;
+            $scope.NetTotal = 0;
+            $scope.RemainingAmount = 0;
+            var list = [];
+            $scope.isCash = "true";
+            $scope.isBankAccount = "false";
+            $scope.isCheckbook = "false";
+            function JsonCall(Controller, Action) {
+                $.ajax({
+                    type: "POST",
+                    traditional: true,
+                    async: false,
+                    cache: false,
+                    url: '/' + Controller + '/' + Action,
+                    context: document.body,
+                    success: function (json) {
+                        list= json;
+                    }
+               ,
+                    error: function (xhr) {
+                        //debugger;
+                    }
+                });
+            }
+            function JsonCallParam(Controller, Action, Parameters) {
+                $.ajax({
+                    type: "POST",
+                    traditional: true,
+                    async: false,
+                    cache: false,
+                    url: '/' + Controller + '/' + Action,
+                    context: document.body,
+                    data:Parameters,
+                    success: function (json) {
+                        list = json;
+                    }
+               ,
+                    error: function (xhr) {
+                        //debugger;
+                    }
+                });
+            }
+            function WebApiCall(Type, Action, Parameters) {
+
+                $.ajax({
+                    type: Type,
+                    traditional: true,
+                    async: false,
+                    cache: false,
+                    url: '/api/' + Action,
+                    context: document.body,
+                    data: Parameters,
+                    ContentType: 'application/json;utf-8',
+                    success: function (json) {
+                        list = json;
+                    }
+               ,
+                    error: function (xhr) {
+                        //debugger;
+                    }
+                });
+            }
+            $scope.PartyList = [];
+            $scope.Get_party = function () {
+                JsonCall("RawRice_Sales", "Get_party");
+                $scope.PartyList = list;
+            };
+            $scope.Get_party();
+
+            $scope.RawRice_List=[];
+            $scope.Get_RawRice = function () {
+                JsonCall("RawRice_Sales", "Get_RawRice");
+                $scope.RawRice_List = list;
+            };
+            $scope.Get_RawRice();
+
+            $scope.RawRice_Sales_ch = [];
+            $scope.addNew = function (obj) {
+                $scope.RawRice_Sales_ch.push({
+                    'rsc_id': 0,
+                    'RawRice_id': 0,
+                    'rsc_title':"",
+                    'rsc_ttl_qty': 0,
+                    'rsc_sld_qty':0,
+                    'rsc_qty': 0,
+                    'rsc_packing_type':0,
+                    'rsc_Weight_kg': 0,
+                    'rsc_Weight_kg_ttl': 0,
+                    'rsc_Weight_mann': 0,
+                    'rsc_Weight_mann_ttl': 0,
+                    'rsc_PerBagMarketPrice':0,
+                    'rsc_price': 0,
+                    'rsp_id': 0,
+                    'rsp_status':false
+                });
+                $scope.Calculation();
+            };
+
+            $scope.Fill_fields_on_RawRiceChange = function (i) {
+
+                JsonCallParam("RawRice_Sales", "Get_RawRice_id", {
+                    "id": $scope.RawRice_Sales_ch[i].RawRice_id
+                });
+
+                $scope.RawRice_Sales_ch[i].rsc_ttl_qty = list.Bags_qty;
+                $scope.RawRice_Sales_ch[i].rsc_sld_qty = list.Bags_Sold_qty;
+                $scope.RawRice_Sales_ch[i].rsc_qty = 0;
+                $scope.RawRice_Sales_ch[i].rsc_Weight_kg_ttl = list.Total_Weight;
+                $scope.RawRice_Sales_ch[i].rsc_packing_type = list.packing.Packing_Type;
+                $scope.RawRice_Sales_ch[i].rsc_Weight_mann_ttl = list.Total_Mann;
+                $scope.RawRice_Sales_ch[i].RawRice_id = list.RawRice_id;
+                $scope.RawRice_Sales_ch[i].rsc_title = list.Item_Name;
+                JsonCallParam("RawRice_Sales", "Get_Price", {
+                    "id": $scope.RawRice_Sales_ch[i].RawRice_id
+                });
+                $scope.RawRice_Sales_ch[i].rsc_PerBagMarketPrice = list.PerBagMarketPrice;
+                $scope.Calculation();
+            };
+            $scope.Fill_fields_on_RawRiceChange2 = function (i) {
+
+                JsonCallParam("RawRice_Sales", "Get_RawRice_id", {
+                    "id": $scope.RawRice_Sales_ch[i].RawRice_id
+                });
+
+                $scope.RawRice_Sales_ch[i].rsc_ttl_qty = list.Bags_qty;
+                $scope.RawRice_Sales_ch[i].rsc_sld_qty = list.Bags_Sold_qty - $scope.RawRice_Sales_ch[i].rsc_qty;
+                $scope.RawRice_Sales_ch[i].rsc_Weight_kg_ttl = list.Total_Weight;
+                $scope.RawRice_Sales_ch[i].rsc_packing_type = list.packing.Packing_Type;
+                $scope.RawRice_Sales_ch[i].rsc_Weight_mann_ttl = list.Total_Mann;
+                $scope.RawRice_Sales_ch[i].RawRice_id = list.RawRice_id;
+                $scope.RawRice_Sales_ch[i].rsc_title = list.Item_Name;
+                JsonCallParam("RawRice_Sales", "Get_Price", {
+                    "id": $scope.RawRice_Sales_ch[i].RawRice_id
+                });
+                $scope.RawRice_Sales_ch[i].rsc_PerBagMarketPrice = list.PerBagMarketPrice;
+                $scope.Calculation();
+            };
+            $scope.Calculation = function () {
+                var RemainingTotal = 0;
+                $scope.RawRice_Sales_pt.rsp_TotalWeight_Mann = 0;
+                $scope.RawRice_Sales_pt.rsp_TotalWeight_KG = 0;
+                $scope.RawRice_Sales_pt.rsp_Total_Amount = 0;
+                $scope.RawRice_Sales_pt.rsp_Title = "Sales ";
+                var count = 0;
+                angular.forEach($scope.RawRice_Sales_ch, function (obj) {
+                    if (obj.rsc_qty > (obj.rsc_ttl_qty - obj.rsc_sld_qty)) {
+                        obj.rsc_qty = obj.rsc_ttl_qty - obj.rsc_sld_qty;
+                    }
+                    obj.rsc_Weight_kg = obj.rsc_qty * obj.rsc_packing_type;
+                    obj.rsc_Weight_mann = (parseFloat(obj.rsc_Weight_kg) * parseFloat("0.025"));
+                    obj.rsc_price = obj.rsc_PerBagMarketPrice * obj.rsc_qty;
+                    $scope.RawRice_Sales_pt.rsp_TotalWeight_Mann += obj.rsc_Weight_mann;
+                    $scope.RawRice_Sales_pt.rsp_TotalWeight_KG += obj.rsc_Weight_kg;
+                    $scope.RawRice_Sales_pt.rsp_Total_Amount += obj.rsc_price;
+                    if (count == 0) {
+                        $scope.RawRice_Sales_pt.rsp_Title += obj.rsc_title;
+                    }
+                    else {
+                        $scope.RawRice_Sales_pt.rsp_Title += (", " + obj.rsc_title);
+                    }
+                    count++;
+                });
+                if (isNaN($scope.RawRice_Sales_pt.rsp_TotalWeight_Mann)) {
+                    $scope.RawRice_Sales_pt.rsp_TotalWeight_Mann = 0;
+                }
+                if (isNaN($scope.RawRice_Sales_pt.rsp_TotalWeight_KG)) {
+                    $scope.RawRice_Sales_pt.rsp_TotalWeight_KG = 0;
+                }
+                if (isNaN($scope.RawRice_Sales_pt.rsp_Total_Amount)) {
+                    $scope.RawRice_Sales_pt.rsp_Total_Amount = 0;
+                }
+                
+                angular.forEach($scope.RemainingList, function (obj) {
+                    if (obj.selected) {
+                        RemainingTotal += obj.Item3;
+                    }
+                });
+                
+                $scope.NetTotal = $scope.RawRice_Sales_pt.rsp_Total_Amount + RemainingTotal;
+                if ($scope.RecievedAmount > $scope.NetTotal) {
+                    $scope.RecievedAmount = $scope.NetTotal;
+                }
+                if ($scope.RecievedAmount < RemainingTotal) {
+                    $scope.RecievedAmount = RemainingTotal;
+                }
+                $scope.RemainingAmount = $scope.NetTotal - $scope.RecievedAmount;
+                if (isNaN($scope.RemainingAmount)) {
+                    $scope.RemainingAmount = 0;
+                }
+
+            }
+            $scope.Deleted_RawRice_Sales_ch = [];
+            $scope.remove = function () {
+                var newDataList = [];
+                $scope.selectedAll = false;
+                angular.forEach($scope.RawRice_Sales_ch, function (obj) {
+                    if (!obj.selected) {
+                        newDataList.push(obj);
+                    }
+                    else{
+                        if (obj.rsc_id > 0) {
+                            $scope.Deleted_RawRice_Sales_ch.push(obj);                            
+                        }
+                    }
+                });
+                $scope.RawRice_Sales_ch = newDataList;
+                $scope.Calculation();
+            };
+
+            $scope.checkAll = function () {
+                if (!$scope.selectedAll) {
+                    $scope.selectedAll = false;
+                } else {
+                    $scope.selectedAll = true;
+                }
+                angular.forEach($scope.RawRice_Sales_ch, function (obj) {
+                    obj.selected = $scope.selectedAll;
+                });
+            };
+            $scope.chashClick = function () {
+                $scope.isCash = "true";
+                $scope.isBankAccount = "false";
+                $scope.isCheckbook = "false";
+            };
+            $scope.BankClick = function () {
+                $scope.isCash = "false";
+                $scope.isBankAccount = "true";
+                $scope.isCheckbook = "false";
+            };
+            $scope.CheckClick = function () {
+                $scope.isCash = "false";
+                $scope.isBankAccount = "false";
+                $scope.isCheckbook = "true";
+            };
+            $scope.Clear = function () {
+                $scope.Deleted_RawRice_Sales_ch = [];
+                $scope.RemainingList = [];
+                $scope.RawRice_Sales_ch = [];
+                $scope.RawRice_Sales_pt = {};
+                $scope.NetTotal = 0;
+                $scope.RemainingAmount = 0;
+                $scope.RecievedAmount = 0;
+                var list = [];
+                $scope.isCash = "true";
+                $scope.isBankAccount = "false";
+                $scope.isCheckbook = "false";
+                //$scope.RawRice_Sales_pt.Party_Id = null;
+                $scope.RawRice_Sales_pt.rsp_id = 0;
+                $scope.Calculation();
+            };
+            $scope.LoadGrid = function () {
+                JsonCall("RawRice_Sales", "Get_pt");
+                $scope.Grid = list;
+            };
+            $scope.LoadGrid();
+
+            $scope.GetPartyRemainings = function () {
+                if ($scope.RawRice_Sales_pt.rsp_id == 0) {
+                    JsonCallParam("RawRice_Sales", "GetPartyRemainings", { "Party_Id": $scope.RawRice_Sales_pt.Party_Id });
+                    $scope.RemainingList = list;
+                } else {
+                    JsonCallParam("RawRice_Sales", "GetPartyRemainings1", { "Party_Id": $scope.RawRice_Sales_pt.Party_Id, "rsp_id": $scope.RawRice_Sales_pt.rsp_id });
+                    $scope.RemainingList = list;
+                }
+            };
+            $scope.LoadRawRice_pt = function (obj) {
+                $scope.RawRice_Sales_pt.rsp_id = obj.Item1.rsp_id;
+                $scope.RawRice_Sales_pt.rsp_Title = obj.Item1.rsp_Title;
+                $scope.RawRice_Sales_pt.Party_Id = obj.Item1.Party_Id;
+                $scope.GetPartyRemainings();
+                $scope.RawRice_Sales_pt.rsp_TotalWeight_KG = obj.Item1.rsp_TotalWeight_KG;
+                $scope.RawRice_Sales_pt.rsp_TotalWeight_Mann = obj.Item1.rsp_TotalWeight_Mann;
+                $scope.RawRice_Sales_pt.rsp_Total_Amount = obj.Item1.rsp_Total_Amount;
+                JsonCallParam("RawRice_Sales", "Get_ch", { "id": obj.Item1.rsp_id });
+                var i = 0;
+                angular.forEach(list, function (obj) {
+                    $scope.RawRice_Sales_ch[i] = obj;
+                    $scope.Fill_fields_on_RawRiceChange2(i);
+                    $scope.Calculation();
+                    i++;
+                });
+                //for (var i = 0; i < list.length; i++) {
+                //    alert(list[i].rsc_title +", "+i);
+                //    $scope.RawRice_Sales_ch[i] = list[i];
+                //    $scope.Fill_fields_on_RawRiceChange2(i);
+                //    $scope.Calculation();
+                //    alert("invoked");
+                //}
+
+                $scope.RecievedAmount = obj.Item3;
+                $scope.Calculation();
+                
+
+            };
+            $scope.Delete = function (obj) {
+                JsonCallParam("RawRice_Sales", "Delete_sales", { "id": obj.Item1.rsp_id });
+                $scope.LoadGrid();
+            };
+            $scope.ReceivedRemaining = function (obj) {
+                JsonCallParam("RawRice_Sales", "ReceivedRemaining", { "id": obj.Item1.rsp_id, "Remaining": obj.Item5 });
+                $scope.LoadGrid();
+            };
+            $scope.ValidateRemainings = function () {
+                angular.forEach($scope.Grid, function (obj) {
+                    console.log(obj.Item5);
+                    if(obj.Item5>obj.Item4)
+                    {
+                        obj.Item5 = obj.Item4;
+                    }
+                    else if (obj.Item5<0) {
+                        obj.Item5 = 0;
+                    }
+                    else if (obj.Item5 == "") {
+                        obj.Item5 = 0;
+                    }
+                    else if (obj.Item5 == null) {
+                        obj.Item5 = 0;
+                    }
+                });
+            }
+            $scope.Save = function () {
+
+                var remaining_rsp_id = [];
+                angular.forEach($scope.RemainingList, function (obj) {
+                    if (obj.selected) {
+                        remaining_rsp_id.push(obj.Item1.rsp_id);
+                    }
+                });
+               
+                if ($scope.RawRice_Sales_pt.rsp_id == 0) {
+                    var pram = {
+                        'rawRice_Sales_pt': JSON.stringify($scope.RawRice_Sales_pt),
+                        'RecievedAmount': $scope.RecievedAmount,
+                        'isCash': $scope.isCash,
+                        'isBankAccount': $scope.isBankAccount,
+                        'isCheckbook': $scope.isCheckbook,
+                        'CheckNo': $scope.CheckNo,
+                        'BankAccountNo':$scope.BankAccountNo,
+                        'RawRice_Sales_ch': JSON.stringify($scope.RawRice_Sales_ch),
+                        'remaining_rsp_id': JSON.stringify(remaining_rsp_id)
+                    };
+                    
+                    JsonCallParam("RawRice_Sales", "Insert_sales", pram);
+                    
+                }
+                else {
+                    var RawRice_Sales_ch_obj = $scope.RawRice_Sales_ch;
+                    for (var i = 0; i < RawRice_Sales_ch_obj.length; i++) {
+                        RawRice_Sales_ch_obj[i].RawRice = null;
+                        RawRice_Sales_ch_obj[i].RawRice_Sales_pt = null;
+                    }
+                    var Deleted_RawRice_Sales_ch = $scope.Deleted_RawRice_Sales_ch;
+                    for (var i = 0; i < Deleted_RawRice_Sales_ch.length; i++) {
+                        Deleted_RawRice_Sales_ch[i].RawRice = null;
+                        Deleted_RawRice_Sales_ch[i].RawRice_Sales_pt = null;
+                    }
+                    var pram = {
+                        'rawRice_Sales_pt': JSON.stringify($scope.RawRice_Sales_pt),
+                        'RecievedAmount': $scope.RecievedAmount,
+                        'isCash': $scope.isCash,
+                        'isBankAccount': $scope.isBankAccount,
+                        'isCheckbook': $scope.isCheckbook,
+                        'CheckNo': $scope.CheckNo,
+                        'BankAccountNo': $scope.BankAccountNo,
+                        'RawRice_Sales_ch': JSON.stringify(RawRice_Sales_ch_obj),
+                        'remaining_rsp_id': JSON.stringify(remaining_rsp_id),
+                        'Deleted_RawRice_Sales_ch': JSON.stringify(Deleted_RawRice_Sales_ch)
+                    };
+
+                    JsonCallParam("RawRice_Sales", "Update_sales", pram);
+                }
+
+                $scope.LoadGrid();
+                $scope.Clear();
+            };
+        });
+    </script>
+
+<div ng-app="DHM" ng-controller="RawRiceSalesCtrl">
+    <div class="content">
+        <div class="container">
+
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">RawRice</h4>
+                        <ol class="breadcrumb p-0 m-0">
+
+                            <li class="active">
+                                Index{{RawRice_Sales_pt.rsp_id}}
+                            </li>
+                        </ol>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+            <div class="container card-box">
+                <div class="form-horizontal">
+                    <h4>{{RawRice_Sales_pt.rsp_Title}}</h4>
+                    <hr />
+                    <form name="form">
+                        <div class="form-group">
+                            <label class="control-label col-md-1">Party</label>
+                            <div class="col-md-11">
+                                <select ng-model="RawRice_Sales_pt.Party_Id" name="Party_Id" ng-change="GetPartyRemainings()" class="form-control selectpicker"  ng-options="item.Party_Id as item.Party_Name for item in PartyList"  required>
+                                    <option value="">Select Party</option>
+                                    
+                                </select>
+                                <span style="color:red" ng-show="form.Party_Id.$invalid &&form.Party_Id.$dirty">
+                                    <span ng-show="form.Party_Id.$error.required">Select Party.</span>
+                                </span>
+                            </div>
+
+
+
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Total Weight (Mann)</label>
+                                    <div class="col-md-8">
+                                        <p style="margin-top:3%">{{RawRice_Sales_pt.rsp_TotalWeight_Mann}}</p>
+                                        @* <input name="rsp_TotalWeight_KG" ng-model="rsp_TotalWeight_Mann" ng-init="rsp_TotalWeight_Mann=0" class="form-control" disabled />*@
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Total Weight (KG)</label>
+                                    <div class="col-md-8">
+                                        <p style="margin-top:3%">
+                                            {{RawRice_Sales_pt.rsp_TotalWeight_KG}}
+                                        </p>
+                                        @* <input name="rsp_TotalWeight_KG" ng-model="rsp_TotalWeight_KG"  ng-init="rsp_TotalWeight_KG=0" class="form-control" disabled />*@
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Total Amount</label>
+                                    <div class="col-md-8">
+                                        <p style="margin-top:3%">
+
+                                            {{RawRice_Sales_pt.rsp_Total_Amount}}
+                                        </p>
+                                        @*<input name="rsp_Total_Amount" ng-model="rsp_Total_Amount" ng-init="rsp_Total_Amount=0" class="form-control" disabled />*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
+                                            <th>RawRice</th>
+                                            <th>Stock QTY</th>
+                                            <th>Per Bag Price</th>
+                                            <th>Qty</th>
+                                            <th>Weight KG</th>
+                                            <th>Weight Mann</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="obj in RawRice_Sales_ch">
+                                            <td>
+                                                <input type="checkbox" ng-model="obj.selected" />
+                                            </td>
+                                            <td>
+                                                <select ng-model="obj.RawRice_id" name="RawRice_id" id="RawRice_id_{{$index}}" ng-options="item.RawRice_id as item.Item_Name for item in RawRice_List" class="form-control selectpicker" ng-change="Fill_fields_on_RawRiceChange({{$index}})" required>
+                                                    <option value="">Select RawRice</option>
+                                                </select>
+                                            </td>
+                                            <td>
+
+                                                <input type="number" class="form-control" ng-model="obj.rsc_ttl_qty-obj.rsc_sld_qty" required disabled />
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" ng-model="obj.rsc_PerBagMarketPrice" required disabled />
+
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" ng-model="obj.rsc_qty" ng-change="Calculation()" required />
+                                            </td>
+                                            <td>
+
+                                                <input type="text" class="form-control" ng-model="obj.rsc_Weight_kg" required disabled />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" ng-model="obj.rsc_Weight_mann" required disabled />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" ng-model="obj.rsc_price" required disabled />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="form-group">
+                                    <input ng-hide="!RawRice_Sales_ch.length" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove Selected">
+                                    <input type="button" class="btn btn-primary addnew pull-right" value="Add New" ng-click="addNew()" style="margin-right:3px">
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div ng-show="RemainingList.length">
+                            <h5>Previous RawRice Sales remaining</h5>
+                            <hr />
+                            <div>
+                                <div class="row" ng-repeat="item in RemainingList">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-1">
+                                            <input type="checkbox" ng-model="item.selected" ng-click="Calculation()" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label class="control-label col-md-2">Title</label>
+                                            <div class="col-md-10">
+                                                <p style="margin-top:10px">{{item.Item1.rsp_Title}}</p>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label class="control-label col-md-2">Recieved amount</label>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-9">
+                                                <p style="margin-top:10px">{{item.Item2}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label class="control-label col-md-2">Remaining amount</label>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-9">
+                                                <p style="margin-top:10px">{{item.Item3}}</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group" style="margin-left:15%">
+                            <div class="col-sm-12">
+                                <div class="col-sm-3">
+                                    <label class="control-label col-md-2">NetTotal</label>
+                                    <div class="col-md-10">
+                                        <p style="margin-left:18%;margin-top:5%">{{NetTotal}}</p>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label col-md-2">Recieved Amount</label>
+                                    <div class="col-md-10">
+                                        <input type="number" name="RecievedAmount" ng-model="RecievedAmount" ng-init="RecievedAmount=0" class="form-control" style="margin-left:12%" ng-change="Calculation()" required />
+                                        <span style="color:red" ng-show="form.RecievedAmount.$invalid &&form.RecievedAmount.$dirty">
+                                            <span ng-show="form.RecievedAmount.$error.required">Enter Payed Amount</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label col-md-2">Remaining Amount</label>
+                                    <div class="col-md-10">
+                                        <p style="margin-left:20%;margin-top:5%">{{RemainingAmount}}</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="control-label col-md-2">Select Receiving method</label>
+                            <div class="col-md-10" style="margin-top:10px">
+
+                                <input type="radio" name="isCash" id="isCash" ng-model="isCash" ng-click="chashClick()" value="true">Cash Payment
+                                <input type="radio" name="isBankAccount" ng-model="isBankAccount" id="isBankAccount" value="true" ng-click="BankClick()" style="margin-left:20px">Receiving By Bank Account
+                                <input type="radio" name="isCheckbook" id="isCheckbook" ng-model="isCheckbook" value="true" ng-click="CheckClick()" style="margin-left:20px">Receiving By Check
+                            </div>
+                        </div>
+                        <div class="form-group" id="checkbook_id" ng-show="isCheckbook=='true'">
+                            <div id="checkbook_content">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Checkbook no</label>
+                                    <div class="col-md-9">
+                                        <input name="CheckBookNo" id="CheckBookNo" ng-model="CheckNo" class="form-control" required />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Bank Account no</label>
+                                    <div class="col-md-9">
+                                        <input name="BankAccountNo" id="BankAccountNo" ng-model="BankAccountNo" class="form-control" required />
+
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="form-group" id="isBankAccount" ng-show="isBankAccount=='true'">
+                            <div id="BankAccount_content">                                
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Bank Account no</label>
+                                    <div class="col-md-9">
+                                        <input name="BankAccountNo" id="BankAccountNo" ng-model="BankAccountNo" class="form-control" required />
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">
+                                <div class="col-sm-6">
+                                    <input type="submit" name="Save" id="Save" value="Save" class="btn btn-lg btn-success"  ng-click="Save()" ng-disabled="form.RecievedAmount.$invalid||form.Party_Id.$invalid||!RawRice_Sales_ch.length||NetTotal==0" style="width:100%" />
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <input type="button" value="Clear" class="btn btn-lg btn-warning" style="width:100%" ng-click="Clear()" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <br />
+            <div class="container card-box">
+                <div class="form-horizontal">
+                    <h4>RawRice Selling Record</h4>
+                    <input type="button" class="btn btn-sm btn-default" value="Refresh" ng-click="LoadGrid()" />
+                    <hr />
+                    <table id="datatable-buttons" class="table table-striped  table-colored table-info">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Party</th>
+                                <th>Total Weight (KG)</th>
+                                <th>Total Weight (Mann)</th>
+                                <th>Total Amount</th>
+                                <th>Recieved</th>
+                                <th>Remaining</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in Grid">
+                                <td>{{item.Item1.rsp_Title}}</td>
+                                <td>{{item.Item2}}</td>
+                                <td>{{item.Item1.Party.Party_Name}}</td>
+                                <td>{{item.Item1.rsp_TotalWeight_KG}}</td>
+                                <td>{{item.Item1.rsp_TotalWeight_Mann}}</td>
+                                <td>{{item.Item1.rsp_Total_Amount}}</td>
+                                <td>{{item.Item3}}</td>
+                                    <td ng-show="item.Item4>0">
+                                        <input ng-model="item.Item5" type="number" ng-change="ValidateRemainings()"/> 
+                                        <input type="button" value="Receive Remaining" class="btn btn-sm btn-primary" ng-click="ReceivedRemaining(item)" ng-show="item.Item5>0"/> 
+                                    </td>
+                                    <td ng-show="item.Item4==0">0</td>
+                                <td ng-if="item.Item6==1"><input value="Edit" class="btn btn-sm btn-warning" type="button" ng-click="LoadRawRice_pt(item)"/><input value="Delete" class="btn btn-sm btn-danger" ng-click="Delete(item)" type="button"/> </td>
+                                <td ng-if="item.Item6==0">No Action</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

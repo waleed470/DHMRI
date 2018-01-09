@@ -1,0 +1,29 @@
+﻿@model DHMRice.Models.Packing
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script>
+    CheckIntialOpening();
+</script>
+<h2>Details</h2>
+
+<div>
+    <h4>Packing</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Packing_Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Packing_Type)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Packing_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

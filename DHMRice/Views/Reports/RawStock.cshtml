@@ -1,0 +1,131 @@
+﻿@model IEnumerable<DHMRice.Models.RawRice>
+@using DHMRice.Models;
+@{
+    ViewBag.Title = "AllRice";
+    Layout = null;
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Raw Rice Stock</title>
+
+
+
+    <link rel="stylesheet" href="~/Content/Invoices/style.css">
+
+</head>
+<body>
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Invoice</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="license" href="https://www.opensource.org/licenses/mit-license/">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Raw Stock</h1>
+            <address contenteditable>
+                <p>55-Circular Road</p>
+                <p>Akbari Mandi Lahore</p>
+                <p>03018412091,03229112107</p>
+            </address>
+            <span><img alt="" src="~/Content/Invoices/logo.png"><input type="file" accept="image/*"></span>
+        </header>
+        <article>
+            <h1>Recipient</h1>
+            <address contenteditable>
+
+            </address>
+            <div class="col-lg-4">
+
+            </div>
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <table class="meta">
+                    <tr>
+                        <th><span contenteditable>Invoice #</span></th>
+                        <td><span contenteditable>101138</span></td>
+                    </tr>
+                    <tr>
+                        <th><span contenteditable>Date</span></th>
+                        <td><span contenteditable>@DateTime.Now</span></td>
+                    </tr>
+                    <tr>
+                        <th><span>Amount Due</span></th>
+                        <td>9</td>
+                    </tr>
+                </table>
+            </div>
+
+            <table class="inventory">
+                <thead>
+                    <tr>
+                        <th><span contenteditable>Sr#</span></th>
+                        <th><span contenteditable>Item Name</span></th>
+                        <th><span contenteditable>Rate</span></th>
+                        <th><span contenteditable>Quantity</span></th>
+                        <th><span contenteditable>Packing</span></th>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    @{decimal TotalExpense = 0; var sr = 0; }
+                    @foreach (var item in Model)
+                    {
+                        sr++;
+                        var pricing = db.Pricing.Where(r => r.item_id == item.RawRice_id && r.item_Type == "RawRice").SingleOrDefault();
+                        var expense = db.RawRiceExpense.Where(p => p.RawRice_id == item.RawRice_id).ToList();
+                        if (expense != null)
+                        {
+                            foreach (var exp in expense)
+                            {
+                                TotalExpense += exp.RawRiceExpense_Amount;
+                            }
+                        }
+                        <tr>
+                            <td>@sr</td>
+                            <td>@item.Item_Name</td>
+                            <td>Rs @pricing.PerBagPrice</td>
+                            @{ var reamining = item.Bags_qty - item.Bags_Sold_qty; }
+                            <td>@reamining</td>
+                            <td>@item.packing.Packing_Type kg</td>
+                            
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+            <table class="balance">
+                <tr>
+                    <th><span contenteditable>Total</span></th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th><span contenteditable>Amount Paid</span></th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th><span contenteditable>Balance Due</span></th>
+                    <td></td>
+                </tr>
+            </table>
+        </article>
+        <aside>
+            <h1><span contenteditable>Additional Notes</span></h1>
+            <div contenteditable>
+                <p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p>
+            </div>
+        </aside>
+    </body>
+</html>
+
+<script src="/Content/Invoices/index.js"></script>
+</body>
+</html>
+

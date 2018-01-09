@@ -1,0 +1,1135 @@
+﻿@model DHMRice.Models.RawRice
+@using DHMRice.Models;
+@{
+    ViewBag.Title = "AddNew Raw Rice";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+<script>
+    CheckIntialOpening();
+</script>
+@section Css {
+    <!-- Modal -->
+    <link href="~/Content/assets/plugins/custombox/css/custombox.min.css" rel="stylesheet">
+    <link href="~/Content/assets/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
+
+}<div>
+
+    <!-- Start content -->
+    <div class="content">
+        <div class="container">
+
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">RawRice </h4>
+                        <ol class="breadcrumb p-0 m-0">
+
+                            <li>
+                                <a href="~/RawRice/Index">RawRice </a>
+                            </li>
+                            <li class="active">
+                                Add New RawRice
+                            </li>
+                        </ol>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+
+
+            <div class="container card-box">
+                <div class="">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10">
+
+
+
+                        <div class="form-horizontal">
+
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal">
+                                    <h4>RawRice</h4>
+                                    <hr />
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-12 hidden">
+                                                <label class="control-label col-md-2">RawRice id</label>
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.RawRice_id, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.RawRice_id, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label class="control-label col-md-2">Party</label>
+                                                <div class="col-md-10">
+                                                    @Html.DropDownList("Party_Id", null, htmlAttributes: new { @class = "form-control, selectpicker" })
+                                                    @Html.ValidationMessageFor(model => model.Party_Id, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label class="control-label col-md-2">Broker</label>
+                                                <div class="col-md-10">
+                                                    @Html.DropDownList("Broker_Id", null, htmlAttributes: new { @class = "form-control, selectpicker" })
+                                                    @Html.ValidationMessageFor(model => model.Broker_Id, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label class="control-label col-md-1">Rice Category</label>
+                                            <div class="col-md-11">
+                                                @Html.DropDownList("Rice_category_Id", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Rice_category_Id, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-6">
+                                                <label class="control-label col-md-2">Item Name</label>
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Item_Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Item_Name, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-2">Item Code</label>
+                                                    <div class="col-md-10">
+                                                        @Html.EditorFor(model => model.Item_Code, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item_Code, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-6">
+                                                <label class="control-label col-md-2">Packing Type</label>
+                                                <div class="col-md-4">
+                                                    @Html.DropDownList("Packing_Id", null, htmlAttributes: new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Packing_Id, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-md-4"><p style="margin-top:5px">Kg</p></div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-2">Bags Qty</label>
+                                                    <div class="col-md-10">
+                                                        @Html.EditorFor(model => model.Bags_qty, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Bags_qty, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-6">
+                                                <label class="control-label col-md-2">Total Weight</label>
+                                                <div class="col-md-8">
+                                                    <input name="Total_Weight" id="Total_Weight" class="form-control" value="@Model.Total_Weight" />
+                                                </div>
+                                                <div class="col-md-2"><p style="margin-top:5px">Kg</p></div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-2">Total Mann</label>
+                                                    <div class="col-md-10">
+                                                        <input name="Total_Mann" id="Total_Mann" class="form-control" value="@Model.Total_Mann" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    @{
+                                        var Pricing_id = db.Pricing.Where(m => m.item_id == Model.RawRice_id && m.item_Type == "RawRice" && m.Status).Max(m => m.Pricing_id);
+                                        var pricing = db.Pricing.Find(Pricing_id);
+                                    }
+
+
+                                    <div class="form-group ">
+                                        <div class="col-sm-6 hidden">
+                                            <label class="control-label col-md-2">Pricing Id</label>
+                                            <div class="col-md-10">
+                                                <input name="Pricing_id" class="form-control" value="@pricing.Pricing_id" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="control-label col-md-2">Rate per Maan</label>
+                                            <div class="col-md-10">
+                                                <input name="Pricing_Rate_Maan" id="Rate2" class="form-control" value="@pricing.Pricing_Rate_Maan" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="control-label col-md-2">Rate per Kg</label>
+                                            <div class="col-md-10">
+                                                <input name="Pricing_Rate_kg" id="Rate1" class="form-control" value="@pricing.Pricing_Rate_kg" />
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+
+                                            <label class="control-label col-md-2">Per Bag Amount</label>
+                                            <div class="col-md-9" style="margin-left:1%">
+                                                <input name="PerBagPrice" id="PerBagAmount" class="form-control" value="@pricing.PerBagPrice" />
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+
+                                            <label class="control-label col-md-2">Total Amount</label>
+                                            <div class="col-md-9" style="margin-left:1%">
+                                                <input name="Pricing_Total" id="Total_Amount" class="form-control" value="@pricing.Pricing_Total" />
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <hr />
+                                    <h5>Expenses</h5>
+                                    <div id="Expenses">
+                                        @{int count = 0;
+                                        }
+
+                                        @foreach (var item in db.RawRiceExpense.Where(m => m.RawRice_id == Model.RawRice_id).ToList())
+                                        {
+                                            <div class="row" id="row_@count">
+                                                <div class="col-sm-12">
+                                                    <div class="col-sm-6 hidden">
+                                                        <label class="control-label col-md-2">Expense id</label>
+                                                        <div class="col-md-10">
+                                                            <input name="RawRiceExpense[@count].RawRiceExpense_id" id="RawRiceExpense_id_@count" class="form-control" value="@item.RawRiceExpense_id" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label class="control-label col-md-2">Expense Name</label>
+                                                        <div class="col-md-10">
+                                                            <input name="RawRiceExpense[@count].RawRiceExpense_Name" id="RawRiceExpense_Name_@count" class="form-control" value="@item.RawRiceExpense_Name" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+
+                                                        <label class="control-label col-md-2">Amount</label>
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-9">
+                                                            <input name="RawRiceExpense[@count].RawRiceExpense_Amount" id="RawRiceExpense_Amount_@count" onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()" class="form-control" value="@item.RawRiceExpense_Amount" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-2 text-center">
+                                                        <button type="button" id="btnAdd_RawRiceExpense_@count" class="btn btn-warning" onclick="JavaScript: return Add_RawRiceExpense_@(count)();" required>Add</button>
+                                                        <button id="btnDelete_RawRiceExpense_@count" class="btn btn-danger" onclick="JavaScript: return Delete_RawRiceExpense_@(count)();" required>Delete</button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            count++;
+                                        }
+
+                                    </div>
+                                    <div id="Expense_id_delete" class="hidden">
+                                    </div>
+                                    <br />
+                                    <div class="form-group ">
+                                        <label class="control-label col-md-2">Net Total</label>
+                                        <div class="col-md-9">
+                                            <input name="Pricing_NetTotal" id="ExpenseTotal" class="form-control" value="@pricing.Pricing_NetTotal" />
+                                        </div>
+
+                                    </div>
+                                    <script>
+                                        calculate();
+                                    </script>
+                                    <div id="RawRiceRemaining_main">
+                                        @*<div id="RawRiceRemaining_content">
+                                                <hr />
+                                                <h5>Previous RawRice remaining</h5>
+                                                <div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+
+                                                            <div class="col-sm-6">
+                                                                <label class="control-label col-md-2">RiceName</label>
+                                                                <div class="col-md-10">
+                                                                    <p style="margin-top:10px">Zarafa 10</p>
+                                                                    <input name="RawRice_Remaining[0].Item_Name" id="RawRice_Remaining_Item_Name_0" class="form-control hidden" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+
+                                                                <label class="control-label col-md-2">Remaining amount</label>
+                                                                <div class="col-md-1"></div>
+                                                                <div class="col-md-9">
+                                                                    <p style="margin-top:10px">10</p>
+                                                                    <input name="RawRice_Remaining[0].RawRice_RemainingAmount" id="RawRice_Remaining_Amount_0" class="form-control hidden" value="10" />
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                    </div>
+
+
+                                    <hr />
+
+                                    <br />
+                                    @{
+
+                                        decimal Payed = db.Transaction.Where(m => m.Transaction_item_id == Model.RawRice_id && m.status).Sum(m => m.Debit);
+                                        //decimal remaining = db.Pricing.Where(m => m.item_id == Model.RawRice_id && m.Status).Max(m => m.Pricing_NetTotal) - Payed;
+                                    }
+                                    <div class="form-group ">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-6">
+                                                <label class="control-label col-md-2">Payed Amount</label>
+                                                <div class="col-md-10">
+                                                    <input name="Payed_Amount" id="payed_amount" class="form-control" value="@Payed" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label class="control-label col-md-2">Remaining Amount</label>
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-9">
+                                                    <input name="Remaining_Amount" id="remaining_amount" class="form-control" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            calculateTotalWeight();
+                                        </script>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label class="control-label col-md-2">Select Payment method</label>
+                                        <div class="col-md-10" style="margin-top:10px">
+
+                                            <input type="radio" name="isCash" id="isCash" value="1" checked>Cash Payment
+                                            <input type="radio" name="isBankAccount" id="isBankAccount" value="1" style="margin-left:20px">Payment By Bank Account
+                                            <input type="radio" name="isCheckbook" id="isCheckbook" value="1" style="margin-left:20px">Payment By Check
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="checkbook_id">
+                                        @*<div id="checkbook_content">
+                                                <label class="control-label col-md-2">Checkbook no</label>
+                                                <div class="col-md-9">
+                                                    <input name="CheckBookNo" id="CheckBookNo" class="form-control" />
+                                                </div>
+                                            </div>*@
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-6">
+                                            <input type="submit" id="submit" value="Add RawRice" class="btn btn-success" style="width:100%" />
+                                        </div>
+                                        <div class="col-sm-3"></div>
+                                    </div>
+                                </div>
+
+                                        }
+                            <script>
+                                CalculateNetTotal();
+                            </script>
+
+                        </div>
+
+
+                    </div>
+                    <div class="col-lg-1"></div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        var ExpenseTotal = 0.0, TotalExpense = 0.0, RawRiceRemainingtotal = 0.0;
+
+        $(document).ready(function () {
+
+            $('#Item_Name').keyup(function () {
+                $('span.error-Item_Name').remove();
+                $('span.valid-Item_Name').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[A-Za-z 0-9]{3,25}$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Item_Name" style="color:red;"></br>Invalid Item Name</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        $(this).after('<span class="valid valid-Item_Name hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Item_Name" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#Item_Name').focusout(function () {
+                $('span.error-Item_Name').remove();
+                $('span.valid-Item_Name').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[A-Za-z 0-9]{3,25}$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Item_Name" style="color:red;"></br>Invalid Item Name</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        $(this).after('<span class="valid valid-Item_Name hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Item_Name" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#Item_Code').keyup(function () {
+                $('span.error-Item_Code').remove();
+                $('span.valid-Item_Code').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[A-Za-z 0-9.]{2,25}$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Item_Code" style="color:red;"></br>Invalid Item Code</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        $(this).after('<span class="valid valid-Item_Code hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Item_Code" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#Item_Code').focusout(function () {
+                $('span.error-Item_Code').remove();
+                $('span.valid-Item_Code').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[A-Za-z 0-9.]{2,25}$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Item_Code" style="color:red;"></br>Invalid Item Code</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        $(this).after('<span class="valid valid-Item_Code hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Item_Code" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $("#Packing_Id").change(function () {
+                calculate();
+            });
+            $("#Rice_category_Id").change(function () {
+                calculate();
+            });
+            function calculate() {
+                var BagsQty = $('#Bags_qty').val();
+                var packingType = $("#Packing_Id option:selected").text();
+                var Totaleight_Kg = parseFloat(packingType * BagsQty);
+                $('#Total_Weight').val(Totaleight_Kg);
+                var Totalwieght_Mann = parseFloat(Totaleight_Kg) * parseFloat("0.025");
+                if (isNaN(Totalwieght_Mann)) {
+                    $('#Total_Mann').val(0);
+                } else {
+                    $('#Total_Mann').val(Totalwieght_Mann);
+                }
+                var Rate1 = $('#Rate1').val();
+                var Total_Amount = parseFloat(Totaleight_Kg) * parseFloat(Rate1);
+                if (isNaN(Total_Amount)) {
+                    $('#Total_Amount').val(0);
+                    $('#PerBagAmount').val(0);
+                } else {
+                    //if (!isNaN(Total_Amount / BagsQty))
+                    //{
+                    //    $('#PerBagAmount').val(Total_Amount / BagsQty);
+                    //}
+                    //else {
+                    //    $('#PerBagAmount').val(0);
+                    //}
+                    $('#Total_Amount').val(Total_Amount);
+                    CalculateNetTotal();
+                }
+
+            }
+            $('#ExpenseTotal').focusout(function () {
+                calculate();
+            });
+
+            function calculateTotalWeight() {
+                var BagsQty = $('#Bags_qty').val();
+                var Totaleight_Kg = parseFloat($('#Total_Weight').val());
+                var Totalwieght_Mann = parseFloat(Totaleight_Kg) * parseFloat("0.025");
+                if (isNaN(Totalwieght_Mann)) {
+                    $('#Total_Mann').val(0);
+                } else {
+                    $('#Total_Mann').val(Totalwieght_Mann);
+                }
+                var Rate1 = $('#Rate1').val();
+
+
+
+
+                var Total_Amount = parseFloat(Totaleight_Kg) * parseFloat(Rate1);
+                if (isNaN(Total_Amount)) {
+                    $('#Total_Amount').val(0);
+                    $('#PerBagAmount').val(0);
+                } else {
+                    //if (!isNaN(Total_Amount / BagsQty)) {
+                    //    $('#PerBagAmount').val(Total_Amount / BagsQty);
+                    //}
+                    //else {
+                    //    $('#PerBagAmount').val(0);
+                    //}
+                    $('#Total_Amount').val(Total_Amount);
+
+                    CalculateNetTotal();
+                }
+
+            }
+            $('#Bags_qty').keyup(function () {
+                $('span.error-Bags_qty').remove();
+                $('span.valid-Bags_qty').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[0-9]{1,11}$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Bags_qty" style="color:red;"></br>Invalid Bags qty</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        calculate();
+                        $(this).after('<span class="valid valid-Bags_qty hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Bags_qty" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#Bags_qty').focusout(function () {
+                $('span.error-Bags_qty').remove();
+                $('span.valid-Bags_qty').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[0-9]{1,11}$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Bags_qty" style="color:red;"></br>Invalid Bags qty</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        calculate();
+                        $(this).after('<span class="valid valid-Bags_qty hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Bags_qty" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#Rate1').keyup(function () {
+                $('span.error-Rate1').remove();
+                $('span.valid-Rate1').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[0-9]\d*(\.\d+)?$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Rate1" style="color:red;"></br>Rate Should be Decimal</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        var r1 = $('#Rate1').val();
+                        $('#Rate2').val(parseFloat(r1) / parseFloat("0.025"));
+                        calculateTotalWeight();
+
+                        $(this).after('<span class="valid valid-Rate1 hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Rate1" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#Rate1').focusout(function () {
+                $('span.error-Rate1').remove();
+                $('span.valid-Rate1').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[0-9]\d*(\.\d+)?$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Rate1" style="color:red;"></br>Rate Should be Decimal</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+
+                        var r1 = $('#Rate1').val();
+                        $('#Rate2').val(parseFloat(r1) / parseFloat("0.025"));
+                        calculateTotalWeight();
+                        $(this).after('<span class="valid valid-Rate1 hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Rate1" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#Rate2').keyup(function () {
+                $('span.error-Rate2').remove();
+                $('span.valid-Rate2').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[0-9]\d*(\.\d+)?$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Rate2" style="color:red;"></br>Rate Should be Decimal</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        var r2 = $('#Rate2').val();
+                        $('#Rate1').val(parseFloat(r2) * parseFloat("0.025"));
+                        calculateTotalWeight();
+
+                        $(this).after('<span class="valid valid-Rate2 hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Rate2" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#Rate2').focusout(function () {
+                $('span.error-Rate2').remove();
+                $('span.valid-Rate2').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[0-9]\d*(\.\d+)?$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Rate2" style="color:red;"></br>Rate Should be Decimal</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        var r2 = $('#Rate2').val();
+                        $('#Rate1').val(parseFloat(r2) * parseFloat("0.025"));
+                        calculateTotalWeight();
+
+                        $(this).after('<span class="valid valid-Rate2 hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Rate2" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#Total_Weight').keyup(function () {
+                $('span.error-Total_Weight').remove();
+                $('span.valid-Total_Weight').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[0-9]\d*(\.\d+)?$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Total_Weight" style="color:red;"></br>Total Weight Should be Decimal</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        calculateTotalWeight();
+
+                        $(this).after('<span class="valid valid-Total_Weight hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Total_Weight" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#Total_Weight').focusout(function () {
+                $('span.error-Total_Weight').remove();
+                $('span.valid-Total_Weight').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[0-9]\d*(\.\d+)?$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-Total_Weight" style="color:red;"></br>Total Weight Should be Decimal</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        calculateTotalWeight();
+
+                        $(this).after('<span class="valid valid-Total_Weight hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-Total_Weight" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $("#Party_Id").on('click change', function (e) {
+
+                GetParty_Remainings();
+            });
+            $('#payed_amount').keyup(function () {
+                $('span.error-payed_amount').remove();
+                $('span.valid-payed_amount').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[0-9]\d*(\.\d+)?$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-payed_amount" style="color:red;"></br>Payed Amount Should be Decimal</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        calculateTotalWeight();
+
+                        $(this).after('<span class="valid valid-payed_amount hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-payed_amount" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#payed_amount').mouseout(function () {
+                $('span.error-payed_amount').remove();
+                $('span.valid-payed_amount').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[0-9]\d*(\.\d+)?$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-payed_amount" style="color:red;"></br>Payed Amount Should be Decimal</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        calculateTotalWeight();
+
+                        $(this).after('<span class="valid valid-payed_amount hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-payed_amount" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#payed_amount').focusout(function () {
+                $('span.error-payed_amount').remove();
+                $('span.valid-payed_amount').remove();
+                var inputVal = $(this).val();
+                if (inputVal.length > 0) {
+                    var regex = /^[0-9]\d*(\.\d+)?$/;
+                    if (!regex.test(inputVal)) {
+                        $(this).after('<span class="error error-payed_amount" style="color:red;"></br>Payed Amount Should be Decimal</span>');
+                        $("#submit").prop('disabled', true);
+                    }
+                    else {
+                        calculateTotalWeight();
+
+
+                        $(this).after('<span class="valid valid-payed_amount hidden" style="color:green;"></br></span>');
+                        $("#submit").prop('disabled', false);
+                    }
+                }
+                else {
+                    $(this).after('<span class="error error-payed_amount" style="color:red;"></br>*Required!</span>');
+                    $("#submit").prop('disabled', true);
+                }
+            });
+            $('#isCash').click(function () {
+                $("#isCash").prop("checked", true);
+                $("#isBankAccount").prop("checked", false);
+                $("#isCheckbook").prop("checked", false);
+                $('#checkbook_content').remove();
+                //if (!$('#isBankAccount').is(':checked')) {  }
+            });
+            $('#isBankAccount').click(function () {
+                $("#isCash").prop("checked", false);
+                $("#isBankAccount").prop("checked", true);
+                $("#isCheckbook").prop("checked", false);
+                $('#checkbook_content').remove();
+                var temp = '';
+                // temp += '<div class="form-group" id="checkbook_id">';
+                temp += '   <div id="checkbook_content">';
+                temp += '                       <div class="col-md-12">';
+                temp += '                               <div class="form-group">';
+                temp += '                                   <label class="control-label col-md-2 text-center">Bank Account no</label>';
+                temp += '                                     <div class="col-md-10">';
+                temp += '                                           <input name="BankAccountNo" id="BankAccountNo" class="form-control" required/>';
+                temp += '                                    </div>';
+                temp += '                               </div>';
+                temp += '                       </div>';
+                // temp += '</div>';
+                temp += '</div>';
+                $('#checkbook_id').append(temp);
+                //if (!$('#isBankAccount').is(':checked')) {  }
+            });
+            $('#isCheckbook').click(function () {
+                $("#isCash").prop("checked", false);
+                $("#isCheckbook").prop("checked", true);
+                $("#isBankAccount").prop("checked", false);
+                $('#checkbook_content').remove();
+                var temp = '';
+                // temp += '<div class="form-group" id="checkbook_id">';
+                temp += '   <div id="checkbook_content">';
+                temp += '                       <div class="col-md-12">';
+                temp += '                               <div class="form-group">';
+                temp += '                                   <label class="control-label col-md-2">Check no</label>';
+                temp += '                                     <div class="col-md-10">';
+                temp += '                                       <input name="CheckNo" id="CheckNo" class="form-control" required/>';
+                temp += '                                    </div>';
+                temp += '                               </div>';
+                temp += '                               <div class="form-group">';
+                temp += '                                   <label class="control-label col-md-2 text-center">Bank Account no</label>';
+                temp += '                                     <div class="col-md-10">';
+                temp += '                                           <input name="BankAccountNo" id="BankAccountNo" class="form-control" required/>';
+                temp += '                                    </div>';
+                temp += '                               </div>';
+                temp += '                       </div>';
+                // temp += '</div>';
+                temp += '</div>';
+                $('#checkbook_id').append(temp);
+                //if (!$('#isBankAccount').is(':checked')) {  }
+            });
+            $('#submit').click(function () {
+                //$('span.error-btn').remove();
+                //alert($('span.valid').length);
+                //if ($('span.valid').length == 0 ||$('span.valid').length == 5 || $('span.valid').length == 6) {
+                //    return true;
+                //}
+                //else {
+                //    $(this).after('<span width="100%" class="error-btn text-center" style="color:red">     *Fill All Fields</span>');
+                //    return false;
+                //}
+            });
+            //$('#Total_Amount').keyup(function () {
+            //    $('span.error-Total_Amount').remove();
+            //    $('span.valid-Total_Amount').remove();
+            //    var inputVal = $(this).val();
+            //    if (inputVal.length > 0) {
+            //        var regex = /^[0-9]\d*(\.\d+)?$/;
+            //        if (!regex.test(inputVal)) {
+            //            $(this).after('<span class="error error-Total_Amount" style="color:red;"></br>Amount Should be Decimal</span>');
+            //        }
+            //        else {
+            //            $(this).after('<span class="valid valid-Total_Amount hidden" style="color:green;"></br></span>');
+            //        }
+            //    }
+            //    else {
+            //        $(this).after('<span class="error error-Total_Amount" style="color:red;"></br>*Required!</span>');
+            //    }
+            //});
+            //$('#Total_Amount').focusout(function () {
+            //    $('span.error-Total_Amount').remove();
+            //    $('span.valid-Total_Amount').remove();
+            //    var inputVal = $(this).val();
+            //    if (inputVal.length > 0) {
+            //        var regex = /^[0-9]\d*(\.\d+)?$/;
+            //        if (!regex.test(inputVal)) {
+            //            $(this).after('<span class="error error-Total_Amount" style="color:red;"></br>Amount Should be Decimal</span>');
+            //        }
+            //        else {
+            //            $(this).after('<span class="valid valid-Total_Amount hidden" style="color:green;"></br></span>');
+            //        }
+            //    }
+            //    else {
+            //        $(this).after('<span class="error error-Total_Amount" style="color:red;"></br>*Required!</span>');
+            //    }
+            //});
+
+        });
+
+        function GetParty_Remainings() {
+            var party_id = $('#Party_Id').val();
+            var RawRice_id=$('#RawRice_id').val();
+            var getReportColumnsParams = {
+                "Party_Id": party_id,
+                "rawrice_id": RawRice_id
+            };
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                async: false,
+                cache: false,
+                url: '/RawRice/GetPartyRemainings2',
+                context: document.body,
+                data: getReportColumnsParams,
+                success: function (json) {
+
+                    $('#RawRiceRemaining_content').remove();
+                    var temp = '';
+                    if (json.length > 0) {
+
+                        temp += '<div id="RawRiceRemaining_content">';
+                        temp += '                 <hr />';
+                        temp += '                 <h5>Previous RawRice remaining</h5>';
+                        temp += '                 <div>';
+                        for (var i = 0; i < json.length; i++) {
+                            temp += '                     <div class="row">';
+                            temp += '                        <div class="col-sm-12">';
+                            temp += '                            <div class="col-sm-6 hidden">';
+                            temp += '                                <label class="control-label col-md-2">RawRiceId</label>';
+                            temp += '                                <div class="col-md-10">';
+                            temp += '                                    <p style="margin-top:10px">' + json[i].Item1.RawRice_id + '</p>';
+                            temp += '                                    <input name="RawRice_Remaining[' + i + '].RawRice_id" id="RawRice_Remaining_RawRice_id_' + i + '" class="form-control hidden" value="' + json[i].Item1.RawRice_id + '" />';
+                            temp += '                                </div>';
+                            temp += '                             </div>';
+                            temp += '                            <div class="col-sm-2 text-center">';
+                            temp += '                                   Pay Remaining <input type="checkbox" style="margin-top:10%;margin-left:3%" name="RawRice_Remaining_checkbox" id="RawRice_Remaining_checkbox_' + i + '" value="' + json[i].Item1.RawRice_id + '" />';
+                            temp += '                             </div>';
+                            temp += '                            <div class="col-sm-6">';
+                            temp += '                                <label class="control-label col-md-2">RiceName</label>';
+                            temp += '                                <div class="col-md-10">';
+                            temp += '                                    <p style="margin-top:10px">' + json[i].Item1.Item_Name + '</p>';
+                            temp += '                                    <input name="RawRice_Remaining[' + i + '].Item_Name" id="RawRice_Remaining_Item_Name_' + i + '" class="form-control hidden" value="' + json[i].Item1.Item_Name + '" />';
+                            temp += '                                </div>';
+                            temp += '                             </div>';
+                            temp += '                             <div class="col-sm-4">';
+                            temp += '                                 <label class="control-label col-md-2">Remaining amount</label>';
+                            temp += '                                 <div class="col-md-1"></div>';
+                            temp += '                                 <div class="col-md-9">';
+                            temp += '                                     <p style="margin-top:10px">' + json[i].Item2 + '</p>';
+                            temp += '                                     <input name="Previous_Remainings[' + i + ']" id="RawRice_RemainingAmount_' + i + '" class="form-control hidden" value="' + json[i].Item2 + '" />';
+                            temp += '                                  </div>';
+                            temp += '                              </div>';
+                            temp += '                     </div>';
+                            temp += '                     </div>';
+                        }
+                        temp += '               </div>';
+                        temp += '           </div>';
+                        $('#RawRiceRemaining_main').append(temp);
+                    }
+
+                },
+                error: function (xhr) {
+                    //debugger;
+                    alert('error');
+                }
+            });
+        }
+        GetParty_Remainings();
+        function SumExpenseTotal()
+        {
+            TotalExpense = 0;
+            @for (int i = 0; i < 100; i++)
+            {
+                <text>
+                var temp_@i = parseFloat($('#RawRiceExpense_Amount_@i').val());
+                if (!isNaN(temp_@i)) {
+                    TotalExpense += temp_@i;
+                }
+                </text>
+            }
+
+        }
+        function SumPreviousRawRiceTotal() {
+            RawRiceRemainingtotal = 0;
+            @for (int i = 0; i < 100; i++)
+            {
+            <text>
+
+                var isChecked_@i = $('#RawRice_Remaining_checkbox_@i').is(':checked');
+                if (isChecked_@i) {
+                    var temp_@i = parseFloat($('#RawRice_RemainingAmount_@i').val());
+                    if (!isNaN(temp_@i)) {
+                        RawRiceRemainingtotal += temp_@i;
+                    }
+                }
+            //}
+            </text>
+       }
+
+
+
+        }
+        function CalculateNetTotal() {
+
+            SumExpenseTotal();
+            SumPreviousRawRiceTotal();
+            var BagsQty = $('#Bags_qty').val();
+            var TotalAmount = parseFloat($('#Total_Amount').val());
+            if (!isNaN(TotalAmount) && !isNaN(TotalExpense)) {
+                if ($("#Rice_category_Id option:selected").text() == "Pohnch") {
+                    ExpenseTotal = parseFloat(TotalAmount - TotalExpense);
+                }
+                else {
+                    ExpenseTotal = parseFloat(TotalAmount + TotalExpense);
+                }
+                if (!isNaN(ExpenseTotal)) {
+                    $('#ExpenseTotal').val(ExpenseTotal);
+                }
+                else {
+                    $('#ExpenseTotal').val(0);
+                }
+                var RemainingAmount = 0.0, payed_amount = parseFloat($('#payed_amount').val());
+                if (payed_amount > ExpenseTotal && RawRiceRemainingtotal == 0) {
+                    $('#payed_amount').val(ExpenseTotal);
+                }
+                if ((ExpenseTotal + RawRiceRemainingtotal) < payed_amount && RawRiceRemainingtotal > 0) {
+                    $('#payed_amount').val((ExpenseTotal + RawRiceRemainingtotal));
+                }
+                if ((RawRiceRemainingtotal) > payed_amount && RawRiceRemainingtotal > 0) {
+                    $('#payed_amount').val((RawRiceRemainingtotal));
+                }
+                if (payed_amount > ExpenseTotal && RawRiceRemainingtotal == 0) {
+                    $('#payed_amount').val(ExpenseTotal);
+                }
+                if (RawRiceRemainingtotal == 0) {
+                    RemainingAmount = parseFloat(ExpenseTotal) - parseFloat(payed_amount);
+                }
+                else {
+                    RemainingAmount = parseFloat(ExpenseTotal + RawRiceRemainingtotal) - parseFloat(payed_amount);
+                }
+                if (RemainingAmount > 0 && !isNaN(RemainingAmount)) {
+                    $('#remaining_amount').val(RemainingAmount);
+                }
+                else {
+                    $('#remaining_amount').val(0);
+                }
+                if (!isNaN(ExpenseTotal / BagsQty)) {
+                    $('#PerBagAmount').val(Math.round(ExpenseTotal / BagsQty));
+                }
+                else {
+                    $('#PerBagAmount').val(0);
+                }
+            }
+            else {
+                calculate();
+            }
+        }
+        @for (int i = 0; i < 100; i++)
+            {
+                int i_new = i + 1;
+                <text>
+        var isAdded_@i = false;
+        function Add_RawRiceExpense_@(i)() {
+            event.preventDefault();
+            if (!isAdded_@i) {
+                var temp = '';
+                temp += '								<div class="row" id="row_@i_new">';
+                temp += '                                        <div class="col-sm-12">';
+                temp += '                                         <div class="col-sm-6 hidden">';
+                temp += '                                            <label class="control-label col-md-2">Expense id</label>';
+                temp += '                                                <div class="col-md-10">';
+                temp += '                                                    <input name="RawRiceExpense[@i_new].RawRiceExpense_id" id="RawRiceExpense_id_@i_new" class="form-control" value="0" required />';
+                temp += '                                                </div>';
+                temp += '                                                </div>';
+                temp += '                                            <div class="col-sm-6">';
+                temp += '                                                <label class="control-label col-md-2">Expense Name</label>';
+                temp += '                                                <div class="col-md-10">';
+                temp += '                                                    <input name="RawRiceExpense[@i_new].RawRiceExpense_Name" id="RawRiceExpense_Name_@i_new" class="form-control" required/>';
+                temp += '                                                </div>';
+                temp += '                                            </div>';
+                temp += '                                            <div class="col-sm-4">';
+                temp += '                                                <label class="control-label col-md-2">Amount</label>';
+                temp += '                                                <div class="col-md-1"></div>';
+                temp += '                                                <div class="col-md-9">';
+                temp += '                                                    <input type="number" name="RawRiceExpense[@i_new].RawRiceExpense_Amount" id="RawRiceExpense_Amount_@i_new"  onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()"  class="form-control" required/>';
+                temp += '                                                </div>';
+                temp += '                                            </div>';
+                temp += '                                            <div class="col-sm-2 text-center">';
+                temp += '											    <button id="btnAdd_RawRiceExpense_@i_new" class="btn btn-warning"  onclick="JavaScript: return Add_RawRiceExpense_@(i_new)();">Add</button> ';
+                temp += '                                                 <button id="btnDelete_RawRiceExpense_@i_new" class="btn btn-danger"  onclick="JavaScript: return Delete_RawRiceExpense_@(i_new)();">Delete</button>';
+                temp += '                                            </div>';
+                temp += '                                        </div><div>';
+                temp += '                                    </div>';
+                //temp += '</div>';
+                $('#Expenses').append(temp);
+                isAdded_@i = true;
+            }
+            return (false);
+
+        }
+
+        </text>
+    }
+      @for (int i = 0; i < 100; i++)
+        {
+                if (i == 0)
+        {
+
+                    <text>
+
+                function Delete_RawRiceExpense_@(i)() {
+                    event.preventDefault();
+                    return (false);
+      }
+                    </text>
+      }
+      else
+      {
+
+                    <text>
+                function Delete_RawRiceExpense_@(i)() {
+                    event.preventDefault();
+                    isAdded_@(i-1) = false;
+                    var id = $('#RawRiceExpense_id_@i').val();
+                    if (id > 0) {
+                        $('#Expense_id_delete').append('<input name="Expense_id_delete" value="' + id + '"/>');
+                    }
+                    $('#row_@i').remove();
+                    CalculateNetTotal();
+                    return (false);
+      }
+        </text>
+      }
+      }
+    </script>
+</div>
+@section Scripts {
+
+    <!-- Modal-Effect -->
+    <script src="~/Content/assets/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/plugins/custombox/js/custombox.min.js"></script>
+    <script src="~/Content/assets/plugins/custombox/js/legacy.min.js"></script>
+}

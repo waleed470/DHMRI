@@ -1,0 +1,77 @@
+﻿@model DHMRice.Models.Broker
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script>
+    CheckIntialOpening();
+</script>
+<h2>Details</h2>
+
+<div>
+    <h4>Broker</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Broker_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Broker_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Broker_Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Broker_Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Broker_MobileNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Broker_MobileNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Broker_BankName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Broker_BankName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Broker_ACcountNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Broker_ACcountNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Broker_Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Broker_Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Broker_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
