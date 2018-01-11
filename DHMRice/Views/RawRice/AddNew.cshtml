@@ -753,8 +753,9 @@
             //if (!$('#isBankAccount').is(':checked')) {  }
         });
         $('#submit').click(function () {
+            console.log($('span.valid').length + "    " + $('span.valid').length);
             $('span.error-btn').remove();
-            if ($('span.valid').length == 5 || $('span.valid').length == 6) {
+            if ($('span.valid').length == 5 || $('span.valid').length == 6 || $('span.valid').length == 7) {
                 return true;
             }
             else {
