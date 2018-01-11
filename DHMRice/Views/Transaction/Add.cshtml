@@ -45,6 +45,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                    Driver Expense: <input type="checkbox" class="" name="IsDriverExpense" id="IsDriverExpense" value="1" placeholder="Transaction Description">
+                               
+                            </div>
+                            <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="col-md-10">
@@ -138,7 +142,30 @@
                 $(this).after('<span class="error error-Description" style="color:red;"></br>*Required!</span>');
             }
         });
+        $('#IsDriverExpense').click(function () {
+            
+            var credit = $('#Credit').val();
+            var debit = $('#Debit').val();
+            $('span.error-Description').remove();
+            $('span.valid-Description').remove();
+            if ($(this).prop("checked")) {
+                console.log("invoked");
+                // checked
+                $('#Description').val("Driver Expense");
+                $('#Description').after('<span class="valid valid-Description hidden" style="color:green;"></br></span>');
+                ValidateDebit();
+                ValidateCredit();                
+                return;
+            }
+            // not checked
+            $('#Description').val("");
+            $('#Description').after('<span class="error error-Description" style="color:red;"></br>*Required!</span>');
+            $('#Credit').val(0);
+            ValidateDebit();
+            ValidateCredit();
+        });
         function ValidateDebit() {
+            var isChecked = $('#IsDriverExpense').prop("checked");
             $('span.error-Debit').remove();
             $('span.valid-Debit').remove();
             var inputVal = $('#Debit').val();
@@ -154,6 +181,10 @@
                     }
                     $('#Debit').after('<span class="valid valid-Debit hidden" style="color:green;"></br></span>');
                 }
+            }
+            else if (isChecked && inputVal.length == 0) {
+                $('#Debit').val(0);
+                $('#Debit').after('<span class="valid valid-Debit hidden" style="color:green;"></br></span>');
             }
             else {
                 $('#Debit').after('<span class="error error-Debit" style="color:red;"></br>*Required!</span>');
@@ -184,8 +215,12 @@
             ValidateDebit();
         });
         function ValidateCredit() {
+            var isChecked = $('#IsDriverExpense').prop("checked");
             $('span.error-Credit').remove();
             $('span.valid-Credit').remove();
+            if (isChecked) {
+                $('#Credit').val(0);
+            }
             var inputVal = $('#Credit').val();
             if (inputVal.length > 0) {
                 var regex = /^[0-9]\d*(\.\d+)?$/;

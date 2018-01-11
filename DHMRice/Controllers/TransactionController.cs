@@ -45,8 +45,9 @@ namespace DHMRice.Controllers
                     break;
                 }
             }
-            trans.Transaction_item_id = 0;
-            trans.Transaction_item_type = "Manual";
+            trans.Transaction_item_id = 0;            
+            trans.Transaction_item_type = (form["IsDriverExpense"] == "1")? "DriverExpense":"Manual";
+            trans.Transaction_Description = form["Transaction_Description"];
             trans.status = true;
             db.Transaction.Add(trans);
             db.SaveChanges();
@@ -101,7 +102,7 @@ namespace DHMRice.Controllers
             {
                 trans.isByCash = true;
             }
-           
+            trans.Transaction_item_type = (form["IsDriverExpense"] == "1") ? "DriverExpense" : "Manual";
             trans.Transaction_Description = trans1.Transaction_Description;
             trans.Debit = trans1.Debit;
             trans.Credit = trans1.Credit;

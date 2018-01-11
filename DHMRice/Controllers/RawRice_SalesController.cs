@@ -158,7 +158,7 @@ namespace DHMRice.Controllers
                     trans.Transaction_DateTime = DateTime.Now;
                     trans.Transaction_Description = "Received Remaining from " + db.Parties.Find(RawRice_Sales_pt.Party_Id).Party_Name;
                     trans.Transaction_item_id = remaining_rsp_id[i];
-                    trans.Transaction_item_type = "RawRice Sales";
+                    trans.Transaction_item_type = "RawRice Sales Remaining";
                     trans.Debit = 0;
                     trans.Credit = Remaining;
                     trans.status = true;
@@ -269,7 +269,7 @@ namespace DHMRice.Controllers
                     trans.Transaction_DateTime = DateTime.Now;
                     trans.Transaction_Description = "Received Remaining from " + db.Parties.Find(RawRice_Sales_pt.Party_Id).Party_Name;
                     trans.Transaction_item_id = remaining_rsp_id[i];
-                    trans.Transaction_item_type = "RawRice Sales";
+                    trans.Transaction_item_type = "RawRice Sales Remaining";
                     trans.Debit = 0;
                     trans.Credit = Remaining;
                     trans.status = true;
