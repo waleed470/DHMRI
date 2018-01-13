@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<DHMRice.Models.Factory>
-
+@using DHMRice.Models;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    ApplicationDbContext db = new ApplicationDbContext();
 }
 <script>
     CheckIntialOpening();
@@ -64,7 +66,7 @@
                                 <th>Status</th>
 
                                 <th>Actions</th>
-
+                                <th>User</th>
                             </tr>
                         </thead>
 
@@ -72,6 +74,7 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
+                                ApplicationUser user = db.Users.Where(u => u.Id.Equals(item.Id, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                                 <tr>
 
 
@@ -88,7 +91,7 @@
                                         <a href="~/Factories/Edit?id=@item.Factory_Id" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
                                         <a href="~/Factories/Delete?id=@item.Factory_Id" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
                                     </td>
-
+                                    <td>@user.UserName</td>
                                 </tr>
                             }
 

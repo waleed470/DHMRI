@@ -50,6 +50,8 @@ namespace DHMRice.Controllers
         {
             if (ModelState.IsValid)
             {
+                string idd = Convert.ToString(Session["UserId"]);
+                shop.Id = idd;
                 shop.Status = true;
                 db.Shopes.Add(shop);
                 db.SaveChanges();

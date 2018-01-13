@@ -19,6 +19,8 @@ namespace DHMRice.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        ApplicationDbContext context = new ApplicationDbContext();
+
 
         public AccountController()
         {
@@ -77,10 +79,13 @@ namespace DHMRice.Controllers
             var user = await UserManager.FindAsync(model.UserName, model.Password);
             if (user != null)
             {
+
+                Session["UserName"] = user.UserName;
+                Session["UserId"] = user.Id;
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, change to shouldLockout: true
-                
-            if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
             {
                 //string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account-Resend");
 
@@ -148,9 +153,11 @@ namespace DHMRice.Controllers
 
         //
         // GET: /Account/Register
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles ="Admin")]
         public ActionResult Register()
         {
+            var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = list;
             return View();
         }
 
@@ -159,18 +166,18 @@ namespace DHMRice.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, string Credential)
+        public async Task<ActionResult> Register(RegisterViewModel model, string RoleName)
         {
             if (ModelState.IsValid)
             {
-                if (Credential == "Shop")
-                {
-                    model.ShopCrendital = true;
-                }
-                if (Credential == "Factory")
-                {
-                    model.FactroryCrendital = true;
-                }
+                //if (Credential == "Shop")
+                //{
+                //    model.ShopCrendital = true;
+                //}
+                //if (Credential == "Factory")
+                //{
+                //    model.FactroryCrendital = true;
+                //}
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, MobileNo=model.MobileNo, User_Cnic=model.User_Cnic,ShopCrendital=model.ShopCrendital, FactroryCrendital=model.FactroryCrendital, Status=true, User_Adress=model.User_Adress };
                 
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -190,7 +197,7 @@ namespace DHMRice.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-                    await this.UserManager.AddToRoleAsync(user.Id, Credential);
+                    await this.UserManager.AddToRoleAsync(user.Id, RoleName);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -200,10 +207,13 @@ namespace DHMRice.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
+
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
+            var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = list;
             return View(model);
         }
 

@@ -63,7 +63,7 @@
                                 <th>Status</th>
 
                                 <th>Actions</th>
-
+                                <th>User</th>
                             </tr>
                         </thead>
 
@@ -71,6 +71,7 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
+                                ApplicationUser user = db.Users.Where(u => u.Id.Equals(item.Id, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                                 <tr>
 
 
@@ -102,7 +103,7 @@
                                         <a href="~/Shops/Edit?id=@item.Shop_Id" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
                                         <a href="~/Shops/Delete?id=@item.Shop_Id" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
                                     </td>
-
+                                    <td>@user.UserName</td>
                                 </tr>
                             }
 

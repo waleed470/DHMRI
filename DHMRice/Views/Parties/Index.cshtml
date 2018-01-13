@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<DHMRice.Models.Party>
-
+@using DHMRice.Models;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ApplicationDbContext context = new ApplicationDbContext();
 }
 <script>
     CheckIntialOpening();
@@ -62,16 +63,21 @@
                                 <th>Party Account No</th>
                                 <th>Party Address</th>
                                 <th>Status</th>
-
+                                <th>User</th>
                                 <th>Actions</th>
 
                             </tr>
                         </thead>
 
-
-                        <tbody>
+                      
+                           <tbody>
                             @foreach (var item in Model)
                             {
+                                
+
+                                    ApplicationUser user = context.Users.Where(u => u.Id.Equals(item.Id, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+
+                                
                                 <tr>
 
 
@@ -80,9 +86,10 @@
                                     <td>@item.Party_MobileNo</td>
                                     <td>@item.Party_BankName</td>
                                     <td>@item.Party_ACcountNo</td>
+                                   
                                     <td>@item.Party_Address</td>
                                     <td>@item.Status</td>
-                                 
+                                    <td>@user.UserName</td>
 
                                     <td class="actions">
                                         <a href="~/Parties/Edit?id=@item.Party_Id" class="on-default edit-row"><i class="fa fa-pencil"></i></a>

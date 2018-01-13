@@ -74,6 +74,7 @@
                                
                                 <th>FactoryCost</th>
                                 <th>Date</th>
+                                <th>User</th>
                             
 
                             </tr>
@@ -83,6 +84,7 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
+                                ApplicationUser user = db.Users.Where(u => u.Id.Equals(item.Id, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                                 <tr>
 
 
@@ -120,6 +122,7 @@
                                     
                                     <td>@ProduceBags.Rice_Produce_Bag_FactoryCost</td>
                                     <td>@ProduceBags.Rice_Produce_Bag_Date.ToShortDateString()</td>
+                                    <td>@user.UserName</td>
 
                                 </tr>
                             }

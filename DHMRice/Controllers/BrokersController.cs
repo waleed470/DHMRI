@@ -50,6 +50,9 @@ namespace DHMRice.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                string idd = Convert.ToString(Session["UserId"]);
+                broker.Id = idd;
                 broker.Status = true;
                 db.Brokers.Add(broker);
                 db.SaveChanges();

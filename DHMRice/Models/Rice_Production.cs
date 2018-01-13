@@ -15,6 +15,9 @@ namespace DHMRice.Models
 
         public String Rice_Production_Code { get; set; }
 
+        public string Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
+
         public int Packing_Id { get; set; }
         public virtual Packing packing { get; set; }
 

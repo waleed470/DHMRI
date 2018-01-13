@@ -14,6 +14,8 @@ namespace DHMRice.Models
         public int Party_Id { get; set; }
         public virtual Party party{ get; set; }
         [Required]
+        public string Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
         public int Broker_Id { get; set; }
         public virtual Broker broker { get; set; }
         [Required]

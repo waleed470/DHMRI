@@ -45,8 +45,9 @@ namespace DHMRice.Controllers
         public ActionResult AddNew(Rice_Production Rice_Production,Rice_Produce_Bag Rice_Produce_Bag,   List<Rice_Production_ShortFall> Rice_Production_ShortFall, List<Production_Rice> Production_Rice, List<Rice_Production_Expense> Rice_Production_Expense, List<Rice_Production_ProductWorth> Rice_Production_ProductWorth,Pricing pricing,Production_Extra_Rice Extra_Rice ,FormCollection form)
             {
 
-            
 
+            string idd = Convert.ToString(Session["UserId"]);
+            Rice_Production.Id = idd;
             Rice_Production.Rice_Production_name = Convert.ToString(form["Rice_Production_name"]);
             Rice_Production.Rice_Production_Code = Convert.ToString(form["Rice_Production_Code"]);
             Rice_Production.Packing_Id = Convert.ToInt32(form["Packing_Id"]);

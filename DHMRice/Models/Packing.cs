@@ -11,6 +11,9 @@ namespace DHMRice.Models
         [Key]
         public int Packing_Id { get; set; }
 
+        public string Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
+
         public int Packing_Type { get; set; }
     }
 }

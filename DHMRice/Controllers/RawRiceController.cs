@@ -95,6 +95,10 @@ namespace DHMRice.Controllers
 
             rawRice.Status = true;
             rawRice.Date = DateTime.Now;
+
+            string idd = Convert.ToString(Session["UserId"]);
+            rawRice.Id = idd;
+
             rawRice.Bags_Sold_qty = 0;
             db.RarRices.Add(rawRice);
             db.SaveChanges();

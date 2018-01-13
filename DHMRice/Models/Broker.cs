@@ -11,6 +11,9 @@ namespace DHMRice.Models
         [Key]
         public int Broker_Id { get; set; }
 
+        public string Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
+
         [Required]
         public string Broker_Name { get; set; }
 

@@ -285,49 +285,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201711242304354_25-11-2017 mig.cs" />
-    <Compile Include="Migrations\201711242304354_25-11-2017 mig.Designer.cs">
-      <DependentUpon>201711242304354_25-11-2017 mig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711251141130_new mig.cs" />
-    <Compile Include="Migrations\201711251141130_new mig.Designer.cs">
-      <DependentUpon>201711251141130_new mig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711280440094_GatePassInward Db.cs" />
-    <Compile Include="Migrations\201711280440094_GatePassInward Db.Designer.cs">
-      <DependentUpon>201711280440094_GatePassInward Db.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712060307238_addition in production rices.cs" />
-    <Compile Include="Migrations\201712060307238_addition in production rices.Designer.cs">
-      <DependentUpon>201712060307238_addition in production rices.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712060309517_changes in production rices.cs" />
-    <Compile Include="Migrations\201712060309517_changes in production rices.Designer.cs">
-      <DependentUpon>201712060309517_changes in production rices.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712060336429_bags table addition.cs" />
-    <Compile Include="Migrations\201712060336429_bags table addition.Designer.cs">
-      <DependentUpon>201712060336429_bags table addition.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712060555105_markets rates added in bags.cs" />
-    <Compile Include="Migrations\201712060555105_markets rates added in bags.Designer.cs">
-      <DependentUpon>201712060555105_markets rates added in bags.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712151532056_bhati ki migration.cs" />
-    <Compile Include="Migrations\201712151532056_bhati ki migration.Designer.cs">
-      <DependentUpon>201712151532056_bhati ki migration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712181638036_ts.cs" />
-    <Compile Include="Migrations\201712181638036_ts.Designer.cs">
-      <DependentUpon>201712181638036_ts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801041433199_REmove required.cs" />
-    <Compile Include="Migrations\201801041433199_REmove required.Designer.cs">
-      <DependentUpon>201801041433199_REmove required.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801041808419_Shop accountss.cs" />
-    <Compile Include="Migrations\201801041808419_Shop accountss.Designer.cs">
-      <DependentUpon>201801041808419_Shop accountss.cs</DependentUpon>
+    <Compile Include="Migrations\201801121513001_new db.cs" />
+    <Compile Include="Migrations\201801121513001_new db.Designer.cs">
+      <DependentUpon>201801121513001_new db.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1118,38 +1078,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711242304354_25-11-2017 mig.resx">
-      <DependentUpon>201711242304354_25-11-2017 mig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711251141130_new mig.resx">
-      <DependentUpon>201711251141130_new mig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711280440094_GatePassInward Db.resx">
-      <DependentUpon>201711280440094_GatePassInward Db.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712060307238_addition in production rices.resx">
-      <DependentUpon>201712060307238_addition in production rices.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712060309517_changes in production rices.resx">
-      <DependentUpon>201712060309517_changes in production rices.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712060336429_bags table addition.resx">
-      <DependentUpon>201712060336429_bags table addition.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712060555105_markets rates added in bags.resx">
-      <DependentUpon>201712060555105_markets rates added in bags.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712151532056_bhati ki migration.resx">
-      <DependentUpon>201712151532056_bhati ki migration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712181638036_ts.resx">
-      <DependentUpon>201712181638036_ts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801041433199_REmove required.resx">
-      <DependentUpon>201801041433199_REmove required.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801041808419_Shop accountss.resx">
-      <DependentUpon>201801041808419_Shop accountss.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801121513001_new db.resx">
+      <DependentUpon>201801121513001_new db.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

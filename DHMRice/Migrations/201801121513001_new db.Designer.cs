@@ -7,13 +7,13 @@ namespace DHMRice.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class bhatikimigration : IMigrationMetadata
+    public sealed partial class newdb : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(bhatikimigration));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(newdb));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712151532056_bhati ki migration"; }
+            get { return "201801121513001_new db"; }
         }
         
         string IMigrationMetadata.Source

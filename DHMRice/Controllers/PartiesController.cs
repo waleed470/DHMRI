@@ -50,8 +50,11 @@ namespace DHMRice.Controllers
         {
             if (ModelState.IsValid)
             {
+                string idd = Convert.ToString(Session["UserId"]);
+                party.Id = idd;
                 party.Status = true;
                 db.Parties.Add(party);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

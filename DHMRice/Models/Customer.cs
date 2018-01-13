@@ -13,7 +13,8 @@ namespace DHMRice.Models
 
         [Required]
         public string Customer_Name { get; set; }
-
+        public string Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
         [Required]
         public string Customer_Code { get; set; }
 

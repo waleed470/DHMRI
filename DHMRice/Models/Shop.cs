@@ -14,7 +14,10 @@ namespace DHMRice.Models
 
         [Required]
         public string Shop_Name { get; set; }
-       
+
+        public string Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
+
         public string Shop_Code { get; set; }
     
         public string Shop_MobileNo { get; set; }

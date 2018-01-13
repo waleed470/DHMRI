@@ -138,6 +138,7 @@
                                 <th>Date</th>
                                 <th>Actions</th>
                                 <th>Report</th>
+                                <th>User</th>
                             </tr>
                         </thead>
 
@@ -146,6 +147,7 @@
                             @{ int count = 0;}
                             @foreach (var item in Model)
                             {
+                                ApplicationUser user = db.Users.Where(u => u.Id.Equals(item.Id, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                                 <tr>
 
 
@@ -195,6 +197,7 @@
                                         }
                                     </td>
                                     <td>@Html.ActionLink("Report", "Report.aspx", "Reports", new { E_id = item.RawRice_id, value = "IndividualReport" }, null)</td>
+                                    <td>@user.UserName</td>
                                 </tr>
                                             count++;
                                         }

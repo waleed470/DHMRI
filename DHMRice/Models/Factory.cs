@@ -14,7 +14,8 @@ namespace DHMRice.Models
         [Required]
         public string Factory_Name { get; set; }
 
-       
+        public string Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
         public string Factory_Code { get; set; }
 
         [Required]

@@ -50,6 +50,9 @@ namespace DHMRice.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                string idd = Convert.ToString(Session["UserId"]);
+                factory.Id = idd;
                 factory.Status = true;
                 db.Factories.Add(factory);
                 db.SaveChanges();
