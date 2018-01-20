@@ -132,7 +132,7 @@
             };
 
             $scope.Fill_fields_on_ProducedRiceChange = function (i) {
-
+              
                 JsonCallParam("ProducedRiceSales", "Get_Produced_Rice_id", {
                     "id": $scope.ProducedRiceSales_ch[i].Rice_Production_id
                 });
@@ -295,6 +295,7 @@
                 }
             };
             $scope.LoadProducedRice_pt = function (obj) {
+                
                 $scope.ProducedRiceSales_pt.prsp_id = obj.Item1.prsp_id;
                 $scope.ProducedRiceSales_pt.prsp_Title = obj.Item1.prsp_Title;
                 $scope.ProducedRiceSales_pt.Party_Id = obj.Item1.Party_Id;
@@ -375,6 +376,7 @@
                 }
                 else {
                     var ProducedRiceSales_ch_obj = $scope.ProducedRiceSales_ch;
+                
                     for (var i = 0; i < ProducedRiceSales_ch_obj.length; i++) {
                         ProducedRiceSales_ch_obj[i].Rice_Production = null;
                         ProducedRiceSales_ch_obj[i].ProducedRiceSales_pt = null;
@@ -690,7 +692,7 @@
                                         <input type="button" value="Receive Remaining" class="btn btn-sm btn-primary" ng-click="ReceivedRemaining(item)" ng-show="item.Item5>0" />
                                     </td>
                                     <td ng-show="item.Item4==0">0</td>
-                                <td ng-if="item.Item6==1"><input value="Edit" class="btn btn-sm btn-warning" type="button" ng-click="LoadProducedRice_pt(item)" /><input value="Delete" class="btn btn-sm btn-danger" ng-click="Delete(item)" type="button" /> </td>
+                                <td ><input value="Edit" class="btn btn-sm btn-warning" type="button" ng-click="LoadProducedRice_pt(item)" /><input value="Delete" class="btn btn-sm btn-danger" ng-click="Delete(item)" type="button" /> </td>
                                 <td ng-if="item.Item6==0">No Action</td>
                                 
                             </tr>

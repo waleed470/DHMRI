@@ -281,6 +281,8 @@
     <Compile Include="Controllers\RiceProductionController.cs" />
     <Compile Include="Controllers\Rice_CategoryController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
+    <Compile Include="Controllers\ShopStockController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -288,6 +290,54 @@
     <Compile Include="Migrations\201801121513001_new db.cs" />
     <Compile Include="Migrations\201801121513001_new db.Designer.cs">
       <DependentUpon>201801121513001_new db.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801140717196_shopstock.cs" />
+    <Compile Include="Migrations\201801140717196_shopstock.Designer.cs">
+      <DependentUpon>201801140717196_shopstock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801172015284_addition in shop stock.cs" />
+    <Compile Include="Migrations\201801172015284_addition in shop stock.Designer.cs">
+      <DependentUpon>201801172015284_addition in shop stock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801181935346_sdasd.cs" />
+    <Compile Include="Migrations\201801181935346_sdasd.Designer.cs">
+      <DependentUpon>201801181935346_sdasd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801181936101_das.cs" />
+    <Compile Include="Migrations\201801181936101_das.Designer.cs">
+      <DependentUpon>201801181936101_das.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801181939034_da.cs" />
+    <Compile Include="Migrations\201801181939034_da.Designer.cs">
+      <DependentUpon>201801181939034_da.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801181944315_sfas.cs" />
+    <Compile Include="Migrations\201801181944315_sfas.Designer.cs">
+      <DependentUpon>201801181944315_sfas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801191104358_priamry.cs" />
+    <Compile Include="Migrations\201801191104358_priamry.Designer.cs">
+      <DependentUpon>201801191104358_priamry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801191105157_user id in shop stock.cs" />
+    <Compile Include="Migrations\201801191105157_user id in shop stock.Designer.cs">
+      <DependentUpon>201801191105157_user id in shop stock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801191221470_delete table.cs" />
+    <Compile Include="Migrations\201801191221470_delete table.Designer.cs">
+      <DependentUpon>201801191221470_delete table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801191223143_add table again.cs" />
+    <Compile Include="Migrations\201801191223143_add table again.Designer.cs">
+      <DependentUpon>201801191223143_add table again.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801191914090_sdasd1.cs" />
+    <Compile Include="Migrations\201801191914090_sdasd1.Designer.cs">
+      <DependentUpon>201801191914090_sdasd1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801200721442_hfg.cs" />
+    <Compile Include="Migrations\201801200721442_hfg.Designer.cs">
+      <DependentUpon>201801200721442_hfg.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -316,6 +366,7 @@
     <Compile Include="Models\Rice_Production_ProductWorth.cs" />
     <Compile Include="Models\Rice_Production_ShortFall.cs" />
     <Compile Include="Models\Shop.cs" />
+    <Compile Include="Models\ShopStock.cs" />
     <Compile Include="Models\Shop_Account.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1063,7 +1114,8 @@
     <Content Include="Views\Reports\TodaySale.cshtml" />
     <Content Include="Views\Reports\RawStock.cshtml" />
     <Content Include="Views\Reports\PartyDetail.cshtml" />
-    <Content Include="SqlScripts\10-1.rar" />
+    <Content Include="Views\ShopStock\Index.cshtml" />
+    <Content Include="SqlScripts\20-1.rar" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1080,6 +1132,42 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201801121513001_new db.resx">
       <DependentUpon>201801121513001_new db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801140717196_shopstock.resx">
+      <DependentUpon>201801140717196_shopstock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801172015284_addition in shop stock.resx">
+      <DependentUpon>201801172015284_addition in shop stock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801181935346_sdasd.resx">
+      <DependentUpon>201801181935346_sdasd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801181936101_das.resx">
+      <DependentUpon>201801181936101_das.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801181939034_da.resx">
+      <DependentUpon>201801181939034_da.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801181944315_sfas.resx">
+      <DependentUpon>201801181944315_sfas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801191104358_priamry.resx">
+      <DependentUpon>201801191104358_priamry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801191105157_user id in shop stock.resx">
+      <DependentUpon>201801191105157_user id in shop stock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801191221470_delete table.resx">
+      <DependentUpon>201801191221470_delete table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801191223143_add table again.resx">
+      <DependentUpon>201801191223143_add table again.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801191914090_sdasd1.resx">
+      <DependentUpon>201801191914090_sdasd1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801200721442_hfg.resx">
+      <DependentUpon>201801200721442_hfg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

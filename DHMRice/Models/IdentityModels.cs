@@ -69,5 +69,6 @@ namespace DHMRice.Models
         public DbSet<Rice_Produce_Bag> Rice_Produce_Bags { get; set; }
         public DbSet<GatePassInwared> GatePassInwareds { get; set; }
         public DbSet<Shop_Account> Shop_Accounts { get; set; }
+        public DbSet<ShopStock> ShopStock { get; set; }
     }
 }
