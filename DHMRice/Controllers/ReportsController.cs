@@ -68,6 +68,15 @@ namespace DHMRice.Controllers
             return View(rawrice);
         }
 
+        public ActionResult DriverExpense()
+        {
+
+            var DriverExpense = TempData["DriverExpense"];
+
+
+
+            return View(DriverExpense);
+        }
         public ActionResult RawPurchase(int ReportType, int Month, int Invoice, int? DateFrom, int? DateTo, int? RawRice_id)
         {
             if(Invoice == 1)
@@ -238,7 +247,33 @@ namespace DHMRice.Controllers
             return View();
 
         }
+        [HttpPost]
+        public ActionResult DriverExpense(int? ReportType, int? Month, int? Invoice, int? DateFrom, int? DateTo)
+        {
+            if (Invoice == 1)
+            {
+                int Date = DateTime.Now.Day;
+                int Months = DateTime.Now.Month;
+                int year = DateTime.Now.Year;
+                var DriverExpense = db.Transaction.Where(r => r.Transaction_DateTime.Day == Date && r.Transaction_DateTime.Month == Months && r.Transaction_DateTime.Year == year && r.Transaction_item_type== "DriverExpense").ToList();
+                TempData["DriverExpense"] = DriverExpense;
+                return RedirectToAction("DriverExpense");
+            }
+            if (Invoice == 2)
+            {
+                int Date = DateTime.Now.Day;
+                int Months = DateTime.Now.Month;
+                int year = DateTime.Now.Year;
+                var DriverExpense = db.Transaction.Where(r => r.Transaction_DateTime.Day == Date && r.Transaction_DateTime.Month == Months && r.Transaction_DateTime.Year == year && r.Transaction_item_type == "DriverExpense" ).ToList();
+                TempData["DriverExpense"] = DriverExpense;
+                return RedirectToAction("DriverExpense");
+            }
+           
+          
 
+            return View();
+
+        }
         public ActionResult RawStock()
         {
 

@@ -118,6 +118,14 @@
                                     <div class="form-group">
                                         <div class="col-xs-12">
 
+                                            <input type="radio" name="Credential" value="Shop" required> Shop Person<br>
+                                            <input type="radio" name="Credential" value="Factory"> Factory Person<br>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+
                                             <p>
 
                                                 Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")

@@ -1,6 +1,6 @@
 /* reset */
 
-*
+/**
 {
 	border: 0;
 	box-sizing: content-box;
@@ -33,7 +33,7 @@ h1 { font: bold 100% sans-serif; letter-spacing: 0.5em; text-align: center; text
 
 /* table */
 
-table { font-size: 75%; table-layout: fixed; width: 100%; }
+table { font-size: 75%;  width: 100%; }
 table { border-collapse: separate; border-spacing: 2px; }
 th, td { border-width: 1px; padding: 0.5em; position: relative; text-align: left; }
 th, td { border-radius: 0.25em; border-style: solid; }
@@ -82,13 +82,13 @@ table.meta td { width: 60%; }
 /* table items */
 
 table.inventory { clear: both; width: 100%; }
-table.inventory th { font-weight: bold; text-align: center; }
+table.inventory th { font-weight: bold; text-align: center; }*/
 
-table.inventory td:nth-child(1) { width: 26%; }
+/*table.inventory td:nth-child(1) { width: 26%; }
 table.inventory td:nth-child(2) { width: 38%; }
 table.inventory td:nth-child(3) { text-align: right; width: 12%; }
 table.inventory td:nth-child(4) { text-align: right; width: 12%; }
-table.inventory td:nth-child(5) { text-align: right; width: 12%; }
+table.inventory td:nth-child(5) { text-align: right; width: 12%; }*/
 
 /* table balance */
 

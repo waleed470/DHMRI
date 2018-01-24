@@ -173,7 +173,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <select id="mySelect" onchange="myFunction()" class="form-control" name="ReportType" data-style="btn-default">
+                                <select id="mySelectdaliy" onchange="myFunction()" class="form-control" name="ReportType" data-style="btn-default">
                                     <option value="">Report Type</option>
                                     <option value="1">Monthly </option>
                                     <option value="2">Weekly</option>
@@ -184,7 +184,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
 
-                                <select id="Month" class="form-control" name="Month" disabled>
+                                <select id="ddMonth" class="form-control" name="Month" disabled>
 
                                     <option value="">Months</option>
                                     <option value="1">January </option>
@@ -206,7 +206,7 @@
                         </div>
                         <div class="col-sm-3 col-lg-2">
                             <div class="form-group">
-                                <select id="Week" class="form-control col-lg-2" name="DateFrom" data-style="btn-default" disabled>
+                                <select id="ddWeek" class="form-control col-lg-2" name="DateFrom" data-style="btn-default" disabled>
                                     <option value="">Date From </option>
                                     @for (int i = 1; i < 32; i++)
                                     {
@@ -219,7 +219,7 @@
                         </div>
                         <div class="col-sm-3 col-lg-2">
                             <div class="form-group">
-                                <select id="Week2" class="form-control col-lg-2" name="DateTo" data-style="btn-default" disabled>
+                                <select id="ddWeek2" class="form-control col-lg-2" name="DateTo" data-style="btn-default" disabled>
                                     <option value="">Date to </option>
                                     @for (int i = 1; i < 32; i++)
                                     {
@@ -322,6 +322,90 @@
             </form>
         </div>
 
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h3 class="m-t-20">Driver Report </h3>
+                <div class="border center-block m-b-20"></div>
+            </div>
+        </div>
+        <div class="row">
+            <form method="post" action="~/Reports/DriverExpense">
+                <div class="col-sm-12">
+
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <select id="driver" onchange="myFunction()" class="form-control" name="ReportType" data-style="btn-default">
+                                    <option value="">Report Type</option>
+                                    <option value="1">Monthly </option>
+                                    <option value="2">Weekly</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+
+                                <select id="dMonth" class="form-control" name="Month" disabled>
+
+                                    <option value="">Months</option>
+                                    <option value="1">January </option>
+                                    <option value="2">Febuary</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May </option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">Octubar</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-2">
+                            <div class="form-group">
+                                <select id="dWeek" class="form-control col-lg-2" name="DateFrom" data-style="btn-default" disabled>
+                                    <option value="">Date From </option>
+                                    @for (int i = 1; i < 32; i++)
+                                    {
+                                        <option value="@i">@i </option>
+
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-2">
+                            <div class="form-group">
+                                <select id="dWeek2" class="form-control col-lg-2" name="DateTo" data-style="btn-default" disabled>
+                                    <option value="">Date to </option>
+                                    @for (int i = 1; i < 32; i++)
+                                    {
+                                        <option value="@i">@i </option>
+
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="col-xs-12 m-b-30 text-center m-t-10">
+                        <a href="~/Reports/DriverExpense"><button type="submit" name="Invoice" value="1" class="btn btn-purple waves-effect waves-light"><i class="mdi mdi-magnify m-r-5"></i>Today expense </button></a>
+                        <a href="~/Reports/DriverExpense"><button type="submit" name="Invoice" value="2" class="btn btn-purple waves-effect waves-light"><i class="mdi mdi-magnify m-r-5"></i>Search  </button></a>
+                       </div>
+
+                </div>
+            </form>
+        </div>
 
 
     </div> <!-- container -->
@@ -333,6 +417,8 @@
 function myFunction() {
     var x = document.getElementById("mySelect").value;
     var x2 = document.getElementById("mySelect2").value;
+    var x3 = document.getElementById("driver").value;
+    var x4 = document.getElementById("mySelectdaliy").value;
     if (x == 1) {
       //  $('#Month').removeClass("hidden");
         document.getElementById("Month").disabled = false;
@@ -360,8 +446,37 @@ function myFunction() {
        
     }
 
+    if (x3 == 1) {
+        //  $('#Month').removeClass("hidden");
+        document.getElementById("dMonth").disabled = false;
+        document.getElementById("dWeek").disabled = true;
+        document.getElementById("dWeek2").disabled = true;
+        //$('#Week').addClass("hidden");
+    }
+    if (x3 == 2) {
+        document.getElementById("dMonth").disabled = true;
+        document.getElementById("dWeek").disabled = false;
+        document.getElementById("dWeek2").disabled = false;
+        // $('#Month').addClass("hidden");
 
-}
+        //  $('#Week').removeClass("hidden");
+    }
+    if (x4 == 1) {
+        //  $('#Month').removeClass("hidden");
+        document.getElementById("ddMonth").disabled = false;
+        document.getElementById("ddWeek").disabled = true;
+        document.getElementById("ddWeek2").disabled = true;
+        //$('#Week').addClass("hidden");
+    }
+    if (x4 == 2) {
+        document.getElementById("ddMonth").disabled = true;
+        document.getElementById("ddWeek").disabled = false;
+        document.getElementById("ddWeek2").disabled = false;
+        // $('#Month').addClass("hidden");
+
+        //  $('#Week').removeClass("hidden");
+    }
+} 
 </script>
 
     <!-- Modal-Effect -->

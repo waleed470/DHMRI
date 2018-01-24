@@ -103,13 +103,17 @@ namespace DHMRice.Controllers
             db.RarRices.Add(rawRice);
             db.SaveChanges();
             var rawrice_id = db.RarRices.Max(m => m.RawRice_id);
-
+            
             foreach (var item in RawRiceExpense)
             {
-                item.RawRice_id = rawrice_id;                
+                if (item.RawRiceExpense_Name!=null)
+                {
+                    item.RawRice_id = rawrice_id;                
                 db.RawRiceExpense.Add(item);
                 db.SaveChanges();
+                }
             }
+
             pricing.PerBagMarketPrice = pricing.PerBagPrice;
             pricing.item_id = rawrice_id;
             pricing.item_Type = "RawRice";
@@ -334,7 +338,8 @@ namespace DHMRice.Controllers
                     }
                 }
             }
-
+            string idd = Convert.ToString(Session["UserId"]);
+            rawRice.Id = idd;
             rawRice.Status = true;
             rawRice.Date = DateTime.Now;
             rawRice.Bags_Sold_qty = 0;
@@ -343,12 +348,20 @@ namespace DHMRice.Controllers
 
             // var rawrice_id = db.RarRices.Max(m => m.RawRice_id);
 
-            foreach (var item in RawRiceExpense)
+            if (RawRiceExpense != null)
             {
-                item.RawRice_id = rawRice.RawRice_id;
-                if (item.RawRiceExpense_id == 0) { db.RawRiceExpense.Add(item); }
-                else { db.Entry(item).State = EntityState.Modified; }     
+                foreach (var item in RawRiceExpense)
+                {
+                    if (item.RawRiceExpense_Name != null)
+                    {
+                        item.RawRice_id = rawRice.RawRice_id;
+                        if (item.RawRiceExpense_id == 0) { db.RawRiceExpense.Add(item); }
+                        else { db.Entry(item).State = EntityState.Modified; }
+
+                    }
+                }
             }
+         
             if (Expense_id_delete != null)
             {
                 foreach (var item in Expense_id_delete)

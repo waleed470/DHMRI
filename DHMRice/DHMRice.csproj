@@ -1003,6 +1003,7 @@
     <Content Include="Reports\DataSet1.xss">
       <DependentUpon>DataSet1.xsd</DependentUpon>
     </Content>
+    <Content Include="Scripts\25-1.rar" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1115,7 +1116,8 @@
     <Content Include="Views\Reports\RawStock.cshtml" />
     <Content Include="Views\Reports\PartyDetail.cshtml" />
     <Content Include="Views\ShopStock\Index.cshtml" />
-    <Content Include="SqlScripts\20-1.rar" />
+    <Content Include="Views\Reports\DriverExpense.cshtml" />
+    <Content Include="SqlScripts\25-1.rar" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

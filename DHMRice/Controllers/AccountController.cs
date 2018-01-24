@@ -166,18 +166,18 @@ namespace DHMRice.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, string RoleName)
+        public async Task<ActionResult> Register(RegisterViewModel model, string RoleName, string Credential)
         {
             if (ModelState.IsValid)
             {
-                //if (Credential == "Shop")
-                //{
-                //    model.ShopCrendital = true;
-                //}
-                //if (Credential == "Factory")
-                //{
-                //    model.FactroryCrendital = true;
-                //}
+                if (Credential == "Shop")
+                {
+                    model.ShopCrendital = true;
+                }
+                if (Credential == "Factory")
+                {
+                    model.FactroryCrendital = true;
+                }
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, MobileNo=model.MobileNo, User_Cnic=model.User_Cnic,ShopCrendital=model.ShopCrendital, FactroryCrendital=model.FactroryCrendital, Status=true, User_Adress=model.User_Adress };
                 
                 var result = await UserManager.CreateAsync(user, model.Password);

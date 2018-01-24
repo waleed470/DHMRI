@@ -4,6 +4,8 @@
     ViewBag.Title = "AllRice";
     Layout = null;
     ApplicationDbContext db = new ApplicationDbContext();
+    decimal total = 0;
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +30,7 @@
     </head>
     <body>
         <header>
-            <h1>Invoice</h1>
+            <h1>Driver Expense Report</h1>
             <address contenteditable>
                 <p>55-Circular Road</p>
                 <p>Akbari Mandi Lahore</p>
@@ -38,8 +40,8 @@
         </header>
         <article>
             <h1>Recipient</h1>
-            <address contenteditable>
-
+            <address >
+                
             </address>
             <div class="col-lg-4">
 
@@ -47,18 +49,12 @@
             <div class="col-lg-4"></div>
             <div class="col-lg-4">
                 <table class="meta">
-                    <tr>
-                        <th><span contenteditable>Invoice #</span></th>
-                        <td><span contenteditable>101138</span></td>
-                    </tr>
+                    
                     <tr>
                         <th><span contenteditable>Date</span></th>
                         <td><span contenteditable>@DateTime.Now</span></td>
                     </tr>
-                    <tr>
-                        <th><span>Amount Due</span></th>
-                        <td>9</td>
-                    </tr>
+                    
                 </table>
             </div>
 
@@ -67,12 +63,12 @@
                     <tr>
                         <th><span contenteditable>Sr#</span></th>
                         <th><span contenteditable>Item Type</span></th>
-                        <th><span contenteditable>Item Description</span></th>
+                        <th><span contenteditable>Description Description</span></th>
                         <th><span contenteditable>Amount</span></th>
-                        <th><span contenteditable>Amount Type</span></th>
-                      
-                        
-                      
+                        <th><span contenteditable>Date </span></th>
+
+
+
                     </tr>
                 </thead>
                 <tbody>
@@ -93,18 +89,12 @@
                             <td>@sr</td>
                             <td>@item.Transaction_item_type</td>
                             <td>@item.Transaction_Description</td>
-                            <td>Rs @item.Credit</td>
-                            @if (item.isByCash == true)
-                            {
-                                <td>By Cash</td>
-                            }
-                            else
-                            {
-                                <td>By Check</td>
-                            }
+                            <td>Rs @item.Debit</td>
+                            <td> @item.Transaction_DateTime.ToShortDateString()</td>
+                          
 
-                          
-                          
+
+                           @{ total += item.Debit;}
                         </tr>
                     }
 
@@ -114,16 +104,9 @@
             <table class="balance">
                 <tr>
                     <th><span contenteditable>Total</span></th>
-                    <td></td>
+                    <td>@total</td>
                 </tr>
-                <tr>
-                    <th><span contenteditable>Amount Paid</span></th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th><span contenteditable>Balance Due</span></th>
-                    <td></td>
-                </tr>
+               
             </table>
         </article>
         <aside>
