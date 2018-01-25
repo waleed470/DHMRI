@@ -12,10 +12,10 @@ namespace DHMRice.Models
         public int srsp_id { get; set; }
         public string srsp_Title { get; set; }
         public DateTime srsp_date { get; set; }
-        public int Party_Id { get; set; }
+        public int Customer_Id { get; set; }
         public string Id { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual Party Party { get; set; }
+        public virtual Customer Customer { get; set; }
         public int Shop_Id { get; set; }
         public virtual Shop Shop{ get; set; }
         public decimal srsp_TotalWeight_KG { get; set; }

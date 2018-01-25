@@ -350,6 +350,18 @@
     <Compile Include="Migrations\201801242158352_mig_ab1.Designer.cs">
       <DependentUpon>201801242158352_mig_ab1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801251802213_Mig.cs" />
+    <Compile Include="Migrations\201801251802213_Mig.Designer.cs">
+      <DependentUpon>201801251802213_Mig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801251815508_Mig1.cs" />
+    <Compile Include="Migrations\201801251815508_Mig1.Designer.cs">
+      <DependentUpon>201801251815508_Mig1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801251817188_Mig_12.cs" />
+    <Compile Include="Migrations\201801251817188_Mig_12.Designer.cs">
+      <DependentUpon>201801251817188_Mig_12.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Broker.cs" />
@@ -1200,6 +1212,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801242158352_mig_ab1.resx">
       <DependentUpon>201801242158352_mig_ab1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801251802213_Mig.resx">
+      <DependentUpon>201801251802213_Mig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801251815508_Mig1.resx">
+      <DependentUpon>201801251815508_Mig1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801251817188_Mig_12.resx">
+      <DependentUpon>201801251817188_Mig_12.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

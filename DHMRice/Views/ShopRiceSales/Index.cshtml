@@ -27,7 +27,8 @@
         App.controller("ShopRiceSalesCtrl", function ($scope, $http) {
             $scope.Grid = [];
             $scope.RemainingList = [];
-            $scope.ShopRiceSales_pt = {Party_Id:0};
+            $scope.ShopRiceSales_pt = { Customer_Id: 0 };
+            $scope.ShopRiceSales_pt.Customer = { Customer_Id: 0, Customer_Name: '', Customer_Code: '', Customer_MobileNo: '', Customer_Address :''};
             $scope.ShopRiceSales_pt.srsp_id = 0;
             $scope.ShopRiceSales_pt.srsp_Title = "";
             $scope.ShopRiceSales_pt.srsp_TotalWeight_Mann = 0;
@@ -94,32 +95,32 @@
                     }
                 });
             }
-            $scope.PartyList = [];
-            $scope.Get_party_Via_Code = function () {
-                if ($scope.ShopRiceSales_pt.Party.Party_Id > 0) {
-                    $scope.ShopRiceSales_pt.Party.Party_Id = 0;
-                    $scope.ShopRiceSales_pt.Party.Party_MobileNo = '';
+            $scope.CustomerList = [];
+            $scope.Get_Customer_Via_Code = function () {
+                if ($scope.ShopRiceSales_pt.Customer.Customer_Id > 0) {
+                    $scope.ShopRiceSales_pt.Customer.Customer_Id = 0;
+                    $scope.ShopRiceSales_pt.Customer.Customer_MobileNo = '';
                 }
                 var parm = {
-                    'Code': JSON.stringify($scope.ShopRiceSales_pt.Party.Party_Code)
+                    'Code': JSON.stringify($scope.ShopRiceSales_pt.Customer.Customer_Code)
                 };
-                JsonCallParam("ShopRiceSales", "Get_party_Via_Code",parm);
+                JsonCallParam("ShopRiceSales", "Get_Customer_Via_Code",parm);
                 if (list != null) {
-                    $scope.ShopRiceSales_pt.Party = list;
+                    $scope.ShopRiceSales_pt.Customer = list;
                 }
             };
-            $scope.Get_party_Via_Mobile = function () {
+            $scope.Get_Customer_Via_Mobile = function () {
                 
-                if ($scope.ShopRiceSales_pt.Party.Party_Id > 0) {
-                    $scope.ShopRiceSales_pt.Party.Party_Id = 0;
-                    $scope.ShopRiceSales_pt.Party.Party_Code = '';
+                if ($scope.ShopRiceSales_pt.Customer.Customer_Id > 0) {
+                    $scope.ShopRiceSales_pt.Customer.Customer_Id = 0;
+                    $scope.ShopRiceSales_pt.Customer.Customer_Code = '';
                 }
                 var parm = {
-                    'Mobile': JSON.stringify($scope.ShopRiceSales_pt.Party.Party_MobileNo)
+                    'Mobile': JSON.stringify($scope.ShopRiceSales_pt.Customer.Customer_MobileNo)
                 };
-                JsonCallParam("ShopRiceSales", "Get_party_Via_Mobile", parm);
+                JsonCallParam("ShopRiceSales", "Get_Customer_Via_Mobile", parm);
                 if (list != null) {
-                    $scope.ShopRiceSales_pt.Party = list;
+                    $scope.ShopRiceSales_pt.Customer = list;
                 } 
             };
             $scope.ShopRice_List=[];
@@ -284,15 +285,17 @@
                 $scope.isBankAccount = "false";
                 $scope.isCheckbook = "true";
             };
-            $scope.ClearParty = function () {
+            $scope.ClearCustomer = function () {
 
-                $scope.ShopRiceSales_pt = { Party_Id: 0 };
+                $scope.ShopRiceSales_pt = { Customer_Id: 0 };
+                $scope.ShopRiceSales_pt.Customer = { Customer_Id: 0, Customer_Name: '', Customer_Code: '', Customer_MobileNo: '', Customer_Address: '' };
             };
             $scope.Clear = function () {
                 $scope.Deleted_ShopRiceSales_ch = [];
                 $scope.RemainingList = [];
                 $scope.ShopRiceSales_ch = [];
-                $scope.ShopRiceSales_pt = { Party_Id: 0 };
+                $scope.ShopRiceSales_pt = { Customer_Id: 0 };
+                $scope.ShopRiceSales_pt.Customer = { Customer_Id: 0, Customer_Name: '', Customer_Code: '', Customer_MobileNo: '', Customer_Address: '' };
                 $scope.NetTotal = 0;
                 $scope.RemainingAmount = 0;
                 $scope.RecievedAmount = 0;
@@ -300,7 +303,7 @@
                 $scope.isCash = "true";
                 $scope.isBankAccount = "false";
                 $scope.isCheckbook = "false";
-                //$scope.ShopRiceSales_pt.Party_Id = null;
+                //$scope.ShopRiceSales_pt.Customer_Id = null;
                 $scope.ShopRiceSales_pt.srsp_id = 0;
                 $scope.Calculation();
             };
@@ -310,25 +313,25 @@
             };
             $scope.LoadGrid();
 
-            $scope.GetPartyRemainings = function () {
+            $scope.GetCustomerRemainings = function () {
                 if ($scope.ShopRiceSales_pt.srsp_id == 0) {
-                    JsonCallParam("ShopRiceSales", "GetPartyRemainings", { "Party_Id": $scope.ShopRiceSales_pt.Party_Id });
+                    JsonCallParam("ShopRiceSales", "GetCustomerRemainings", { "Customer_Id": $scope.ShopRiceSales_pt.Customer_Id });
                     $scope.RemainingList = list;
                 } else {
-                    JsonCallParam("ShopRiceSales", "GetPartyRemainings1", { "Party_Id": $scope.ShopRiceSales_pt.Party_Id, "srsp_id": $scope.ShopRiceSales_pt.srsp_id });
+                    JsonCallParam("ShopRiceSales", "GetCustomerRemainings1", { "Customer_Id": $scope.ShopRiceSales_pt.Customer_Id, "srsp_id": $scope.ShopRiceSales_pt.srsp_id });
                     $scope.RemainingList = list;
                 }
             };
             $scope.LoadShopRice_pt = function (obj) {
                 $scope.ShopRiceSales_pt.srsp_id = obj.Item1.srsp_id;
                 $scope.ShopRiceSales_pt.srsp_Title = obj.Item1.srsp_Title;
-                $scope.ShopRiceSales_pt.Party_Id = obj.Item1.Party_Id;
-                $scope.GetPartyRemainings();
+                $scope.ShopRiceSales_pt.Customer_Id = obj.Item1.Customer_Id;
+                $scope.GetCustomerRemainings();
                 $scope.ShopRiceSales_pt.srsp_TotalWeight_KG = obj.Item1.srsp_TotalWeight_KG;
                 $scope.ShopRiceSales_pt.srsp_TotalWeight_Mann = obj.Item1.srsp_TotalWeight_Mann;
                 $scope.ShopRiceSales_pt.srsp_Total_Amount = obj.Item1.srsp_Total_Amount;
-                JsonCallParam("ShopRiceSales", "Get_Party", { "srsp_id": obj.Item1.srsp_id });
-                $scope.ShopRiceSales_pt.Party = list;
+                JsonCallParam("ShopRiceSales", "Get_Customer", { "srsp_id": obj.Item1.srsp_id });
+                $scope.ShopRiceSales_pt.Customer = list;
                 JsonCallParam("ShopRiceSales", "Get_ch", { "id": obj.Item1.srsp_id });
                 var i = 0;
                 angular.forEach(list, function (obj) {
@@ -377,14 +380,17 @@
                 });
             }
             $scope.Save = function () {
-                $scope.ShopRiceSales_pt.Party.ApplicationUser = null;
+                $scope.ShopRiceSales_pt.Customer.ApplicationUser = null;
                 var remaining_srsp_id = [];
                 angular.forEach($scope.RemainingList, function (obj) {
                     if (obj.selected) {
                         remaining_srsp_id.push(obj.Item1.srsp_id);
                     }
                 });
-               
+                var Customer = {};
+                angular.extend(Customer, $scope.ShopRiceSales_pt.Customer);
+                $scope.ShopRiceSales_pt.Customer = Customer;
+
                 if ($scope.ShopRiceSales_pt.srsp_id == 0) {
                     var pram = {
                         'ShopRiceSales_pt': JSON.stringify($scope.ShopRiceSales_pt),
@@ -397,7 +403,7 @@
                         'ShopRiceSales_ch': JSON.stringify($scope.ShopRiceSales_ch),
                         'remaining_srsp_id': JSON.stringify(remaining_srsp_id)
                     };
-                    
+                    //console.log(pram);
                     JsonCallParam("ShopRiceSales", "Insert_sales", pram);
                     
                 }
@@ -424,7 +430,7 @@
                         'remaining_srsp_id': JSON.stringify(remaining_srsp_id),
                         'Deleted_ShopRiceSales_ch': JSON.stringify(Deleted_ShopRiceSales_ch)
                     };
-                    console.log(pram);
+                   // console.log(pram);
                     JsonCallParam("ShopRiceSales", "Update_sales", pram);
                 }
 
@@ -464,32 +470,32 @@
                          <div class="form-group">
                             <div class="col-sm-12">
                                 <div class="col-sm-4">
-                                    <label class="control-label col-md-4">Party Name</label>
+                                    <label class="control-label col-md-4">Customer Name</label>
                                     <div class="col-md-8">
-                                        <input type="text" class="form-control" name="Party_Name" ng-model="ShopRiceSales_pt.Party.Party_Name" ng-disabled="ShopRiceSales_pt.Party.Party_Id>0"  placeholder="ex: Hussnain" pattern="^[A-Za-z ]{2,15}$" required  />
-                                        <span style="color:red" ng-show="form.Party_Name.$invalid &&form.Party_Name.$dirty">
-                                            <span ng-show="form.Party_Name.$error.required">Enter Party Name</span>
-                                            <span ng-show="form.Party_Name.$error.pattern">Invalid Party Name only Alphabetic Name will acceptable and length should be 2 to 15</span>
+                                        <input type="text" class="form-control" name="Customer_Name" ng-model="ShopRiceSales_pt.Customer.Customer_Name" ng-disabled="ShopRiceSales_pt.Customer.Customer_Id>0"  placeholder="ex: Hussnain" pattern="^[A-Za-z ]{2,15}$" required  />
+                                        <span style="color:red" ng-show="form.Customer_Name.$invalid &&form.Customer_Name.$dirty">
+                                            <span ng-show="form.Customer_Name.$error.required">Enter Customer Name</span>
+                                            <span ng-show="form.Customer_Name.$error.pattern">Invalid Customer Name only Alphabetic Name will acceptable and length should be 2 to 15</span>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label class="control-label col-md-4">Party Code</label>
+                                    <label class="control-label col-md-4">Customer Code</label>
                                     <div class="col-md-8">
-                                        <input type="text" class="form-control" name="PartyCode" ng-model="ShopRiceSales_pt.Party.Party_Code"  ng-change="Get_party_Via_Code()" placeholder="ex: 46A13" pattern="^[A-Za-z0-9,_-]{2,8}$" required />
-                                        <span style="color:red" ng-show="form.PartyCode.$invalid &&form.PartyCode.$dirty">
-                                            <span ng-show="form.PartyCode.$error.required">Enter Party Code</span>
-                                            <span ng-show="form.PartyCode.$error.pattern">Invalid Party Code only Alpha Numeric Code will acceptable and length should be 2 to 8</span>
+                                        <input type="text" class="form-control" name="CustomerCode" ng-model="ShopRiceSales_pt.Customer.Customer_Code"  ng-change="Get_Customer_Via_Code()" placeholder="ex: 46A13" pattern="^[A-Za-z0-9,_-]{2,8}$" required />
+                                        <span style="color:red" ng-show="form.CustomerCode.$invalid &&form.CustomerCode.$dirty">
+                                            <span ng-show="form.CustomerCode.$error.required">Enter Customer Code</span>
+                                            <span ng-show="form.CustomerCode.$error.pattern">Invalid Customer Code only Alpha Numeric Code will acceptable and length should be 2 to 8</span>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label class="control-label col-md-4">Party Mobile no</label>
+                                    <label class="control-label col-md-4">Customer Mobile no</label>
                                     <div class="col-md-8">
-                                        <input type="text" class="form-control" name="Party_MobileNo" ng-model="ShopRiceSales_pt.Party.Party_MobileNo"  ng-change="Get_party_Via_Mobile()" placeholder="ex: 0323-xxxxxxx" pattern="^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$" required />
-                                        <span style="color:red" ng-show="form.Party_MobileNo.$invalid &&form.Party_MobileNo.$dirty">
-                                            <span ng-show="form.Party_MobileNo.$error.required">Enter Party Mobile no</span>
-                                            <span ng-show="form.Party_MobileNo.$error.pattern">Invalid Format Mobile Number ex: 0323-xxxxxxx or 0323xxxxxxx </span>
+                                        <input type="text" class="form-control" name="Customer_MobileNo" ng-model="ShopRiceSales_pt.Customer.Customer_MobileNo"  ng-change="Get_Customer_Via_Mobile()" placeholder="ex: 0323-xxxxxxx" pattern="^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$" required />
+                                        <span style="color:red" ng-show="form.Customer_MobileNo.$invalid &&form.Customer_MobileNo.$dirty">
+                                            <span ng-show="form.Customer_MobileNo.$error.required">Enter Customer Mobile no</span>
+                                            <span ng-show="form.Customer_MobileNo.$error.pattern">Invalid Format Mobile Number ex: 0323-xxxxxxx or 0323xxxxxxx </span>
                                         </span>
                                      </div>
                                 </div>
@@ -497,25 +503,25 @@
                          </div>
                         <br />
                         <div class="form-group">
-                                    <label class="control-label col-md-1">Party Address</label>
+                                    <label class="control-label col-md-1">Customer Address</label>
                                     <div class="col-md-8" style="margin-left:3%">
-                                        <input type="text" class="form-control" name="Address" ng-model="ShopRiceSales_pt.Party.Party_Address"  ng-disabled="ShopRiceSales_pt.Party.Party_Id>0"   placeholder="Address" required />
+                                        <input type="text" class="form-control" name="Address" ng-model="ShopRiceSales_pt.Customer.Customer_Address"  ng-disabled="ShopRiceSales_pt.Customer.Customer_Id>0"   placeholder="Address" required />
                                         <span style="color:red" ng-show="form.Address.$invalid &&form.Address.$dirty">
-                                            <span ng-show="form.Address.$error.required">Enter Party Address</span>
+                                            <span ng-show="form.Address.$error.required">Enter Customer Address</span>
                                         </span>
                                     </div>    
                                     <div class="col-md-2">
 
-                                        <input type="button" value="Clear Party" class="btn btn-lg btn-warning" style="width:100%" ng-click="ClearParty()" />
+                                        <input type="button" value="Clear Customer" class="btn btn-lg btn-warning" style="width:100%" ng-click="ClearCustomer()" />
                                     </div>                            
                            
                         </div>
                       <div class="form-group">
                           <div class="col-sm-4"></div>
                           <div class="col-sm-4">
-                              <label class="control-label text-center"  ng-show="ShopRiceSales_pt.Party.Party_Id>0" style="color:forestgreen">*Party {{ShopRiceSales_pt.Party.Party_Name}} found in record.</label>
+                              <label class="control-label text-center"  ng-show="ShopRiceSales_pt.Customer.Customer_Id>0" style="color:forestgreen">*Customer {{ShopRiceSales_pt.Customer.Customer_Name}} found in record.</label>
 
-                              <label class="control-label text-center" ng-show="(ShopRiceSales_pt.Party==null || ShopRiceSales_pt.Party.Party_Id==0) && (form.PartyCode.$dirty || form.Party_MobileNo.$dirty)" style="color:orangered">*Party not Found in Record. Enter New Party Information</label>
+                              <label class="control-label text-center" ng-show="(ShopRiceSales_pt.Customer==null || ShopRiceSales_pt.Customer.Customer_Id==0) && (form.CustomerCode.$dirty || form.Customer_MobileNo.$dirty)" style="color:orangered">*Customer not Found in Record. Enter New Customer Information</label>
                           </div>
                           <div class="col-sm-4"></div>
                       </div>
@@ -557,7 +563,7 @@
                                     <thead>
                                         <tr>
                                             <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
-                                            <th>ShopRice</th>
+                                            <th>Shop Rice</th>
                                             <th>Stock QTY</th>
                                             <th>Per Bag Price</th>
                                             <th>Qty</th>
@@ -718,9 +724,9 @@
                                 <div class="col-sm-6">
                                     <input type="submit" name="Save" id="Save" value="Save" class="btn btn-lg btn-success"  ng-click="Save()" 
                                            ng-disabled="form.RecievedAmount.$invalid||
-                                           form.Party_Name.$invalid||
-                                           form.PartyCode.$invalid||
-                                           form.Party_MobileNo.$invalid||
+                                           form.Customer_Name.$invalid||
+                                           form.CustomerCode.$invalid||
+                                           form.Customer_MobileNo.$invalid||
                                            form.Address.$invalid||
                                            !ShopRiceSales_ch.length||
                                            NetTotal==0
@@ -747,7 +753,7 @@
                             <tr>
                                 <th>Title</th>
                                 <th>Date</th>
-                                <th>Party</th>
+                                <th>Customer</th>
                                 <th>Total Weight (KG)</th>
                                 <th>Total Weight (Mann)</th>
                                 <th>Total Amount</th>
@@ -760,7 +766,7 @@
                             <tr ng-repeat="item in Grid">
                                 <td>{{item.Item1.srsp_Title}}</td>
                                 <td>{{item.Item2}}</td>
-                                <td>{{item.Item1.Party.Party_Name}}</td>
+                                <td>{{item.Item1.Customer.Customer_Name}}</td>
                                 <td>{{item.Item1.srsp_TotalWeight_KG}}</td>
                                 <td>{{item.Item1.srsp_TotalWeight_Mann}}</td>
                                 <td>{{item.Item1.srsp_Total_Amount}}</td>

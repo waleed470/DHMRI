@@ -20,7 +20,7 @@ namespace DHMRice.Controllers
         [HttpPost]
         public JsonResult Get_pt()
         {
-            List<Tuple<ShopRiceSales_pt, string, decimal, decimal,decimal, int>> obj = new List<Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int>>();
+            List<Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int>> obj = new List<Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int>>();
             var list = db.ShopRiceSales_pt.Where(m => m.srsp_status).ToList();
             foreach (var item in list)
             {
@@ -48,9 +48,9 @@ namespace DHMRice.Controllers
             return Json(obj, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult GetPartyRemainings(int Party_Id)
+        public JsonResult GetCustomerRemainings(int Customer_Id)
         {
-            var mShopSales = db.ShopRiceSales_pt.Where(m => m.Party_Id == Party_Id && m.srsp_status).ToList();
+            var mShopSales = db.ShopRiceSales_pt.Where(m => m.Customer_Id == Customer_Id && m.srsp_status).ToList();
             var Transaction_Shops = new List<Transaction_Shop>();
             List<Tuple<ShopRiceSales_pt, decimal, decimal>> jsonret = new List<Tuple<ShopRiceSales_pt, decimal, decimal>>();
             foreach (var item in mShopSales)
@@ -68,10 +68,10 @@ namespace DHMRice.Controllers
             return Json(jsonret.ToList(), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult GetPartyRemainings1(int Party_Id, int srsp_id)
-        {            
+        public JsonResult GetCustomerRemainings1(int Customer_Id, int srsp_id)
+        {
 
-            var mShopSales = db.ShopRiceSales_pt.Where(m => m.Party_Id == Party_Id && m.srsp_status && m.srsp_id != srsp_id).ToList();
+            var mShopSales = db.ShopRiceSales_pt.Where(m => m.Customer_Id == Customer_Id && m.srsp_status && m.srsp_id != srsp_id).ToList();
             var Transaction_Shops = new List<Transaction_Shop>();
             List<Tuple<ShopRiceSales_pt, decimal, decimal>> jsonret = new List<Tuple<ShopRiceSales_pt, decimal, decimal>>();
             foreach (var item in mShopSales)
@@ -92,20 +92,20 @@ namespace DHMRice.Controllers
         public JsonResult Get_ch(int id)
         {
             var obj = db.ShopRiceSales_ch.Where(m => m.srsc_status && m.srsp_id == id).ToList();
-          
+
             return Json(obj, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult Get_Party(int srsp_id)
+        public JsonResult Get_Customer(int srsp_id)
         {
-            var obj = db.ShopRiceSales_pt.Find(srsp_id).Party;                       
+            var obj = db.ShopRiceSales_pt.Find(srsp_id).Customer;
             return Json(obj, JsonRequestBehavior.AllowGet);
-           
+
 
         }
         [HttpPost]
-        public JsonResult Get_party_Via_Code(FormCollection form)
+        public JsonResult Get_Customer_Via_Code(FormCollection form)
         {
             try
             {
@@ -113,9 +113,9 @@ namespace DHMRice.Controllers
                 string Code = JsonConvert.DeserializeObject<string>(form["Code"]);
                 if (Code != null)
                 {
-                    var obj = db.Parties.Where(m => (m.Status) && ( m.Party_Code == Code)).SingleOrDefault();
+                    var obj = db.Customers.Where(m => (m.Status) && (m.Customer_Code == Code)).SingleOrDefault();
                     return Json(obj, JsonRequestBehavior.AllowGet);
-                }                
+                }
             }
             catch (Exception ex)
             {
@@ -124,7 +124,7 @@ namespace DHMRice.Controllers
 
         }
         [HttpPost]
-        public JsonResult Get_party_Via_Mobile(FormCollection form)
+        public JsonResult Get_Customer_Via_Mobile(FormCollection form)
         {
             try
             {
@@ -132,7 +132,7 @@ namespace DHMRice.Controllers
                 string Mobile = JsonConvert.DeserializeObject<string>(form["Mobile"]);
                 if (Mobile != null)
                 {
-                    var obj = db.Parties.Where(m => (m.Status) && (m.Party_MobileNo == Mobile)).SingleOrDefault();
+                    var obj = db.Customers.Where(m => (m.Status) && (m.Customer_MobileNo == Mobile)).SingleOrDefault();
                     return Json(obj, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -145,7 +145,7 @@ namespace DHMRice.Controllers
         [HttpPost]
         public JsonResult Get_ShopRice()
         {
-            var production_rice = db.ShopStock.Where(m=>m.Status).ToList();          
+            var production_rice = db.ShopStock.Where(m => m.Status).ToList();
             return Json(production_rice, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -153,7 +153,7 @@ namespace DHMRice.Controllers
         {
             try
             {
-                var mShopStock = db.ShopStock.Where(m => m.ShopStockId==id && m.Shop_Id==2).First();
+                var mShopStock = db.ShopStock.Where(m => m.ShopStockId == id && m.Shop_Id == 2).First();
                 decimal srsc_ttl_qty = mShopStock.Qty;
                 int srsc_sld_qty = mShopStock.SoldQty;
                 int srsc_packing_type = mShopStock.packing_type;
@@ -174,14 +174,14 @@ namespace DHMRice.Controllers
 
                 return Json(tpl, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
-            
+
         }
-        
+
         [HttpPost]
         public void Insert_sales(FormCollection form)
         {
@@ -220,7 +220,7 @@ namespace DHMRice.Controllers
                         }
                     }
                     trans.Transaction_Shop_DateTime = DateTime.Now;
-                    trans.Transaction_Shop_Description = "Received Remaining from " + db.Parties.Find(mShopRiceSales_pt.Party_Id).Party_Name;
+                    trans.Transaction_Shop_Description = "Received Remaining from " + db.Customers.Find(mShopRiceSales_pt.Customer_Id).Customer_Name;
                     trans.Transaction_Shop_item_id = remaining_rsp_id[i];
                     trans.Transaction_Shop_item_type = "Shop Rice Sales Remaining";
                     trans.Debit = 0;
@@ -238,21 +238,22 @@ namespace DHMRice.Controllers
             }
 
             ShopRiceSales_pt ShopRiceSales_pt = js.Deserialize<ShopRiceSales_pt>(form["ShopRiceSales_pt"]);
-            if (ShopRiceSales_pt.Party.Party_Id > 0)
+            if (ShopRiceSales_pt.Customer.Customer_Id > 0)
             {
-                ShopRiceSales_pt.Party_Id = ShopRiceSales_pt.Party.Party_Id;
-                ShopRiceSales_pt.Party = null;
+                ShopRiceSales_pt.Customer_Id = ShopRiceSales_pt.Customer.Customer_Id;
+                ShopRiceSales_pt.Customer = null;
             }
             else
             {
-                ShopRiceSales_pt.Party.Id = "b593627d-415f-4ed0-a80a-343e46831175";
-                db.Parties.Add(ShopRiceSales_pt.Party);
+                ShopRiceSales_pt.Customer.Id = "b593627d-415f-4ed0-a80a-343e46831175";
+                ShopRiceSales_pt.Customer.Status = true;
+                db.Customers.Add(ShopRiceSales_pt.Customer);
                 db.SaveChanges();
 
-                ShopRiceSales_pt.Party_Id =db.Parties.Max(m=>m.Party_Id);
-                ShopRiceSales_pt.Party = null;
+                ShopRiceSales_pt.Customer_Id = db.Customers.Max(m => m.Customer_Id);
+                ShopRiceSales_pt.Customer = null;
             }
-            ShopRiceSales_pt.srsp_Title = ShopRiceSales_pt.srsp_Title + " to Party " + db.Parties.Find(ShopRiceSales_pt.Party_Id).Party_Name;
+            ShopRiceSales_pt.srsp_Title = ShopRiceSales_pt.srsp_Title + " to Customer " + db.Customers.Find(ShopRiceSales_pt.Customer_Id).Customer_Name;
             ShopRiceSales_pt.srsp_status = true;
             ShopRiceSales_pt.srsp_date = DateTime.Now;
             ShopRiceSales_pt.Shop_Id = 2;
@@ -270,10 +271,10 @@ namespace DHMRice.Controllers
                 var mstock = db.ShopStock.Find(item.ShopStockId);
                 mstock.SoldQty += item.srsc_qty;
                 db.Entry(mstock).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();            
-                    
-                
-               
+                db.SaveChanges();
+
+
+
             }
             Transaction_Shop trans_this = new Transaction_Shop();
             if (form["isBankAccount"] == "true")
@@ -349,7 +350,7 @@ namespace DHMRice.Controllers
                         }
                     }
                     trans.Transaction_Shop_DateTime = DateTime.Now;
-                    trans.Transaction_Shop_Description = "Received Remaining from " + db.Parties.Find(ShopRiceSales_pt1.Party_Id).Party_Name;
+                    trans.Transaction_Shop_Description = "Received Remaining from " + db.Customers.Find(ShopRiceSales_pt1.Customer_Id).Customer_Name;
                     trans.Transaction_Shop_item_id = remaining_srsp_id[i];
                     trans.Transaction_Shop_item_type = "Shop Rice Sales Remaining";
                     trans.Debit = 0;
@@ -368,25 +369,26 @@ namespace DHMRice.Controllers
 
             ShopRiceSales_pt ShopRiceSales_pt_view = js.Deserialize<ShopRiceSales_pt>(form["ShopRiceSales_pt"]);
             var ShopRiceSales_pt = db.ShopRiceSales_pt.Find(ShopRiceSales_pt_view.srsp_id);
-            if (ShopRiceSales_pt_view.Party.Party_Id > 0)
+            if (ShopRiceSales_pt_view.Customer.Customer_Id > 0)
             {
-                ShopRiceSales_pt.Party_Id = ShopRiceSales_pt_view.Party.Party_Id;
-                ShopRiceSales_pt.Party = null;
+                ShopRiceSales_pt.Customer_Id = ShopRiceSales_pt_view.Customer.Customer_Id;
+                ShopRiceSales_pt.Customer = null;
             }
             else
             {
-                ShopRiceSales_pt_view.Party.Id = "b593627d-415f-4ed0-a80a-343e46831175";
-                db.Parties.Add(ShopRiceSales_pt_view.Party);
+                ShopRiceSales_pt_view.Customer.Id = "b593627d-415f-4ed0-a80a-343e46831175";
+                ShopRiceSales_pt.Customer.Status = true;
+                db.Customers.Add(ShopRiceSales_pt_view.Customer);
                 db.SaveChanges();
 
-                ShopRiceSales_pt.Party_Id = db.Parties.Max(m => m.Party_Id);
-                ShopRiceSales_pt.Party = null;
+                ShopRiceSales_pt.Customer_Id = db.Customers.Max(m => m.Customer_Id);
+                ShopRiceSales_pt.Customer = null;
             }
-            //ShopRiceSales_pt.Party_Id = ShopRiceSales_pt_view.Party_Id;
+            //ShopRiceSales_pt.Customer_Id = ShopRiceSales_pt_view.Customer_Id;
             ShopRiceSales_pt.srsp_TotalWeight_KG = ShopRiceSales_pt_view.srsp_TotalWeight_KG;
             ShopRiceSales_pt.srsp_TotalWeight_Mann = ShopRiceSales_pt_view.srsp_TotalWeight_Mann;
             ShopRiceSales_pt.srsp_Total_Amount = ShopRiceSales_pt_view.srsp_Total_Amount;
-            ShopRiceSales_pt.srsp_Title = ShopRiceSales_pt_view.srsp_Title + " to Party " + db.Parties.Find(ShopRiceSales_pt_view.Party_Id).Party_Name;
+            ShopRiceSales_pt.srsp_Title = ShopRiceSales_pt_view.srsp_Title + " to Customer " + db.Customers.Find(ShopRiceSales_pt_view.Customer_Id).Customer_Name;
             ShopRiceSales_pt.srsp_status = true;
             ShopRiceSales_pt.srsp_date = DateTime.Now;
             ShopRiceSales_pt.Shop_Id = 2;
@@ -426,7 +428,7 @@ namespace DHMRice.Controllers
                 }
                 else
                 {
-                    
+
                     int srsc_qty = 0;
                     using (var newdb = new ApplicationDbContext())
                     {
@@ -448,7 +450,7 @@ namespace DHMRice.Controllers
 
 
 
-                   
+
                 }
             }
 
@@ -496,7 +498,7 @@ namespace DHMRice.Controllers
                 }
             }
             trans_this.Transaction_Shop_DateTime = DateTime.Now;
-            trans_this.Transaction_Shop_Description =  ShopRiceSales_pt.srsp_Title;
+            trans_this.Transaction_Shop_Description = ShopRiceSales_pt.srsp_Title;
             trans_this.Transaction_Shop_item_id = srsp_id;
             trans_this.Transaction_Shop_item_type = "Shop Rice Sales";
             trans_this.Debit = 0;
@@ -505,9 +507,9 @@ namespace DHMRice.Controllers
             db.Transaction_Shop.Add(trans_this);
             db.SaveChanges();
         }
-           
-        
-        
+
+
+
         [HttpPost]
         public void Delete_sales(int id)
         {
@@ -526,7 +528,7 @@ namespace DHMRice.Controllers
                     srsc.srsc_status = false;
                     db.Entry(srsc).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
-                    
+
                 }
                 ShopRiceSales_pt.srsp_status = false;
                 db.Entry(ShopRiceSales_pt).State = System.Data.Entity.EntityState.Modified;
@@ -543,8 +545,8 @@ namespace DHMRice.Controllers
         public void ReceivedRemaining(FormCollection form)
         {
             var ShopRiceSales_pt = db.ShopRiceSales_pt.Find(Convert.ToInt32(form["id"]));
-           // var rec = db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == ShopRiceSales_pt.srsp_id && m.Transaction_Shop_item_type == "Shop Rice Sales").Sum(m => m.Credit);
-           // var Remaining = ShopRiceSales_pt.srsp_Total_Amount - rec;
+            // var rec = db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == ShopRiceSales_pt.srsp_id && m.Transaction_Shop_item_type == "Shop Rice Sales").Sum(m => m.Credit);
+            // var Remaining = ShopRiceSales_pt.srsp_Total_Amount - rec;
 
             Transaction_Shop trans = new Transaction_Shop();
 
@@ -560,7 +562,7 @@ namespace DHMRice.Controllers
                 }
             }
             trans.Transaction_Shop_DateTime = DateTime.Now;
-            trans.Transaction_Shop_Description = "Received Remaining from " + db.Parties.Find(ShopRiceSales_pt.Party_Id).Party_Name;
+            trans.Transaction_Shop_Description = "Received Remaining from " + db.Customers.Find(ShopRiceSales_pt.Customer_Id).Customer_Name;
             trans.Transaction_Shop_item_id = Convert.ToInt32(form["id"]);
             trans.Transaction_Shop_item_type = "Shop Rice Sales";
             trans.Debit = 0;

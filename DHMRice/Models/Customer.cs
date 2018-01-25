@@ -20,11 +20,9 @@ namespace DHMRice.Models
 
         [Required]
         public string Customer_MobileNo { get; set; }
-
-        [Required]
+        
         public string Customer_BankName { get; set; }
-
-        [Required]
+        
         public string Customer_ACcountNo { get; set; }
 
         [Required]
