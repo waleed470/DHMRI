@@ -1,0 +1,782 @@
+﻿
+@{
+    ViewBag.Title = "Index Shop";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script>
+    CheckIntialOpening();
+</script>
+@section Css {
+    <!-- DataTables -->
+    <link href="~/Content/assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/buttons.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/dataTables.colVis.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/datatables/fixedColumns.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+
+}
+
+<!-- Start content -->
+    <script>
+        var App = angular.module("DHM", []);
+        App.controller("ShopRiceSalesCtrl", function ($scope, $http) {
+            $scope.Grid = [];
+            $scope.RemainingList = [];
+            $scope.ShopRiceSales_pt = {Party_Id:0};
+            $scope.ShopRiceSales_pt.srsp_id = 0;
+            $scope.ShopRiceSales_pt.srsp_Title = "";
+            $scope.ShopRiceSales_pt.srsp_TotalWeight_Mann = 0;
+            $scope.ShopRiceSales_pt.srsp_TotalWeight_KG = 0;
+            $scope.ShopRiceSales_pt.srsp_Total_Amount = 0;
+            $scope.NetTotal = 0;
+            $scope.RemainingAmount = 0;
+            var list = [];
+            $scope.isCash = "true";
+            $scope.isBankAccount = "false";
+            $scope.isCheckbook = "false";
+            function JsonCall(Controller, Action) {
+                $.ajax({
+                    type: "POST",
+                    traditional: true,
+                    async: false,
+                    cache: false,
+                    url: '/' + Controller + '/' + Action,
+                    context: document.body,
+                    success: function (json) {
+                        list= json;
+                    }
+               ,
+                    error: function (xhr) {
+                        //debugger;
+                    }
+                });
+            }
+            function JsonCallParam(Controller, Action, Parameters) {
+                $.ajax({
+                    type: "POST",
+                    traditional: true,
+                    async: false,
+                    cache: false,
+                    url: '/' + Controller + '/' + Action,
+                    context: document.body,
+                    data:Parameters,
+                    success: function (json) {
+                        list = json;
+                    }
+               ,
+                    error: function (xhr) {
+                        //debugger;
+                    }
+                });
+            }
+            function WebApiCall(Type, Action, Parameters) {
+
+                $.ajax({
+                    type: Type,
+                    traditional: true,
+                    async: false,
+                    cache: false,
+                    url: '/api/' + Action,
+                    context: document.body,
+                    data: Parameters,
+                    ContentType: 'application/json;utf-8',
+                    success: function (json) {
+                        list = json;
+                    }
+               ,
+                    error: function (xhr) {
+                        //debugger;
+                    }
+                });
+            }
+            $scope.PartyList = [];
+            $scope.Get_party_Via_Code = function () {
+                if ($scope.ShopRiceSales_pt.Party.Party_Id > 0) {
+                    $scope.ShopRiceSales_pt.Party.Party_Id = 0;
+                    $scope.ShopRiceSales_pt.Party.Party_MobileNo = '';
+                }
+                var parm = {
+                    'Code': JSON.stringify($scope.ShopRiceSales_pt.Party.Party_Code)
+                };
+                JsonCallParam("ShopRiceSales", "Get_party_Via_Code",parm);
+                if (list != null) {
+                    $scope.ShopRiceSales_pt.Party = list;
+                }
+            };
+            $scope.Get_party_Via_Mobile = function () {
+                
+                if ($scope.ShopRiceSales_pt.Party.Party_Id > 0) {
+                    $scope.ShopRiceSales_pt.Party.Party_Id = 0;
+                    $scope.ShopRiceSales_pt.Party.Party_Code = '';
+                }
+                var parm = {
+                    'Mobile': JSON.stringify($scope.ShopRiceSales_pt.Party.Party_MobileNo)
+                };
+                JsonCallParam("ShopRiceSales", "Get_party_Via_Mobile", parm);
+                if (list != null) {
+                    $scope.ShopRiceSales_pt.Party = list;
+                } 
+            };
+            $scope.ShopRice_List=[];
+            $scope.Get_ShopRice = function () {
+                JsonCall("ShopRiceSales", "Get_ShopRice");
+                $scope.ShopRice_List = list;
+
+            };
+            $scope.Get_ShopRice();
+
+            $scope.ShopRiceSales_ch = [];
+            $scope.addNew = function (obj) {
+                $scope.ShopRiceSales_ch.push({
+                    'srsc_id': 0,
+                    'ShopStockId': 0,
+                    'srsc_title':"",
+                    'srsc_ttl_qty': 0,
+                    'srsc_sld_qty':0,
+                    'srsc_qty': 0,
+                    'srsc_packing_type':0,
+                    'srsc_Weight_kg': 0,
+                    'srsc_Weight_kg_ttl': 0,
+                    'srsc_Weight_mann': 0,
+                    'srsc_Weight_mann_ttl': 0,
+                    'srsc_PerBagMarketPrice':0,
+                    'srsc_price': 0,
+                    'srsp_id': 0,
+                    'srsp_status':false
+                });
+                $scope.Calculation();
+            };
+        
+            $scope.Fill_fields_on_ShopRiceChange = function (i) {
+
+                JsonCallParam("ShopRiceSales", "Get_ShopStockId", {
+                    "id": $scope.ShopRiceSales_ch[i].ShopStockId
+                });
+
+               
+                
+                $scope.ShopRiceSales_ch[i].srsc_ttl_qty = list.Item1;
+                $scope.ShopRiceSales_ch[i].srsc_sld_qty = list.Item2;
+                $scope.ShopRiceSales_ch[i].srsc_qty = 0;
+                $scope.ShopRiceSales_ch[i].srsc_Weight_kg_ttl = list.Item3;
+                $scope.ShopRiceSales_ch[i].srsc_packing_type = list.Item4;
+                $scope.ShopRiceSales_ch[i].srsc_Weight_mann_ttl = (parseFloat($scope.ShopRiceSales_ch[i].srsc_Weight_kg_ttl) * parseFloat("0.025"));
+                $scope.ShopRiceSales_ch[i].ShopStockId = list.Item5;
+                $scope.ShopRiceSales_ch[i].srsc_title = list.Item6;              
+                $scope.ShopRiceSales_ch[i].srsc_PerBagMarketPrice = list.Item7;
+                $scope.Calculation();
+            };
+            $scope.Fill_fields_on_ShopRiceChange2 = function (i) {
+
+                JsonCallParam("ShopRiceSales", "Get_ShopStockId", {
+                    "id": $scope.ShopRiceSales_ch[i].ShopStockId
+                });
+                $scope.ShopRiceSales_ch[i].srsc_ttl_qty = list.Item1;
+                $scope.ShopRiceSales_ch[i].srsc_sld_qty = list.Item2 - $scope.ShopRiceSales_ch[i].srsc_qty;
+                $scope.ShopRiceSales_ch[i].srsc_Weight_kg_ttl = list.Item3;
+                $scope.ShopRiceSales_ch[i].srsc_packing_type = list.Item4;
+                $scope.ShopRiceSales_ch[i].srsc_Weight_mann_ttl = (parseFloat($scope.ShopRiceSales_ch[i].srsc_Weight_kg_ttl) * parseFloat("0.025"));;
+                $scope.ShopRiceSales_ch[i].ShopStockId = list.Item5;
+                $scope.ShopRiceSales_ch[i].srsc_title = list.Item6;
+                $scope.ShopRiceSales_ch[i].srsc_PerBagMarketPrice = list.Item7;
+                
+                $scope.Calculation();
+            };
+            $scope.Calculation = function () {
+                var RemainingTotal = 0;
+                $scope.ShopRiceSales_pt.srsp_TotalWeight_Mann = 0;
+                $scope.ShopRiceSales_pt.srsp_TotalWeight_KG = 0;
+                $scope.ShopRiceSales_pt.srsp_Total_Amount = 0;
+                $scope.ShopRiceSales_pt.srsp_Title = "Sales ";
+                var count = 0;
+                angular.forEach($scope.ShopRiceSales_ch, function (obj) {
+                    if (obj.srsc_qty > (obj.srsc_ttl_qty - obj.srsc_sld_qty)) {
+                        obj.srsc_qty = obj.srsc_ttl_qty - obj.srsc_sld_qty;
+                    }
+                    obj.srsc_Weight_kg = obj.srsc_qty * obj.srsc_packing_type;
+                    obj.srsc_Weight_mann = (parseFloat(obj.srsc_Weight_kg) * parseFloat("0.025"));
+                    obj.srsc_price = obj.srsc_PerBagMarketPrice * obj.srsc_qty;
+                    $scope.ShopRiceSales_pt.srsp_TotalWeight_Mann += obj.srsc_Weight_mann;
+                    $scope.ShopRiceSales_pt.srsp_TotalWeight_KG += obj.srsc_Weight_kg;
+                    $scope.ShopRiceSales_pt.srsp_Total_Amount += obj.srsc_price;
+                    if (count == 0) {
+                        $scope.ShopRiceSales_pt.srsp_Title += obj.srsc_title;
+                    }
+                    else {
+                        $scope.ShopRiceSales_pt.srsp_Title += (", " + obj.srsc_title);
+                    }
+                    count++;
+                });
+                if (isNaN($scope.ShopRiceSales_pt.srsp_TotalWeight_Mann)) {
+                    $scope.ShopRiceSales_pt.srsp_TotalWeight_Mann = 0;
+                }
+                if (isNaN($scope.ShopRiceSales_pt.srsp_TotalWeight_KG)) {
+                    $scope.ShopRiceSales_pt.srsp_TotalWeight_KG = 0;
+                }
+                if (isNaN($scope.ShopRiceSales_pt.srsp_Total_Amount)) {
+                    $scope.ShopRiceSales_pt.srsp_Total_Amount = 0;
+                }
+                
+                angular.forEach($scope.RemainingList, function (obj) {
+                    if (obj.selected) {
+                        RemainingTotal += obj.Item3;
+                    }
+                });
+                
+                $scope.NetTotal = $scope.ShopRiceSales_pt.srsp_Total_Amount + RemainingTotal;
+                if ($scope.RecievedAmount > $scope.NetTotal) {
+                    $scope.RecievedAmount = $scope.NetTotal;
+                }
+                if ($scope.RecievedAmount < RemainingTotal) {
+                    $scope.RecievedAmount = RemainingTotal;
+                }
+                $scope.RemainingAmount = $scope.NetTotal - $scope.RecievedAmount;
+                if (isNaN($scope.RemainingAmount)) {
+                    $scope.RemainingAmount = 0;
+                }
+
+            }
+            $scope.Deleted_ShopRiceSales_ch = [];
+            $scope.remove = function () {
+                var newDataList = [];
+                $scope.selectedAll = false;
+                angular.forEach($scope.ShopRiceSales_ch, function (obj) {
+                    if (!obj.selected) {
+                        newDataList.push(obj);
+                    }
+                    else{
+                        if (obj.srsc_id > 0) {
+                            $scope.Deleted_ShopRiceSales_ch.push(obj);                            
+                        }
+                    }
+                });
+                $scope.ShopRiceSales_ch = newDataList;
+                $scope.Calculation();
+            };
+
+            $scope.checkAll = function () {
+                if (!$scope.selectedAll) {
+                    $scope.selectedAll = false;
+                } else {
+                    $scope.selectedAll = true;
+                }
+                angular.forEach($scope.ShopRiceSales_ch, function (obj) {
+                    obj.selected = $scope.selectedAll;
+                });
+            };
+            $scope.chashClick = function () {
+                $scope.isCash = "true";
+                $scope.isBankAccount = "false";
+                $scope.isCheckbook = "false";
+            };
+            $scope.BankClick = function () {
+                $scope.isCash = "false";
+                $scope.isBankAccount = "true";
+                $scope.isCheckbook = "false";
+            };
+            $scope.CheckClick = function () {
+                $scope.isCash = "false";
+                $scope.isBankAccount = "false";
+                $scope.isCheckbook = "true";
+            };
+            $scope.ClearParty = function () {
+
+                $scope.ShopRiceSales_pt = { Party_Id: 0 };
+            };
+            $scope.Clear = function () {
+                $scope.Deleted_ShopRiceSales_ch = [];
+                $scope.RemainingList = [];
+                $scope.ShopRiceSales_ch = [];
+                $scope.ShopRiceSales_pt = { Party_Id: 0 };
+                $scope.NetTotal = 0;
+                $scope.RemainingAmount = 0;
+                $scope.RecievedAmount = 0;
+                var list = [];
+                $scope.isCash = "true";
+                $scope.isBankAccount = "false";
+                $scope.isCheckbook = "false";
+                //$scope.ShopRiceSales_pt.Party_Id = null;
+                $scope.ShopRiceSales_pt.srsp_id = 0;
+                $scope.Calculation();
+            };
+            $scope.LoadGrid = function () {
+                JsonCall("ShopRiceSales", "Get_pt");
+                $scope.Grid = list;
+            };
+            $scope.LoadGrid();
+
+            $scope.GetPartyRemainings = function () {
+                if ($scope.ShopRiceSales_pt.srsp_id == 0) {
+                    JsonCallParam("ShopRiceSales", "GetPartyRemainings", { "Party_Id": $scope.ShopRiceSales_pt.Party_Id });
+                    $scope.RemainingList = list;
+                } else {
+                    JsonCallParam("ShopRiceSales", "GetPartyRemainings1", { "Party_Id": $scope.ShopRiceSales_pt.Party_Id, "srsp_id": $scope.ShopRiceSales_pt.srsp_id });
+                    $scope.RemainingList = list;
+                }
+            };
+            $scope.LoadShopRice_pt = function (obj) {
+                $scope.ShopRiceSales_pt.srsp_id = obj.Item1.srsp_id;
+                $scope.ShopRiceSales_pt.srsp_Title = obj.Item1.srsp_Title;
+                $scope.ShopRiceSales_pt.Party_Id = obj.Item1.Party_Id;
+                $scope.GetPartyRemainings();
+                $scope.ShopRiceSales_pt.srsp_TotalWeight_KG = obj.Item1.srsp_TotalWeight_KG;
+                $scope.ShopRiceSales_pt.srsp_TotalWeight_Mann = obj.Item1.srsp_TotalWeight_Mann;
+                $scope.ShopRiceSales_pt.srsp_Total_Amount = obj.Item1.srsp_Total_Amount;
+                JsonCallParam("ShopRiceSales", "Get_Party", { "srsp_id": obj.Item1.srsp_id });
+                $scope.ShopRiceSales_pt.Party = list;
+                JsonCallParam("ShopRiceSales", "Get_ch", { "id": obj.Item1.srsp_id });
+                var i = 0;
+                angular.forEach(list, function (obj) {
+                    $scope.ShopRiceSales_ch[i] = obj;
+                    $scope.Fill_fields_on_ShopRiceChange2(i);
+                    $scope.Calculation();
+                    i++;
+                });
+                //for (var i = 0; i < list.length; i++) {
+                //    alert(list[i].srsc_title +", "+i);
+                //    $scope.ShopRiceSales_ch[i] = list[i];
+                //    $scope.Fill_fields_on_ShopRiceChange2(i);
+                //    $scope.Calculation();
+                //    alert("invoked");
+                //}
+
+                $scope.RecievedAmount = obj.Item3;
+                $scope.Calculation();
+                
+
+            };
+            $scope.Delete = function (obj) {
+                JsonCallParam("ShopRiceSales", "Delete_sales", { "id": obj.Item1.srsp_id });
+                $scope.LoadGrid();
+            };
+            $scope.ReceivedRemaining = function (obj) {
+                JsonCallParam("ShopRiceSales", "ReceivedRemaining", { "id": obj.Item1.srsp_id, "Remaining": obj.Item5 });
+                $scope.LoadGrid();
+            };
+            $scope.ValidateRemainings = function () {
+                angular.forEach($scope.Grid, function (obj) {
+                    console.log(obj.Item5);
+                    if(obj.Item5>obj.Item4)
+                    {
+                        obj.Item5 = obj.Item4;
+                    }
+                    else if (obj.Item5<0) {
+                        obj.Item5 = 0;
+                    }
+                    else if (obj.Item5 == "") {
+                        obj.Item5 = 0;
+                    }
+                    else if (obj.Item5 == null) {
+                        obj.Item5 = 0;
+                    }
+                });
+            }
+            $scope.Save = function () {
+                $scope.ShopRiceSales_pt.Party.ApplicationUser = null;
+                var remaining_srsp_id = [];
+                angular.forEach($scope.RemainingList, function (obj) {
+                    if (obj.selected) {
+                        remaining_srsp_id.push(obj.Item1.srsp_id);
+                    }
+                });
+               
+                if ($scope.ShopRiceSales_pt.srsp_id == 0) {
+                    var pram = {
+                        'ShopRiceSales_pt': JSON.stringify($scope.ShopRiceSales_pt),
+                        'RecievedAmount': $scope.RecievedAmount,
+                        'isCash': $scope.isCash,
+                        'isBankAccount': $scope.isBankAccount,
+                        'isCheckbook': $scope.isCheckbook,
+                        'CheckNo': $scope.CheckNo,
+                        'BankAccountNo':$scope.BankAccountNo,
+                        'ShopRiceSales_ch': JSON.stringify($scope.ShopRiceSales_ch),
+                        'remaining_srsp_id': JSON.stringify(remaining_srsp_id)
+                    };
+                    
+                    JsonCallParam("ShopRiceSales", "Insert_sales", pram);
+                    
+                }
+                else {
+                    var ShopRiceSales_ch_obj = $scope.ShopRiceSales_ch;
+                    for (var i = 0; i < ShopRiceSales_ch_obj.length; i++) {
+                        ShopRiceSales_ch_obj[i].ShopStock = null;
+                        ShopRiceSales_ch_obj[i].ShopRiceSales_pt = null;
+                    }
+                    var Deleted_ShopRiceSales_ch = $scope.Deleted_ShopRiceSales_ch;
+                    for (var i = 0; i < Deleted_ShopRiceSales_ch.length; i++) {
+                        Deleted_ShopRiceSales_ch[i].ShopStock = null;
+                        Deleted_ShopRiceSales_ch[i].ShopRiceSales_pt = null;
+                    }
+                    var pram = {
+                        'ShopRiceSales_pt': JSON.stringify($scope.ShopRiceSales_pt),
+                        'RecievedAmount': $scope.RecievedAmount,
+                        'isCash': $scope.isCash,
+                        'isBankAccount': $scope.isBankAccount,
+                        'isCheckbook': $scope.isCheckbook,
+                        'CheckNo': $scope.CheckNo,
+                        'BankAccountNo': $scope.BankAccountNo,
+                        'ShopRiceSales_ch': JSON.stringify(ShopRiceSales_ch_obj),
+                        'remaining_srsp_id': JSON.stringify(remaining_srsp_id),
+                        'Deleted_ShopRiceSales_ch': JSON.stringify(Deleted_ShopRiceSales_ch)
+                    };
+                    console.log(pram);
+                    JsonCallParam("ShopRiceSales", "Update_sales", pram);
+                }
+
+                $scope.LoadGrid();
+                $scope.Clear();
+            };
+        });
+    </script>
+
+<div ng-app="DHM" ng-controller="ShopRiceSalesCtrl">
+    <div class="content">
+        <div class="container">
+
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">Shop Rice Sales</h4>
+                        <ol class="breadcrumb p-0 m-0">
+
+                            <li class="active">
+                                Index{{ShopRiceSales_pt.srsp_id}}
+                            </li>
+                        </ol>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+            <div class="container card-box">
+                <div class="form-horizontal">
+                    <h4>{{ShopRiceSales_pt.srsp_Title}}</h4>
+                    <hr />
+                    <form name="form">
+                    
+                        <br />
+                         <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Party Name</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="Party_Name" ng-model="ShopRiceSales_pt.Party.Party_Name" ng-disabled="ShopRiceSales_pt.Party.Party_Id>0"  placeholder="ex: Hussnain" pattern="^[A-Za-z ]{2,15}$" required  />
+                                        <span style="color:red" ng-show="form.Party_Name.$invalid &&form.Party_Name.$dirty">
+                                            <span ng-show="form.Party_Name.$error.required">Enter Party Name</span>
+                                            <span ng-show="form.Party_Name.$error.pattern">Invalid Party Name only Alphabetic Name will acceptable and length should be 2 to 15</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Party Code</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="PartyCode" ng-model="ShopRiceSales_pt.Party.Party_Code"  ng-change="Get_party_Via_Code()" placeholder="ex: 46A13" pattern="^[A-Za-z0-9,_-]{2,8}$" required />
+                                        <span style="color:red" ng-show="form.PartyCode.$invalid &&form.PartyCode.$dirty">
+                                            <span ng-show="form.PartyCode.$error.required">Enter Party Code</span>
+                                            <span ng-show="form.PartyCode.$error.pattern">Invalid Party Code only Alpha Numeric Code will acceptable and length should be 2 to 8</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Party Mobile no</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="Party_MobileNo" ng-model="ShopRiceSales_pt.Party.Party_MobileNo"  ng-change="Get_party_Via_Mobile()" placeholder="ex: 0323-xxxxxxx" pattern="^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$" required />
+                                        <span style="color:red" ng-show="form.Party_MobileNo.$invalid &&form.Party_MobileNo.$dirty">
+                                            <span ng-show="form.Party_MobileNo.$error.required">Enter Party Mobile no</span>
+                                            <span ng-show="form.Party_MobileNo.$error.pattern">Invalid Format Mobile Number ex: 0323-xxxxxxx or 0323xxxxxxx </span>
+                                        </span>
+                                     </div>
+                                </div>
+                            </div>
+                         </div>
+                        <br />
+                        <div class="form-group">
+                                    <label class="control-label col-md-1">Party Address</label>
+                                    <div class="col-md-8" style="margin-left:3%">
+                                        <input type="text" class="form-control" name="Address" ng-model="ShopRiceSales_pt.Party.Party_Address"  ng-disabled="ShopRiceSales_pt.Party.Party_Id>0"   placeholder="Address" required />
+                                        <span style="color:red" ng-show="form.Address.$invalid &&form.Address.$dirty">
+                                            <span ng-show="form.Address.$error.required">Enter Party Address</span>
+                                        </span>
+                                    </div>    
+                                    <div class="col-md-2">
+
+                                        <input type="button" value="Clear Party" class="btn btn-lg btn-warning" style="width:100%" ng-click="ClearParty()" />
+                                    </div>                            
+                           
+                        </div>
+                      <div class="form-group">
+                          <div class="col-sm-4"></div>
+                          <div class="col-sm-4">
+                              <label class="control-label text-center"  ng-show="ShopRiceSales_pt.Party.Party_Id>0" style="color:forestgreen">*Party {{ShopRiceSales_pt.Party.Party_Name}} found in record.</label>
+
+                              <label class="control-label text-center" ng-show="(ShopRiceSales_pt.Party==null || ShopRiceSales_pt.Party.Party_Id==0) && (form.PartyCode.$dirty || form.Party_MobileNo.$dirty)" style="color:orangered">*Party not Found in Record. Enter New Party Information</label>
+                          </div>
+                          <div class="col-sm-4"></div>
+                      </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Total Weight (Mann)</label>
+                                    <div class="col-md-8">
+                                        <p style="margin-top:3%">{{ShopRiceSales_pt.srsp_TotalWeight_Mann}}</p>
+                                        @* <input name="srsp_TotalWeight_KG" ng-model="srsp_TotalWeight_Mann" ng-init="srsp_TotalWeight_Mann=0" class="form-control" disabled />*@
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Total Weight (KG)</label>
+                                    <div class="col-md-8">
+                                        <p style="margin-top:3%">
+                                            {{ShopRiceSales_pt.srsp_TotalWeight_KG}}
+                                        </p>
+                                        @* <input name="srsp_TotalWeight_KG" ng-model="srsp_TotalWeight_KG"  ng-init="srsp_TotalWeight_KG=0" class="form-control" disabled />*@
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Total Amount</label>
+                                    <div class="col-md-8">
+                                        <p style="margin-top:3%">
+
+                                            {{ShopRiceSales_pt.srsp_Total_Amount}}
+                                        </p>
+                                        @*<input name="srsp_Total_Amount" ng-model="srsp_Total_Amount" ng-init="srsp_Total_Amount=0" class="form-control" disabled />*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
+                                            <th>ShopRice</th>
+                                            <th>Stock QTY</th>
+                                            <th>Per Bag Price</th>
+                                            <th>Qty</th>
+                                            <th>Weight KG</th>
+                                            <th>Weight Mann</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="obj in ShopRiceSales_ch">
+                                            <td>
+                                                <input type="checkbox" ng-model="obj.selected" />
+                                            </td>
+                                            <td>
+                                                <select ng-model="obj.ShopStockId" name="ShopStockId" id="ShopStockId_{{$index}}" ng-options="item.ShopStockId as item.Rice_Production.Rice_Production_name for item in ShopRice_List" class="form-control selectpicker" ng-change="Fill_fields_on_ShopRiceChange({{$index}})" required>
+                                                    <option value="">Select ShopRice</option>
+                                                </select>
+                                            </td>
+                                            <td>
+
+                                                <input type="number" class="form-control" ng-model="obj.srsc_ttl_qty-obj.srsc_sld_qty" required disabled />
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" ng-model="obj.srsc_PerBagMarketPrice" required disabled />
+
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" ng-model="obj.srsc_qty" ng-change="Calculation()" required />
+                                            </td>
+                                            <td>
+
+                                                <input type="text" class="form-control" ng-model="obj.srsc_Weight_kg" required disabled />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" ng-model="obj.srsc_Weight_mann" required disabled />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" ng-model="obj.srsc_price" required disabled />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="form-group">
+                                    <input ng-hide="!ShopRiceSales_ch.length" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove Selected">
+                                    <input type="button" class="btn btn-primary addnew pull-right" value="Add New" ng-click="addNew()" style="margin-right:3px">
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div ng-show="RemainingList.length">
+                            <h5>Previous ShopRice Sales remaining</h5>
+                            <hr />
+                            <div>
+                                <div class="row" ng-repeat="item in RemainingList">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-1">
+                                            <input type="checkbox" ng-model="item.selected" ng-click="Calculation()" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label class="control-label col-md-2">Title</label>
+                                            <div class="col-md-10">
+                                                <p style="margin-top:10px">{{item.Item1.srsp_Title}}</p>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label class="control-label col-md-2">Recieved amount</label>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-9">
+                                                <p style="margin-top:10px">{{item.Item2}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label class="control-label col-md-2">Remaining amount</label>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-9">
+                                                <p style="margin-top:10px">{{item.Item3}}</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group" style="margin-left:15%">
+                            <div class="col-sm-12">
+                                <div class="col-sm-3">
+                                    <label class="control-label col-md-2">NetTotal</label>
+                                    <div class="col-md-10">
+                                        <p style="margin-left:18%;margin-top:5%">{{NetTotal}}</p>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label col-md-2">Recieved Amount</label>
+                                    <div class="col-md-10">
+                                        <input type="number" name="RecievedAmount" ng-model="RecievedAmount" ng-init="RecievedAmount=0" class="form-control" style="margin-left:12%" ng-change="Calculation()" required />
+                                        <span style="color:red" ng-show="form.RecievedAmount.$invalid &&form.RecievedAmount.$dirty">
+                                            <span ng-show="form.RecievedAmount.$error.required">Enter Payed Amount</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label col-md-2">Remaining Amount</label>
+                                    <div class="col-md-10">
+                                        <p style="margin-left:20%;margin-top:5%">{{RemainingAmount}}</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="control-label col-md-2">Select Receiving method</label>
+                            <div class="col-md-10" style="margin-top:10px">
+
+                                <input type="radio" name="isCash" id="isCash" ng-model="isCash" ng-click="chashClick()" value="true">Cash Payment
+                                <input type="radio" name="isBankAccount" ng-model="isBankAccount" id="isBankAccount" value="true" ng-click="BankClick()" style="margin-left:20px">Receiving By Bank Account
+                                <input type="radio" name="isCheckbook" id="isCheckbook" ng-model="isCheckbook" value="true" ng-click="CheckClick()" style="margin-left:20px">Receiving By Check
+                            </div>
+                        </div>
+                        <div class="form-group" id="checkbook_id" ng-show="isCheckbook=='true'">
+                            <div id="checkbook_content">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Checkbook no</label>
+                                    <div class="col-md-9">
+                                        <input name="CheckBookNo" id="CheckBookNo" ng-model="CheckNo" class="form-control" required />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Bank Account no</label>
+                                    <div class="col-md-9">
+                                        <input name="BankAccountNo" id="BankAccountNo" ng-model="BankAccountNo" class="form-control" required />
+
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="form-group" id="isBankAccount" ng-show="isBankAccount=='true'">
+                            <div id="BankAccount_content">                                
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Bank Account no</label>
+                                    <div class="col-md-9">
+                                        <input name="BankAccountNo" id="BankAccountNo" ng-model="BankAccountNo" class="form-control" required />
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-8">
+                                <div class="col-sm-6">
+                                    <input type="submit" name="Save" id="Save" value="Save" class="btn btn-lg btn-success"  ng-click="Save()" 
+                                           ng-disabled="form.RecievedAmount.$invalid||
+                                           form.Party_Name.$invalid||
+                                           form.PartyCode.$invalid||
+                                           form.Party_MobileNo.$invalid||
+                                           form.Address.$invalid||
+                                           !ShopRiceSales_ch.length||
+                                           NetTotal==0
+                                           " style="width:100%" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="button" value="Clear" class="btn btn-lg btn-warning" style="width:100%" ng-click="Clear()" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <br />
+            <div class="container card-box">
+                <div class="form-horizontal">
+                    <h4>ShopRice Selling Record</h4>
+                    <input type="button" class="btn btn-sm btn-default" value="Refresh" ng-click="LoadGrid()" />
+                    <hr />
+                    <table id="datatable-buttons" class="table table-striped  table-colored table-info">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Party</th>
+                                <th>Total Weight (KG)</th>
+                                <th>Total Weight (Mann)</th>
+                                <th>Total Amount</th>
+                                <th>Recieved</th>
+                                <th>Remaining</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in Grid">
+                                <td>{{item.Item1.srsp_Title}}</td>
+                                <td>{{item.Item2}}</td>
+                                <td>{{item.Item1.Party.Party_Name}}</td>
+                                <td>{{item.Item1.srsp_TotalWeight_KG}}</td>
+                                <td>{{item.Item1.srsp_TotalWeight_Mann}}</td>
+                                <td>{{item.Item1.srsp_Total_Amount}}</td>
+                                <td>{{item.Item3}}</td>
+                                    <td ng-show="item.Item4>0">
+                                        <input ng-model="item.Item5" type="number" ng-change="ValidateRemainings()"/> 
+                                        <input type="button" value="Receive Remaining" class="btn btn-sm btn-primary" ng-click="ReceivedRemaining(item)" ng-show="item.Item5>0"/> 
+                                    </td>
+                                    <td ng-show="item.Item4==0">0</td>
+                                <td ng-if="item.Item6==1"><input value="Edit" class="btn btn-sm btn-warning" type="button" ng-click="LoadShopRice_pt(item)"/><input value="Delete" class="btn btn-sm btn-danger" ng-click="Delete(item)" type="button"/> </td>
+                                <td ng-if="item.Item6==0">No Action</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

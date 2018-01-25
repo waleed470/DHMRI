@@ -60,6 +60,8 @@ namespace DHMRice.Models
         public DbSet<RawRice_Sales_ch> RawRice_Sales_ch { get; set; }
         public DbSet<ProducedRiceSales_pt> ProducedRiceSales_pt { get; set; }
         public DbSet<ProducedRiceSales_ch> ProducedRiceSales_ch { get; set; }
+        public DbSet<ShopRiceSales_pt> ShopRiceSales_pt { get; set; }
+        public DbSet<ShopRiceSales_ch> ShopRiceSales_ch { get; set; }
 
         public DbSet<Production_Rice> Production_Rices { get; set; }
         public DbSet<Rice_Production_ShortFall> Rice_Production_ShortFalls { get; set; }
@@ -70,5 +72,8 @@ namespace DHMRice.Models
         public DbSet<GatePassInwared> GatePassInwareds { get; set; }
         public DbSet<Shop_Account> Shop_Accounts { get; set; }
         public DbSet<ShopStock> ShopStock { get; set; }
+        public DbSet<Opening_ClosingDays_Shop> Opening_ClosingDays_Shop { get; set; }
+        public DbSet<Transaction_Shop> Transaction_Shop { get; set; }
+
     }
 }

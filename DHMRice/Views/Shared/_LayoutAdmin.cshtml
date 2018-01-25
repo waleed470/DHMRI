@@ -47,6 +47,28 @@
                 }
             });
 
+            CheckIntialOpening_Shop();      //Call if user role is shop
+        }
+        function CheckIntialOpening_Shop() {
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                async: false,
+                cache: false,
+                url: '/OpeningClosingShop/CheckIntialOpening',
+                context: document.body,
+                success: function (json) {
+                    if (json == 1) {
+                        window.location = "/OpeningClosingShop/AddInitialOpenningDay";
+                    }
+                }
+                ,
+                error: function (xhr) {
+                    //debugger;
+                    alert('error');
+                }
+            });
+
         }
 
     </script>
@@ -97,6 +119,14 @@
                     <!-- Right(Notification) -->
                     <ul class="nav navbar-nav navbar-right">
                         <li>
+                            <h5 style="color:white">Opening Balance Shop</h5>
+                            <div id="openingBal_shop"></div>
+                        </li>
+                        <li>
+                            <button class="btn btn-danger" style="margin-top:10%;margin-left:10%" onclick="ClosingdayConfirmation_Shop()">Close the Day</button>
+                        </li>
+
+                        <li>
                             <h5 style="color:white">Opening Balance</h5>
                             <div id="openingBal"></div>
                         </li>
@@ -142,6 +172,26 @@
                         function ClosingdayConfirmation() {
 
                             window.location = "/OpeningClosing/ClosingdayConfirmation";
+                        }
+
+                        function GetCureentOpeningBalance_Shop() {
+                            $.ajax({
+                                type: "POST",
+                                traditional: true,
+                                async: false,
+                                cache: false,
+                                url: '/OpeningClosingShop/GetCureentOpeningBalance',
+                                context: document.body,
+                                success: function (json) {
+                                    var temp = ' <p style="color:white">' + json + '</p>';
+                                    $('#openingBal_shop').append(temp);
+                                }
+                            });
+                        }
+                        GetCureentOpeningBalance_Shop();
+                        function ClosingdayConfirmation_Shop() {
+
+                            window.location = "/OpeningClosingShop/ClosingdayConfirmation";
                         }
 
         </script>
@@ -201,6 +251,11 @@
                             <ul class="list-unstyled">
                                 <li><a href="~/Shops/Index">View Shop</a></li>
                                 <li><a href="~/Shops/Create">Add Shop</a></li>
+                                <li><a href="~/OpeningClosingShop/">Opening Closing of Days</a></li>
+                                <li><a href="~/TransactionShop/ViewToday">View Today Transactions</a></li>
+                                <li><a href="~/TransactionShop/ViewAll">View All Transactions</a></li>
+                                <li><a href="~/TransactionShop/Add">Add Transaction</a></li>
+                                <li><a href="~/ShopRiceSales/">Sell Rice</a></li>
                             </ul>
                         </li>
                         <li class="has_sub">

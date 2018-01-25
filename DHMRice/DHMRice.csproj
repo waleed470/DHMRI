@@ -268,9 +268,11 @@
     <Compile Include="Controllers\FactoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OpeningClosingShopController.cs" />
     <Compile Include="Controllers\OpeningClosingController.cs" />
     <Compile Include="Controllers\PackingsController.cs" />
     <Compile Include="Controllers\PartiesController.cs" />
+    <Compile Include="Controllers\ShopRiceSalesController.cs" />
     <Compile Include="Controllers\ProducedRiceSalesController.cs" />
     <Compile Include="Controllers\RawRiceController.cs" />
     <Compile Include="Controllers\RawRicePartyRemainingController.cs" />
@@ -283,6 +285,7 @@
     <Compile Include="Controllers\ShopsController.cs" />
     <Compile Include="Controllers\ShopStockController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TransactionShopController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -339,6 +342,14 @@
     <Compile Include="Migrations\201801200721442_hfg.Designer.cs">
       <DependentUpon>201801200721442_hfg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801241937121_mig_ab.cs" />
+    <Compile Include="Migrations\201801241937121_mig_ab.Designer.cs">
+      <DependentUpon>201801241937121_mig_ab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801242158352_mig_ab1.cs" />
+    <Compile Include="Migrations\201801242158352_mig_ab1.Designer.cs">
+      <DependentUpon>201801242158352_mig_ab1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Broker.cs" />
@@ -347,11 +358,14 @@
     <Compile Include="Models\GatePassInwared.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Opening_ClosingDays_Shop.cs" />
     <Compile Include="Models\Opening_ClosingDays.cs" />
     <Compile Include="Models\Packing.cs" />
     <Compile Include="Models\Party.cs" />
     <Compile Include="Models\Pricing.cs" />
+    <Compile Include="Models\ShopRiceSales_ch.cs" />
     <Compile Include="Models\ProducedRiceSales_ch.cs" />
+    <Compile Include="Models\ShopRiceSales_pt.cs" />
     <Compile Include="Models\ProducedRiceSales_pt.cs" />
     <Compile Include="Models\Production_Extra_Rice.cs" />
     <Compile Include="Models\Production_Rice.cs" />
@@ -368,6 +382,7 @@
     <Compile Include="Models\Shop.cs" />
     <Compile Include="Models\ShopStock.cs" />
     <Compile Include="Models\Shop_Account.cs" />
+    <Compile Include="Models\Transaction_Shop.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\All_Rice.cs">
@@ -1118,6 +1133,15 @@
     <Content Include="Views\ShopStock\Index.cshtml" />
     <Content Include="Views\Reports\DriverExpense.cshtml" />
     <Content Include="SqlScripts\25-1.rar" />
+    <Content Include="Views\OpeningClosingShop\Index.cshtml" />
+    <Content Include="Views\OpeningClosingShop\AddInitialOpenningDay.cshtml" />
+    <Content Include="Views\OpeningClosingShop\ClosingdayConfirmation.cshtml" />
+    <Content Include="Views\OpeningClosingShop\ViewTransactionByOpeningDay.cshtml" />
+    <Content Include="Views\TransactionShop\Add.cshtml" />
+    <Content Include="Views\TransactionShop\Edit.cshtml" />
+    <Content Include="Views\TransactionShop\ViewAll.cshtml" />
+    <Content Include="Views\TransactionShop\ViewToday.cshtml" />
+    <Content Include="Views\ShopRiceSales\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1170,6 +1194,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801200721442_hfg.resx">
       <DependentUpon>201801200721442_hfg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801241937121_mig_ab.resx">
+      <DependentUpon>201801241937121_mig_ab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801242158352_mig_ab1.resx">
+      <DependentUpon>201801242158352_mig_ab1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

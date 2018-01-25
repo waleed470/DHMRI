@@ -1,0 +1,63 @@
+﻿@model decimal
+@{
+    ViewBag.Title = "Closing Day Confirmation";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script>
+    CheckIntialOpening();
+</script>
+<!-- Start content -->
+<div class="content">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Closing day Confirmation of Shop</h4>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="container card-box">
+            <div class="">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+
+
+                    <div class="form-horizontal">
+                        @using (Html.BeginForm("ClosingdayConfirmation", "OpeningClosingShop", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+
+
+
+                            <h4>Are you sure to close the day of Shop?</h4>
+                            <p>Total Closing Balance is @Model</p>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <input type="submit" value="Yes" name="Yes" class="btn btn-success" style="width:20%"/>
+                                    <input type="submit" value="NO" name="No" class="btn btn-info"  style="width:20%"/>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+                <div class="col-lg-1"></div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
