@@ -245,7 +245,8 @@ namespace DHMRice.Controllers
             }
             else
             {
-                ShopRiceSales_pt.Customer.Id = "b593627d-415f-4ed0-a80a-343e46831175";
+                string idd = Convert.ToString(Session["UserId"]);
+                ShopRiceSales_pt.Customer.Id = idd;
                 ShopRiceSales_pt.Customer.Status = true;
                 db.Customers.Add(ShopRiceSales_pt.Customer);
                 db.SaveChanges();
@@ -376,7 +377,8 @@ namespace DHMRice.Controllers
             }
             else
             {
-                ShopRiceSales_pt_view.Customer.Id = "b593627d-415f-4ed0-a80a-343e46831175";
+                string idd = Convert.ToString(Session["UserId"]);
+                ShopRiceSales_pt_view.Customer.Id = idd;
                 ShopRiceSales_pt.Customer.Status = true;
                 db.Customers.Add(ShopRiceSales_pt_view.Customer);
                 db.SaveChanges();

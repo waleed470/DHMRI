@@ -77,7 +77,7 @@ namespace DHMRice.Controllers
 
             return View(DriverExpense);
         }
-        public ActionResult RawPurchase(int ReportType, int Month, int Invoice, int? DateFrom, int? DateTo, int? RawRice_id)
+        public ActionResult RawPurchase(int? ReportType, int? Month, int Invoice, int? DateFrom, int? DateTo, int? RawRice_id)
         {
             if(Invoice == 1)
             {
@@ -120,6 +120,13 @@ namespace DHMRice.Controllers
                         
                         TempData["DateFrom"] = DateFrom;
                         TempData["DateTo"] = DateTo;
+                        return RedirectToAction("RawRiceSelling");
+                    }
+
+                    if (ReportType == null)
+                    {
+                        var rawrice = db.RarRices.Where(r =>  r.RawRice_id == RawRice_id).ToList();
+                        TempData["RawRiceData"] = rawrice;
                         return RedirectToAction("RawRiceSelling");
                     }
                     //if (ReportType == 2)
@@ -176,6 +183,12 @@ namespace DHMRice.Controllers
                     //    TempData["RawRiceData"] = rawrice;
                     //    return RedirectToAction("AllRice");
                     //}
+                    if (ReportType == null)
+                    {
+                        var rawrice = db.RarRices.Where(r => r.RawRice_id == RawRice_id).ToList();
+                        TempData["RawRiceData"] = rawrice;
+                        return RedirectToAction("RawRicePurchasing");
+                    }
                 }
                 else
                 {

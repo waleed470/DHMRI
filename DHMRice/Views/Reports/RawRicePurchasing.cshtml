@@ -4,6 +4,7 @@
     ViewBag.Title = "AllRice";
     Layout = null;
     ApplicationDbContext db = new ApplicationDbContext();
+    decimal sumAmount = 0;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -26,10 +27,22 @@
         <link rel="license" href="https://www.opensource.org/licenses/mit-license/">
         <script src="script.js"></script>
     </head>
+    <style type="text/css">
+        @@media print {
+
+
+            table.as, th.as, td.as {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                text-align: center;
+            }
+        }
+    </style>
     <body>
         <header>
-            <h1>Invoice</h1>
-            <address contenteditable>
+            <h1>Purchasing Report</h1>
+            <address >
                 <p>55-Circular Road</p>
                 <p>Akbari Mandi Lahore</p>
                 <p>03018412091,03229112107</p>
@@ -48,28 +61,25 @@
             <div class="col-lg-4">
                 <table class="meta">
                     <tr>
-                        <th><span contenteditable>Invoice #</span></th>
-                        <td><span contenteditable>101138</span></td>
+                        <th><span >Invoice #</span></th>
+                        <td><span >101138</span></td>
                     </tr>
                     <tr>
-                        <th><span contenteditable>Date</span></th>
-                        <td><span contenteditable>@DateTime.Now</span></td>
+                        <th><span >Date</span></th>
+                        <td><span >@DateTime.Now</span></td>
                     </tr>
-                    <tr>
-                        <th><span>Amount Due</span></th>
-                        <td>9</td>
-                    </tr>
+                   
                 </table>
             </div>
 
             <table class="inventory">
                 <thead>
                     <tr>
-                        <th><span contenteditable>Sr#</span></th>
-                        <th><span contenteditable>Item Name</span></th>
-                        <th><span contenteditable>Rate</span></th>
-                        <th><span contenteditable>Quantity</span></th>
-                        <th><span contenteditable>Packing</span></th>
+                        <th><span >Sr#</span></th>
+                        <th><span >Item Name</span></th>
+                        <th><span >Rate</span></th>
+                        <th><span >Quantity</span></th>
+                        <th><span >Packing</span></th>
                         <th><span>Amount</span></th>
                         <th><span>Date</span></th>
                     </tr>
@@ -95,6 +105,7 @@
                             <td>@item.Bags_qty</td>
                             <td>@item.packing.Packing_Type kg</td>
                             <td>Rs @pricing.Pricing_NetTotal</td>
+                            @{sumAmount += pricing.Pricing_NetTotal; }
                             <td> @item.Date.ToShortDateString()</td>
                         </tr>
                     }
@@ -104,25 +115,18 @@
 
             <table class="balance">
                 <tr>
-                    <th><span contenteditable>Total</span></th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th><span contenteditable>Amount Paid</span></th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th><span contenteditable>Balance Due</span></th>
-                    <td></td>
-                </tr>
-            </table>
+                    <th><span >Total</span></th>
+                    <td>@sumAmount</td>
+               
+              
         </article>
-        <aside>
-            <h1><span contenteditable>Additional Notes</span></h1>
-            <div contenteditable>
-                <p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p>
-            </div>
-        </aside>
+        <table class="as" id="footer">
+            <tr>
+                <td class="as" width="100%" style="border-style:none; text-align:center">
+                    Designed by Digicon-Valley.com
+                </td>
+            </tr>
+        </table>
     </body>
 </html>
 

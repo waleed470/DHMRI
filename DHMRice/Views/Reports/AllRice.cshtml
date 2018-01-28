@@ -4,12 +4,14 @@
     ViewBag.Title = "AllRice";
     Layout = null;
     ApplicationDbContext db = new ApplicationDbContext();
+    decimal sumAmount = 0;
+
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HTML invoice</title>
+    <title>invoice</title>
 
 
 
@@ -50,10 +52,7 @@
                     <th><span contenteditable>Date</span></th>
                     <td><span contenteditable>@DateTime.Now</span></td>
                 </tr>
-                <tr>
-                    <th><span >Amount Due</span></th>
-                    <td>9</td>
-                </tr>
+                
             </table>
             <table class="inventory">
                 <thead>
@@ -87,6 +86,7 @@
                             <td>@item.Bags_qty</td>
                             <td>@item.packing.Packing_Type kg</td>
                             <td>Rs @pricing.Pricing_NetTotal</td>
+                            @{sumAmount += pricing.Pricing_NetTotal; }
                         </tr>
                     }
                     
@@ -97,16 +97,9 @@
             <table class="balance">
                 <tr>
                     <th><span contenteditable>Total</span></th>
-                    <td></td>
+                    <td>@sumAmount</td>
                 </tr>
-                <tr>
-                    <th><span contenteditable>Amount Paid</span></th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th><span contenteditable>Balance Due</span></th>
-                    <td></td>
-                </tr>
+              
             </table>
         </article>
         <aside>
