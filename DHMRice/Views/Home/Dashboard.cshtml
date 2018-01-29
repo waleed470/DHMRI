@@ -1,0 +1,293 @@
+﻿
+@using DHMRice.Models;
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{ ApplicationDbContext db = new ApplicationDbContext(); }
+
+<!-- Start content -->
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Dashboard</h4>
+                    <ol class="breadcrumb p-0 m-0">
+                        <li>
+                            <a href="#">Zircos</a>
+                        </li>
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li class="active">
+                            Dashboard
+                        </li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+        <div class="row text-center">
+
+            <div class="col-lg-3 col-md-6 col-sm-9">
+                <div class="card-box widget-box-one">
+                    <div class="wigdet-one-content">
+                        <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Total Credit </p>
+                        @{
+                            List<Transaction> trn = db.Transaction.ToList();
+                            Decimal tlc = 0;
+                            string test="";
+                            foreach (var item in trn)
+                            {
+                                tlc = item.Credit;
+                                tlc += tlc;
+                                 test= Convert.ToDecimal(tlc).ToString("#,##0.00");
+
+                            }
+                            <h2 class="text-danger"><span data-plugin="counterup">@test</span></h2>
+                        }
+                        @*<p class="text-muted m-0"><b>Last:</b> 30.4k</p>*@
+                    </div>
+                </div>
+            </div><!-- end col -->
+
+            <div class="col-lg-3 col-md-6 col-sm-9">
+                <div class="card-box widget-box-one">
+                    <div class="wigdet-one-content">
+                        <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Total Debit </p>
+                        @{
+                            Decimal tld = 0;
+                            foreach (var item in trn)
+                            {
+                                tld = item.Debit;
+                                tld += tlc;
+
+
+                            }
+                            <h2 class="text-danger"><span data-plugin="counterup">@tld</span></h2>
+                        }
+                        @*<p class="text-muted m-0"><b>Last:</b> 30.4k</p>*@
+                    </div>
+                </div>
+            </div><!-- end col -->
+
+
+            <div class="col-lg-3 col-md-6 col-sm-9">
+                <div class="card-box widget-box-one">
+                    <div class="wigdet-one-content">
+                        <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Today Purchase</p>
+                        @{
+                            Decimal tod = 0;
+                            DateTime mydate = DateTime.Now;
+                            int Date = DateTime.Now.Day;
+                            int Months = DateTime.Now.Month;
+                            int year = DateTime.Now.Year;
+                            foreach (var item in trn.Where(a => a.Transaction_DateTime.Day == Date && a.Transaction_DateTime.Month==Months && a.Transaction_DateTime.Year == year))
+                            {
+                                tod = item.Debit;
+                                
+
+
+                            }
+                            <h2 class="text-danger"><span data-plugin="counterup">@tod</span></h2>
+                            var lastd = trn.Last();
+                            @*<p class="text-muted m-0"><b>Last:</b> @lastd.Debit</p>*@
+                        }
+
+
+                    </div>
+                </div>
+            </div><!-- end col -->
+
+            <div class="col-lg-3 col-md-6 col-sm-9">
+                <div class="card-box widget-box-one">
+                    <div class="wigdet-one-content">
+                        <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Today Sale</p>
+                        @{
+                            Decimal toc = 0;
+                            foreach (var item in trn.Where(a => a.Transaction_DateTime.Day == Date && a.Transaction_DateTime.Month == Months && a.Transaction_DateTime.Year == year))
+                            {
+                                toc = item.Credit;
+                               
+                            }
+                            <h2 class="text-danger"><span data-plugin="counterup">@toc</span></h2>
+                            var lastc = trn.Last();
+                            @*<p class="text-muted m-0"><b>Last:</b> @lastc.Credit</p>*@
+                        }
+                    </div>
+                </div>
+            </div><!-- end col -->
+            <!-- end col -->
+
+        </div>
+        <!-- end row -->
+
+
+
+
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-color panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Factory Users</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table table-hover m-0">
+                                <thead>
+                                    <tr>
+                                        <th>User Name</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        List<ApplicationUser> prt = db.Users.ToList();
+
+                                        foreach (var item in prt)
+                                        {
+                                            if (item.FactroryCrendital == true)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <h5 class="m-0"> @item.UserName </h5>
+                                                        @{var rol = db.Roles.ToList();
+                                                            foreach (var item2 in rol)
+                                                            {
+                                                                foreach (var rl in item2.Users.Where(r => r.UserId == item.Id))
+                                                                {
+                                                                    <span style="display:none">@rl.RoleId;</span>
+                                                                    if (item2.Id == rl.RoleId)
+                                                                    {
+                                                                        <p class="m-0 text-muted font-13"><small>@item2.Name</small></p>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                    </td>
+                                                    <td>@item.MobileNo</td>
+                                                    <td>@item.Email</td>
+                                                    <td>@item.User_Adress</td>
+                                                </tr>
+                                                                }
+                                                            }
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div> <!-- table-responsive -->
+                    </div>
+                </div>
+
+            </div>
+            <!-- end col -->
+
+            <div class="col-lg-6">
+                <div class="panel panel-color panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Shop Users</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table table-hover m-0">
+                                <thead>
+                                    <tr>
+                                        <th>User Name</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        foreach (var item in prt)
+                                        {
+                                            if (item.ShopCrendital == true)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <h5 class="m-0"> @item.UserName </h5>
+                                                        @{var rol = db.Roles.ToList();
+                                                            foreach (var item2 in rol)
+                                                            {
+                                                                foreach (var rl in item2.Users.Where(r => r.UserId == item.Id))
+                                                                {
+                                                                    <span style="display:none">@rl.RoleId;</span>
+                                                                    if (item2.Id == rl.RoleId)
+                                                                    {
+                                                                        <p class="m-0 text-muted font-13"><small>@item2.Name</small></p>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                    </td>
+                                                    <td>@item.MobileNo</td>
+                                                    <td>@item.Email</td>
+                                                    <td>@item.User_Adress</td>
+                                                </tr>
+                                                                }
+                                                            }
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div> <!-- table-responsive -->
+                    </div>
+                </div> <!-- end panel -->
+
+            </div>
+            <!-- end col -->
+
+        </div>
+        <!-- end row -->
+
+
+
+
+    </div> <!-- container -->
+
+</div> <!-- content -->
+
+<script>
+    var resizefunc = [];
+</script>
+
+<!-- jQuery  -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/detect.js"></script>
+<script src="assets/js/fastclick.js"></script>
+<script src="assets/js/jquery.blockUI.js"></script>
+<script src="assets/js/waves.js"></script>
+<script src="assets/js/jquery.slimscroll.js"></script>
+<script src="assets/js/jquery.scrollTo.min.js"></script>
+<script src="../plugins/switchery/switchery.min.js"></script>
+
+<!-- Counter js  -->
+<script src="../plugins/waypoints/jquery.waypoints.min.js"></script>
+<script src="../plugins/counterup/jquery.counterup.min.js"></script>
+
+<!--Morris Chart-->
+<script src="../plugins/morris/morris.min.js"></script>
+<script src="../plugins/raphael/raphael-min.js"></script>
+
+<!-- Dashboard init -->
+<script src="assets/pages/jquery.dashboard.js"></script>
+
+<!-- App js -->
+<script src="assets/js/jquery.core.js"></script>
+<script src="assets/js/jquery.app.js"></script>
+
+    </body>
+
+

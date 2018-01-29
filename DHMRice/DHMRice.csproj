@@ -1154,6 +1154,7 @@
     <Content Include="Views\TransactionShop\ViewAll.cshtml" />
     <Content Include="Views\TransactionShop\ViewToday.cshtml" />
     <Content Include="Views\ShopRiceSales\Index.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

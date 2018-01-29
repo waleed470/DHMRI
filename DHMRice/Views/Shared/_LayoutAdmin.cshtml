@@ -118,37 +118,52 @@
                     </ul>
                     <!-- Right(Notification) -->
                     <ul class="nav navbar-nav navbar-right">
+@if (User.IsInRole("Shop") || User.IsInRole("Admin"))
+{
+
                         <li>
                             <h5 style="color:white">Opening Balance Shop</h5>
                             <div id="openingBal_shop"></div>
                         </li>
                         <li>
                             <button class="btn btn-danger" style="margin-top:10%;margin-left:10%" onclick="ClosingdayConfirmation_Shop()">Close the Day</button>
+                          
                         </li>
+}
+@if (User.IsInRole("Factory") || User.IsInRole("Admin"))
+{
 
-                        <li>
+
+                        <li style="margin-left:18px">
+                        
                             <h5 style="color:white">Opening Balance</h5>
                             <div id="openingBal"></div>
                         </li>
                         <li>
-                            <button class="btn btn-danger" style="margin-top:10%;margin-left:10%" onclick="ClosingdayConfirmation()">Close the Day</button>
+                          <button class="btn btn-danger" style="margin-top:10%;margin-left:10%" onclick="ClosingdayConfirmation()">Close the Day</button>
                         </li>
-
+}
+@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+{
+    @Html.AntiForgeryToken()
 
                         <li class="dropdown user-box">
                             <a href="" class="dropdown-toggle waves-effect waves-light user-link" data-toggle="dropdown" aria-expanded="true">
                                 <img src="~/Content/assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle user-img">
                             </a>
+                         
+
                             <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
                                 <li>
-                                    <h5>Hi, waleed</h5>
+                                    <h5>Hi, @Session["UserName"]</h5>
                                 </li>
-                                <li><a href="javascript:void(0)"><i class="ti-user m-r-5"></i> Profile</a></li>
-                                <li><a href="javascript:void(0)"><i class="ti-settings m-r-5"></i> Settings</a></li>
+                              
                                 @*<li><a href="javascript:void(0)"><i class="ti-power-off m-r-5"></i> Logout</a></li>*@
-                                @Html.ActionLink("LogOff", "LogOff", "Account")
+                                @*@Html.ActionLink("LogOff", "LogOff", "Account")*@
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                             </ul>
-                        </li>
+                           
+                        </li> }
                     </ul> <!-- end navbar-right -->
                 </div><!-- end container -->
             </div><!-- end navbar -->
@@ -222,7 +237,9 @@
                     </div>
                     <ul>
                         <li class="menu-title">Navigation</li>
-                        <li class="has_sub">
+                     @if (User.IsInRole("Factory") || User.IsInRole("Admin"))
+                     {
+                           <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Raw Rice </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="~/RawRice/Index">View RawRice Purchasing</a></li>
@@ -231,7 +248,10 @@
                                 <li><a href="~/RawRice_Sales">RawRice Selling</a></li>
                             </ul>
                         </li>
-                        <li class="has_sub">
+                     }
+                       @if (User.IsInRole("Factory") || User.IsInRole("Admin"))
+                       {
+                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span>Rice Production </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="~/RiceProduction/Index">View RawRice Purchasing</a></li>
@@ -239,6 +259,9 @@
                                 <li><a href="~/ProducedRiceSales">Produced Rice Selling</a></li>
                             </ul>
                         </li>
+                       }
+@if (User.IsInRole("Factory") || User.IsInRole("Admin"))
+{
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Factory </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
@@ -246,6 +269,9 @@
                                 <li><a href="~/Factories/Create">Add Factory</a></li>
                             </ul>
                         </li>
+}
+@if (User.IsInRole("Shop") || User.IsInRole("Admin"))
+{
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Shop </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
@@ -258,6 +284,9 @@
                                 <li><a href="~/ShopRiceSales/">Sell Rice</a></li>
                             </ul>
                         </li>
+}
+@if (User.IsInRole("Factory") || User.IsInRole("Admin"))
+{
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Party / Customer</span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
@@ -267,22 +296,30 @@
                                 <li><a href="~/Parties/Create">Add Party/Customer</a></li>
                             </ul>
                         </li>
-                        <li class="has_sub">
+}
+ @if (User.IsInRole("Factory") || User.IsInRole("Admin"))
+ {
+                                                 <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Broker </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="~/Brokers/Index">View Broker</a></li>
                                 <li><a href="~/Brokers/Create">Add Broker</a></li>
                             </ul>
                         </li>
-
-                        <li class="has_sub">
+ }
+  @if (User.IsInRole("Factory") || User.IsInRole("Admin"))
+  {
+                                              <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Packing </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="~/Packings/Index">View Packing</a></li>
                                 <li><a href="~/Packings/Create">Add Packing</a></li>
                             </ul>
                         </li>
-                        <li class="has_sub">
+  }
+   @if (User.IsInRole("Factory") || User.IsInRole("Admin"))
+   {
+                                                                  <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Transactions </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="~/OpeningClosing/">Opening Closing of Days</a></li>
@@ -291,7 +328,8 @@
                                 <li><a href="~/Transaction/Add">Add Transaction</a></li>
                             </ul>
                         </li>
-                        @*<li class="has_sub">
+   }
+                                            @*<li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Rice_category </span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
                                     <li><a href="~/Rice_category/Index">View Rice_category</a></li>
