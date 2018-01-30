@@ -61,8 +61,13 @@ namespace DHMRice.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Dashboard", "Home");
+            }
+            ViewBag.ReturnUrl = returnUrl ?? Url.Action("Dashboard", "Home");
             return View();
+            
         }
 
         //

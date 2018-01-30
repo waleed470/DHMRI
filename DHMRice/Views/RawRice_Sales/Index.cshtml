@@ -27,6 +27,8 @@
         App.controller("RawRiceSalesCtrl", function ($scope, $http) {
             $scope.Grid = [];
             $scope.RemainingList = [];
+            $scope.RawRice_Sales_pt = { Party_Id: 0 };
+            $scope.RawRice_Sales_pt.Party = { Party_Id: 0, Party_Name: '', Party_Code: '', Party_MobileNo: '', Party_Address: '' };
             $scope.RawRice_Sales_pt = {};
             $scope.RawRice_Sales_pt.rsp_id = 0;
             $scope.RawRice_Sales_pt.rsp_Title = "";
@@ -35,6 +37,7 @@
             $scope.RawRice_Sales_pt.rsp_Total_Amount = 0;
             $scope.NetTotal = 0;
             $scope.RemainingAmount = 0;
+            $scope.Invoiceno;
             var list = [];
             $scope.isCash = "true";
             $scope.isBankAccount = "false";
@@ -94,12 +97,44 @@
                     }
                 });
             }
+
             $scope.PartyList = [];
-            $scope.Get_party = function () {
-                JsonCall("RawRice_Sales", "Get_party");
-                $scope.PartyList = list;
+            $scope.Get_Party_Via_Code = function () {
+                if ($scope.RawRice_Sales_pt.Party.Party_Id > 0) {
+                    $scope.RawRice_Sales_pt.Party.Party_Id = 0;
+                    $scope.RawRice_Sales_pt.Party.Party_MobileNo = '';
+                }
+                var parm = {
+                    'Code': JSON.stringify($scope.RawRice_Sales_pt.Party.Party_Code)
+                };
+                JsonCallParam("RawRice_Sales", "Get_Party_Via_Code", parm);
+                if (list != null) {
+                    $scope.RawRice_Sales_pt.Party = list;
+                    $scope.GetPartyRemainings();
+                }
             };
-            $scope.Get_party();
+            $scope.Get_Party_Via_Mobile = function () {
+
+                if ($scope.RawRice_Sales_pt.Party.Party_Id > 0) {
+                    $scope.RawRice_Sales_pt.Party.Party_Id = 0;
+                    $scope.RawRice_Sales_pt.Party.Party_Code = '';
+                }
+                var parm = {
+                    'Mobile': JSON.stringify($scope.RawRice_Sales_pt.Party.Party_MobileNo)
+                };
+                JsonCallParam("RawRice_Sales", "Get_Party_Via_Mobile", parm);
+                if (list != null) {
+                    $scope.RawRice_Sales_pt.Party = list;
+                    $scope.GetPartyRemainings();
+                }
+            };
+
+            //$scope.PartyList = [];
+            //$scope.Get_party = function () {
+            //    JsonCall("RawRice_Sales", "Get_party");
+            //    $scope.PartyList = list;
+            //};
+            //$scope.Get_party();
 
             $scope.RawRice_List=[];
             $scope.Get_RawRice = function () {
@@ -266,11 +301,18 @@
                 $scope.isBankAccount = "false";
                 $scope.isCheckbook = "true";
             };
+            $scope.ClearParty = function () {
+
+                $scope.RawRice_Sales_pt = { Party_Id: 0 };
+                $scope.RawRice_Sales_pt.Party = { Party_Id: 0, Party_Name: '', Party_Code: '', Party_MobileNo: '', Party_Address: '' };
+            };
             $scope.Clear = function () {
                 $scope.Deleted_RawRice_Sales_ch = [];
                 $scope.RemainingList = [];
                 $scope.RawRice_Sales_ch = [];
-                $scope.RawRice_Sales_pt = {};
+                $scope.RawRice_Sales_pt = { Party_Id: 0 };
+                $scope.RawRice_Sales_pt.Party = { Party_Id: 0, Party_Name: '', Party_Code: '', Party_MobileNo: '', Party_Address: '' };
+
                 $scope.NetTotal = 0;
                 $scope.RemainingAmount = 0;
                 $scope.RecievedAmount = 0;
@@ -281,19 +323,36 @@
                 //$scope.RawRice_Sales_pt.Party_Id = null;
                 $scope.RawRice_Sales_pt.rsp_id = 0;
                 $scope.Calculation();
+                $scope.Invoiceno = 0;
             };
             $scope.LoadGrid = function () {
                 JsonCall("RawRice_Sales", "Get_pt");
                 $scope.Grid = list;
+                angular.forEach($scope.Grid, function (obj) {
+                    var parm = { 'rsp_id': obj.Item1.rsp_id }
+                    $http.post(
+                     '/RawRice_Sales/Get_ReturnStatus',
+                     parm,
+                     {
+                         headers: {
+                             'Content-Type': 'application/json'
+                         }
+                     }).then(function (res) {
+                         obj.Item8=res.data;
+                     }, function (res) {
+                         //Error here
+                     }
+                     );
+                });
             };
             $scope.LoadGrid();
 
             $scope.GetPartyRemainings = function () {
                 if ($scope.RawRice_Sales_pt.rsp_id == 0) {
-                    JsonCallParam("RawRice_Sales", "GetPartyRemainings", { "Party_Id": $scope.RawRice_Sales_pt.Party_Id });
+                    JsonCallParam("RawRice_Sales", "GetPartyRemainings", { "Party_Id": $scope.RawRice_Sales_pt.Party.Party_Id });
                     $scope.RemainingList = list;
                 } else {
-                    JsonCallParam("RawRice_Sales", "GetPartyRemainings1", { "Party_Id": $scope.RawRice_Sales_pt.Party_Id, "rsp_id": $scope.RawRice_Sales_pt.rsp_id });
+                    JsonCallParam("RawRice_Sales", "GetPartyRemainings1", { "Party_Id": $scope.RawRice_Sales_pt.Party.Party_Id, "rsp_id": $scope.RawRice_Sales_pt.rsp_id });
                     $scope.RemainingList = list;
                 }
             };
@@ -305,6 +364,10 @@
                 $scope.RawRice_Sales_pt.rsp_TotalWeight_KG = obj.Item1.rsp_TotalWeight_KG;
                 $scope.RawRice_Sales_pt.rsp_TotalWeight_Mann = obj.Item1.rsp_TotalWeight_Mann;
                 $scope.RawRice_Sales_pt.rsp_Total_Amount = obj.Item1.rsp_Total_Amount;
+                $scope.Invoiceno = obj.Item7;
+                JsonCallParam("RawRice_Sales", "Get_Party", { "rsp_id": obj.Item1.rsp_id });
+
+                $scope.RawRice_Sales_pt.Party = list;
                 JsonCallParam("RawRice_Sales", "Get_ch", { "id": obj.Item1.rsp_id });
                 var i = 0;
                 angular.forEach(list, function (obj) {
@@ -334,6 +397,24 @@
                 JsonCallParam("RawRice_Sales", "ReceivedRemaining", { "id": obj.Item1.rsp_id, "Remaining": obj.Item5 });
                 $scope.LoadGrid();
             };
+            $scope.Return = function (obj) {
+               // console.log(obj.Item1.rsp_id);
+                var parm ={'rsp_id':obj.Item1.rsp_id}
+                $http.post(
+                 '/RawRice_Sales/Return',
+                 parm,
+                 {
+                     headers: {
+                         'Content-Type': 'application/json'
+                     }
+                 }).then(function (res) {
+                     $scope.Clear();
+                     $scope.LoadGrid();
+                 }, function (res) {
+                     //Error here
+                 }
+                 );
+            };
             $scope.ValidateRemainings = function () {
                 angular.forEach($scope.Grid, function (obj) {
                     console.log(obj.Item5);
@@ -354,13 +435,18 @@
             }
             $scope.Save = function () {
 
+                $scope.RawRice_Sales_pt.Party.ApplicationUser = null;
                 var remaining_rsp_id = [];
                 angular.forEach($scope.RemainingList, function (obj) {
                     if (obj.selected) {
                         remaining_rsp_id.push(obj.Item1.rsp_id);
                     }
                 });
-               
+
+                var Party = {};
+                angular.extend(Party, $scope.RawRice_Sales_pt.Party);
+                $scope.RawRice_Sales_pt.Party = Party;
+
                 if ($scope.RawRice_Sales_pt.rsp_id == 0) {
                     var pram = {
                         'rawRice_Sales_pt': JSON.stringify($scope.RawRice_Sales_pt),
@@ -406,6 +492,7 @@
 
                 $scope.LoadGrid();
                 $scope.Clear();
+              
             };
         });
     </script>
@@ -422,7 +509,7 @@
                         <ol class="breadcrumb p-0 m-0">
 
                             <li class="active">
-                                Index{{RawRice_Sales_pt.rsp_id}}
+                                Invoice no :{{Invoiceno}}
                             </li>
                         </ol>
                         <div class="clearfix"></div>
@@ -435,22 +522,56 @@
                     <h4>{{RawRice_Sales_pt.rsp_Title}}</h4>
                     <hr />
                     <form name="form">
+                        <br />
                         <div class="form-group">
-                            <label class="control-label col-md-1">Party</label>
-                            <div class="col-md-11">
-                                <select ng-model="RawRice_Sales_pt.Party_Id" name="Party_Id" ng-change="GetPartyRemainings()" class="form-control selectpicker"  ng-options="item.Party_Id as item.Party_Name for item in PartyList"  required>
-                                    <option value="">Select Party</option>
-                                    
-                                </select>
-                                <span style="color:red" ng-show="form.Party_Id.$invalid &&form.Party_Id.$dirty">
-                                    <span ng-show="form.Party_Id.$error.required">Select Party.</span>
-                                </span>
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Party Name</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="Party_Name" ng-model="RawRice_Sales_pt.Party.Party_Name" ng-disabled="RawRice_Sales_pt.Party.Party_Id>0" placeholder="ex: Hussnain" pattern="^[A-Za-z ]{2,25}$" required />
+                                        <span style="color:red" ng-show="form.Party_Name.$invalid &&form.Party_Name.$dirty">
+                                            <span ng-show="form.Party_Name.$error.required">Enter Party Name</span>
+                                            <span ng-show="form.Party_Name.$error.pattern">Invalid Party Name only Alphabetic Name will acceptable and length should be 2 to 25</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Party Code</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="PartyCode" ng-model="RawRice_Sales_pt.Party.Party_Code" ng-change="Get_Party_Via_Code()" placeholder="ex: 46A13" pattern="^[A-Za-z0-9,_-]{2,8}$" required />
+                                        <span style="color:red" ng-show="form.PartyCode.$invalid &&form.PartyCode.$dirty">
+                                            <span ng-show="form.PartyCode.$error.required">Enter Party Code</span>
+                                            <span ng-show="form.PartyCode.$error.pattern">Invalid Party Code only Alpha Numeric Code will acceptable and length should be 2 to 8</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label col-md-4">Party Mobile no</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="Party_MobileNo" ng-model="RawRice_Sales_pt.Party.Party_MobileNo" ng-change="Get_Party_Via_Mobile()" placeholder="ex: 0323-xxxxxxx" pattern="^\(?([0-9]{4})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$" required />
+                                        <span style="color:red" ng-show="form.Party_MobileNo.$invalid &&form.Party_MobileNo.$dirty">
+                                            <span ng-show="form.Party_MobileNo.$error.required">Enter Party Mobile no</span>
+                                            <span ng-show="form.Party_MobileNo.$error.pattern">Invalid Format Mobile Number ex: 0323-xxxxxxx or 0323xxxxxxx </span>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-
-
-
                         </div>
                         <br />
+                        <div class="form-group">
+                            <label class="control-label col-md-1">Party Address</label>
+                            <div class="col-md-8" style="margin-left:3%">
+                                <input type="text" class="form-control" name="Address" ng-model="RawRice_Sales_pt.Party.Party_Address" ng-disabled="RawRice_Sales_pt.Party.Party_Id>0" placeholder="Address" required />
+                                <span style="color:red" ng-show="form.Address.$invalid &&form.Address.$dirty">
+                                    <span ng-show="form.Address.$error.required">Enter Party Address</span>
+                                </span>
+                            </div>
+                            <div class="col-md-2">
+
+                                <input type="button" value="Clear Party" class="btn btn-lg btn-warning" style="width:100%" ng-click="ClearParty()" />
+                            </div>
+
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <div class="col-sm-4">
@@ -647,7 +768,11 @@
                             <div class="col-sm-2"></div>
                             <div class="col-sm-8">
                                 <div class="col-sm-6">
-                                    <input type="submit" name="Save" id="Save" value="Save" class="btn btn-lg btn-success"  ng-click="Save()" ng-disabled="form.RecievedAmount.$invalid||form.Party_Id.$invalid||!RawRice_Sales_ch.length||NetTotal==0" style="width:100%" />
+                                    <input type="submit" name="Save" id="Save" value="Save" class="btn btn-lg btn-success"  ng-click="Save()" ng-disabled="form.RecievedAmount.$invalid||
+                                           form.Party_Name.$invalid||
+                                           form.PartyCode.$invalid||
+                                           form.Party_MobileNo.$invalid||
+                                           form.Address.$invalid||!RawRice_Sales_ch.length||NetTotal==0" style="width:100%" />
                                 </div>
 
                                 <div class="col-sm-6">
@@ -669,6 +794,7 @@
                     <table id="datatable-buttons" class="table table-striped  table-colored table-info">
                         <thead>
                             <tr>
+                                <th>Invoice no</th>
                                 <th>Title</th>
                                 <th>Date</th>
                                 <th>Party</th>
@@ -677,11 +803,13 @@
                                 <th>Total Amount</th>
                                 <th>Recieved</th>
                                 <th>Remaining</th>
+                                <th>Return</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="item in Grid">
+                                <td>{{item.Item7}}</td>
                                 <td>{{item.Item1.rsp_Title}}</td>
                                 <td>{{item.Item2}}</td>
                                 <td>{{item.Item1.Party.Party_Name}}</td>
@@ -689,13 +817,20 @@
                                 <td>{{item.Item1.rsp_TotalWeight_Mann}}</td>
                                 <td>{{item.Item1.rsp_Total_Amount}}</td>
                                 <td>{{item.Item3}}</td>
-                                    <td ng-show="item.Item4>0">
+                                    <td ng-show="item.Item4>0 && item.Item8==0">
                                         <input ng-model="item.Item5" type="number" ng-change="ValidateRemainings()"/> 
                                         <input type="button" value="Receive Remaining" class="btn btn-sm btn-primary" ng-click="ReceivedRemaining(item)" ng-show="item.Item5>0"/> 
                                     </td>
+                                    <td ng-show="item.Item4>0 && item.Item8==1">
+                                            {{item.Item5}}
+                                    </td>
                                     <td ng-show="item.Item4==0">0</td>
-                                <td ng-if="item.Item6==1"><input value="Edit" class="btn btn-sm btn-warning" type="button" ng-click="LoadRawRice_pt(item)"/><input value="Delete" class="btn btn-sm btn-danger" ng-click="Delete(item)" type="button"/> </td>
-                                <td ng-if="item.Item6==0">No Action</td>
+
+                                <td ng-if="item.Item8==0"> <input type="button" value="Return Invoice" class="btn btn-sm btn-danger"  ng-click="Return(item)" />  </td>
+                                <td ng-if="item.Item8==1"> Returned!</td>
+
+                                <td ng-if="item.Item6==1&&item.Item8==0"><input value="Edit" class="btn btn-sm btn-warning" type="button" ng-click="LoadRawRice_pt(item)"/><input value="Delete" class="btn btn-sm btn-danger" ng-click="Delete(item)" type="button"/> </td>
+                                <td ng-if="item.Item6==0||item.Item8==1">No Action</td>
                             </tr>
                         </tbody>
                     </table>

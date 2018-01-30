@@ -362,12 +362,22 @@
     <Compile Include="Migrations\201801251817188_Mig_12.Designer.cs">
       <DependentUpon>201801251817188_Mig_12.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801291845449_Sale Invoice no.cs" />
+    <Compile Include="Migrations\201801291845449_Sale Invoice no.Designer.cs">
+      <DependentUpon>201801291845449_Sale Invoice no.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801292253036_change Datatype.cs" />
+    <Compile Include="Migrations\201801292253036_change Datatype.Designer.cs">
+      <DependentUpon>201801292253036_change Datatype.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Broker.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Factory.cs" />
     <Compile Include="Models\GatePassInwared.cs" />
+    <Compile Include="Models\HardCode\SaleInvoiceType.cs" />
+    <Compile Include="Models\HardCode\SellingCategory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Opening_ClosingDays_Shop.cs" />
@@ -375,6 +385,7 @@
     <Compile Include="Models\Packing.cs" />
     <Compile Include="Models\Party.cs" />
     <Compile Include="Models\Pricing.cs" />
+    <Compile Include="Models\SaleInvoice.cs" />
     <Compile Include="Models\ShopRiceSales_ch.cs" />
     <Compile Include="Models\ProducedRiceSales_ch.cs" />
     <Compile Include="Models\ShopRiceSales_pt.cs" />
@@ -1155,6 +1166,7 @@
     <Content Include="Views\TransactionShop\ViewToday.cshtml" />
     <Content Include="Views\ShopRiceSales\Index.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="SqlScripts\30-1%28bhatti%29.rar" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1222,6 +1234,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801251817188_Mig_12.resx">
       <DependentUpon>201801251817188_Mig_12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801291845449_Sale Invoice no.resx">
+      <DependentUpon>201801291845449_Sale Invoice no.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801292253036_change Datatype.resx">
+      <DependentUpon>201801292253036_change Datatype.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

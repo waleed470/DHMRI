@@ -1,4 +1,6 @@
 ﻿using DHMRice.Models;
+using DHMRice.Models.HardCode;
+using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Web.Script.Serialization;
 
 namespace DHMRice.Controllers
 {
+    [Authorize(Roles = "Shop,Admin")]
     public class ShopRiceSalesController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
@@ -20,13 +23,18 @@ namespace DHMRice.Controllers
         [HttpPost]
         public JsonResult Get_pt()
         {
-            List<Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int>> obj = new List<Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int>>();
+            List<Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int,int>> obj = new List<Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int,int>>();
             var list = db.ShopRiceSales_pt.Where(m => m.srsp_status).ToList();
             foreach (var item in list)
             {
                 try
                 {
-                    decimal recieved = db.Transaction_Shop.Where(m => m.status && m.Transaction_Shop_item_id == item.srsp_id && m.Transaction_Shop_item_type == "Shop Rice Sales").Sum(m => m.Credit);
+                    decimal recieved = db.Transaction_Shop.Where(m => m.status
+                    &&
+                    m.Transaction_Shop_item_id == item.srsp_id &&
+                    m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales ||
+                    m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales_Remaining
+                    ).Sum(m => m.Credit);
                     int action = 0;
                     foreach (var oc in db.Opening_ClosingDays_Shop)
                     {
@@ -36,7 +44,9 @@ namespace DHMRice.Controllers
                             break;
                         }
                     }
-                    obj.Add(new Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int>(item, item.srsp_date.ToShortDateString(), recieved, item.srsp_Total_Amount - recieved, item.srsp_Total_Amount - recieved, action));
+                    int invoice_no = db.SaleInvoice.Where(m => m.Sale_id == item.srsp_id && m.SaleInvoice_type == SaleInvoiceType.ShopRiceSales).SingleOrDefault().SaleInvoice_no;
+
+                    obj.Add(new Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int,int>(item, item.srsp_date.ToShortDateString(), recieved, item.srsp_Total_Amount - recieved, item.srsp_Total_Amount - recieved, action,invoice_no));
 
                 }
                 catch (Exception)
@@ -48,6 +58,24 @@ namespace DHMRice.Controllers
             return Json(obj, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        public JsonResult Get_ReturnStatus(int srsp_id)
+        {
+            int action = 0;
+            try
+            {
+                var trans = db.Transaction_Shop.Where(
+                         m => m.Transaction_Shop_item_id == srsp_id &&
+                         m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales_Return
+                         ).SingleOrDefault();
+                action = (trans != null) ? 1 : 0;
+            }
+            catch (Exception ex)
+            {
+                action = 0;
+            }
+            return Json(action, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
         public JsonResult GetCustomerRemainings(int Customer_Id)
         {
             var mShopSales = db.ShopRiceSales_pt.Where(m => m.Customer_Id == Customer_Id && m.srsp_status).ToList();
@@ -57,7 +85,18 @@ namespace DHMRice.Controllers
             {
                 try
                 {
-                    decimal Recieved = db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == item.srsp_id && m.status && m.Transaction_Shop_item_type == "Shop Rice Sales").Sum(m => m.Credit);
+                    decimal Recieved = db.Transaction_Shop.Where(m => m.status
+                    &&
+                    m.Transaction_Shop_item_id == item.srsp_id &&
+                    m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales ||
+                    m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales_Remaining
+                    ).Sum(m => m.Credit);
+                    var trans = db.Transaction_Shop.Where(
+                      m => m.Transaction_Shop_item_id == item.srsp_id &&
+                      m.Transaction_Shop_item_type == SellingCategory.Produced_Rice_Sales_Return
+                      ).SingleOrDefault();
+                    Recieved = (trans != null) ? item.srsp_Total_Amount : Recieved;
+
                     decimal remaining = item.srsp_Total_Amount - Recieved;
                     if (remaining > 0)
                         jsonret.Add(new Tuple<ShopRiceSales_pt, decimal, decimal>(item, Recieved, remaining));
@@ -78,7 +117,17 @@ namespace DHMRice.Controllers
             {
                 try
                 {
-                    decimal Recieved = db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == item.srsp_id && m.status && m.Transaction_Shop_item_type == "Shop Rice Sales").Sum(m => m.Credit);
+                    decimal Recieved = db.Transaction_Shop.Where(m => m.status
+                    &&
+                    m.Transaction_Shop_item_id == item.srsp_id &&
+                    m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales ||
+                    m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales_Remaining
+                    ).Sum(m => m.Credit);
+                    var trans = db.Transaction_Shop.Where(
+                      m => m.Transaction_Shop_item_id == item.srsp_id &&
+                      m.Transaction_Shop_item_type == SellingCategory.Produced_Rice_Sales_Return
+                      ).SingleOrDefault();
+                    Recieved = (trans != null) ? item.srsp_Total_Amount : Recieved;
                     decimal remaining = item.srsp_Total_Amount - Recieved;
                     if (remaining > 0)
                         jsonret.Add(new Tuple<ShopRiceSales_pt, decimal, decimal>(item, Recieved, remaining));
@@ -88,6 +137,7 @@ namespace DHMRice.Controllers
             }
             return Json(jsonret.ToList(), JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         public JsonResult Get_ch(int id)
         {
@@ -181,7 +231,52 @@ namespace DHMRice.Controllers
             }
 
         }
+        [HttpPost]
+        public JsonResult Return(int srsp_id)
+        {
+            ShopRiceSales_pt mShopRiceSales_pt = db.ShopRiceSales_pt.Where(m => m.srsp_id == srsp_id && m.srsp_status).SingleOrDefault();
+            if (mShopRiceSales_pt != null)
+            {
+                foreach (var item in db.ShopRiceSales_ch.Where(m => m.srsp_id == mShopRiceSales_pt.srsp_id && m.srsc_status).ToList())
+                {
+                    //Again add in stock
+                    var mstock = db.ShopStock.Find(item.ShopStockId);
+                    mstock.SoldQty -= item.srsc_qty;
+                    db.Entry(mstock).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
 
+                var Receivedtrans = db.Transaction.Where(
+                      m => m.status &&
+                      m.Transaction_item_id == mShopRiceSales_pt.srsp_id &&
+                          (m.Transaction_item_type == SellingCategory.RawRice_Sales || m.Transaction_item_type == SellingCategory.RawRice_Sales_Remaining)
+                      ).SingleOrDefault();
+                decimal recieved = (Receivedtrans != null) ? Receivedtrans.Credit : 0;
+
+                Transaction_Shop trans = new Transaction_Shop();
+                trans.isByCash = true;
+                trans.BankAccountNo = "";
+                foreach (var item in db.Opening_ClosingDays_Shop)
+                {
+                    if (item.Date.ToShortDateString() == DateTime.Now.ToShortDateString() && !item.isClosed)
+                    {
+                        trans.Opening_ClosingDays_Shop_id = item.Opening_ClosingDays_Shop_id;
+                        break;
+                    }
+                }
+                trans.Transaction_Shop_DateTime = DateTime.Now;
+                trans.Transaction_Shop_Description = "RawRice Return from " + db.Customers.Find(mShopRiceSales_pt.Customer_Id).Customer_Name;
+                trans.Transaction_Shop_item_id = srsp_id;
+                trans.Transaction_Shop_item_type = SellingCategory.Shop_Rice_Sales_Return;
+                trans.Debit = recieved;
+                trans.Credit = 0;
+                trans.status = (recieved > 0) ? true : false;
+                db.Transaction_Shop.Add(trans);
+                db.SaveChanges();
+            }
+            return Json(1, JsonRequestBehavior.AllowGet);
+
+        }
         [HttpPost]
         public void Insert_sales(FormCollection form)
         {
@@ -193,7 +288,12 @@ namespace DHMRice.Controllers
                 for (int i = 0; i < remaining_rsp_id.Count; i++)
                 {
                     var mShopRiceSales_pt = db.ShopRiceSales_pt.Find(remaining_rsp_id[i]);
-                    var rec = db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == mShopRiceSales_pt.srsp_id && m.Transaction_Shop_item_type == "Shop Rice Sales").Sum(m => m.Credit);
+                    var rec = db.Transaction_Shop.Where(m => m.status
+                    &&
+                    m.Transaction_Shop_item_id == mShopRiceSales_pt.srsp_id &&
+                    m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales ||
+                    m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales_Remaining
+                    ).Sum(m => m.Credit);
                     var Remaining = mShopRiceSales_pt.srsp_Total_Amount - rec;
 
                     Transaction_Shop trans = new Transaction_Shop();
@@ -222,7 +322,7 @@ namespace DHMRice.Controllers
                     trans.Transaction_Shop_DateTime = DateTime.Now;
                     trans.Transaction_Shop_Description = "Received Remaining from " + db.Customers.Find(mShopRiceSales_pt.Customer_Id).Customer_Name;
                     trans.Transaction_Shop_item_id = remaining_rsp_id[i];
-                    trans.Transaction_Shop_item_type = "Shop Rice Sales Remaining";
+                    trans.Transaction_Shop_item_type = SellingCategory.Shop_Rice_Sales_Remaining;
                     trans.Debit = 0;
                     trans.Credit = Remaining;
                     trans.status = true;
@@ -245,7 +345,8 @@ namespace DHMRice.Controllers
             }
             else
             {
-                string idd = Convert.ToString(Session["UserId"]);
+                // string idd = Convert.ToString(Session["UserId"]);
+                string idd = User.Identity.GetUserId();
                 ShopRiceSales_pt.Customer.Id = idd;
                 ShopRiceSales_pt.Customer.Status = true;
                 db.Customers.Add(ShopRiceSales_pt.Customer);
@@ -303,11 +404,22 @@ namespace DHMRice.Controllers
             trans_this.Transaction_Shop_DateTime = DateTime.Now;
             trans_this.Transaction_Shop_Description = ShopRiceSales_pt.srsp_Title;
             trans_this.Transaction_Shop_item_id = srsp_id;
-            trans_this.Transaction_Shop_item_type = "Shop Rice Sales";
+            trans_this.Transaction_Shop_item_type = SellingCategory.Shop_Rice_Sales;
             trans_this.Debit = 0;
             trans_this.Credit = Recieved_Amount;
             trans_this.status = true;
             db.Transaction_Shop.Add(trans_this);
+            db.SaveChanges();
+
+
+            SaleInvoiceType mSaleInvoiceType = new SaleInvoiceType();
+            SaleInvoice saleInvoice = new SaleInvoice()
+            {
+                SaleInvoice_no = mSaleInvoiceType.GenerateInvoiceNo(SaleInvoiceType.ShopRiceSales),
+                SaleInvoice_type = SaleInvoiceType.ShopRiceSales,
+                Sale_id = db.ShopRiceSales_pt.Max(m => m.srsp_id)
+            };
+            db.SaleInvoice.Add(saleInvoice);
             db.SaveChanges();
         }
 
@@ -324,7 +436,12 @@ namespace DHMRice.Controllers
                 for (int i = 0; i < remaining_srsp_id.Count; i++)
                 {
                     var ShopRiceSales_pt1 = db.ShopRiceSales_pt.Find(remaining_srsp_id[i]);
-                    var rec = db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == ShopRiceSales_pt1.srsp_id && m.Transaction_Shop_item_type == "Shop Rice Sales").Sum(m => m.Credit);
+                    var rec = db.Transaction_Shop.Where(m => m.status
+                     &&
+                     m.Transaction_Shop_item_id == ShopRiceSales_pt1.srsp_id &&
+                     m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales ||
+                     m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales_Remaining
+                    ).Sum(m => m.Credit);
                     var Remaining = ShopRiceSales_pt1.srsp_Total_Amount - rec;
 
                     Transaction_Shop trans = new Transaction_Shop();
@@ -353,7 +470,7 @@ namespace DHMRice.Controllers
                     trans.Transaction_Shop_DateTime = DateTime.Now;
                     trans.Transaction_Shop_Description = "Received Remaining from " + db.Customers.Find(ShopRiceSales_pt1.Customer_Id).Customer_Name;
                     trans.Transaction_Shop_item_id = remaining_srsp_id[i];
-                    trans.Transaction_Shop_item_type = "Shop Rice Sales Remaining";
+                    trans.Transaction_Shop_item_type =SellingCategory.Shop_Rice_Sales_Remaining;
                     trans.Debit = 0;
                     trans.Credit = Remaining;
                     trans.status = true;
@@ -377,7 +494,8 @@ namespace DHMRice.Controllers
             }
             else
             {
-                string idd = Convert.ToString(Session["UserId"]);
+                // string idd = Convert.ToString(Session["UserId"]);
+                string idd = User.Identity.GetUserId();
                 ShopRiceSales_pt_view.Customer.Id = idd;
                 ShopRiceSales_pt.Customer.Status = true;
                 db.Customers.Add(ShopRiceSales_pt_view.Customer);
@@ -471,7 +589,7 @@ namespace DHMRice.Controllers
 
             }
 
-            foreach (var item in db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == ShopRiceSales_pt.srsp_id && m.Transaction_Shop_item_type == "Shop Rice Sales" && m.status))
+            foreach (var item in db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == ShopRiceSales_pt.srsp_id && m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales&& m.status))
             {
                 db.Transaction_Shop.Remove(item);
             }
@@ -502,7 +620,7 @@ namespace DHMRice.Controllers
             trans_this.Transaction_Shop_DateTime = DateTime.Now;
             trans_this.Transaction_Shop_Description = ShopRiceSales_pt.srsp_Title;
             trans_this.Transaction_Shop_item_id = srsp_id;
-            trans_this.Transaction_Shop_item_type = "Shop Rice Sales";
+            trans_this.Transaction_Shop_item_type = SellingCategory.Shop_Rice_Sales;
             trans_this.Debit = 0;
             trans_this.Credit = Recieved_Amount;
             trans_this.status = true;
@@ -535,7 +653,7 @@ namespace DHMRice.Controllers
                 ShopRiceSales_pt.srsp_status = false;
                 db.Entry(ShopRiceSales_pt).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                foreach (var item in db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == ShopRiceSales_pt.srsp_id && m.Transaction_Shop_item_type == "Shop Rice Sales" && m.status))
+                foreach (var item in db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == ShopRiceSales_pt.srsp_id && m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales && m.status))
                 {
                     db.Transaction_Shop.Remove(item);
                 }
@@ -547,7 +665,7 @@ namespace DHMRice.Controllers
         public void ReceivedRemaining(FormCollection form)
         {
             var ShopRiceSales_pt = db.ShopRiceSales_pt.Find(Convert.ToInt32(form["id"]));
-            // var rec = db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == ShopRiceSales_pt.srsp_id && m.Transaction_Shop_item_type == "Shop Rice Sales").Sum(m => m.Credit);
+            // var rec = db.Transaction_Shop_Shop.Where(m => m.Transaction_Shop_Shop_item_id == ShopRiceSales_pt.srsp_id && m.Transaction_Shop_Shop_item_type == "Shop Rice Sales").Sum(m => m.Credit);
             // var Remaining = ShopRiceSales_pt.srsp_Total_Amount - rec;
 
             Transaction_Shop trans = new Transaction_Shop();
@@ -566,7 +684,7 @@ namespace DHMRice.Controllers
             trans.Transaction_Shop_DateTime = DateTime.Now;
             trans.Transaction_Shop_Description = "Received Remaining from " + db.Customers.Find(ShopRiceSales_pt.Customer_Id).Customer_Name;
             trans.Transaction_Shop_item_id = Convert.ToInt32(form["id"]);
-            trans.Transaction_Shop_item_type = "Shop Rice Sales";
+            trans.Transaction_Shop_item_type = SellingCategory.Shop_Rice_Sales;
             trans.Debit = 0;
             trans.Credit = Convert.ToInt32(form["Remaining"]);
             trans.status = true;

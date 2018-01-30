@@ -56,6 +56,7 @@ namespace DHMRice.Models
         public DbSet<Transaction> Transaction { get; set; }
         public DbSet<Opening_ClosingDays> Opening_ClosingDays { get; set; }
         public DbSet<Rice_Production> Rice_Productions { get; set; }
+        public DbSet<SaleInvoice> SaleInvoice { get; set; }
         public DbSet<RawRice_Sales_pt> RawRice_Sales_pt { get; set; }
         public DbSet<RawRice_Sales_ch> RawRice_Sales_ch { get; set; }
         public DbSet<ProducedRiceSales_pt> ProducedRiceSales_pt { get; set; }

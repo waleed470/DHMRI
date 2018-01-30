@@ -37,6 +37,7 @@
             $scope.NetTotal = 0;
             $scope.RemainingAmount = 0;
             var list = [];
+            $scope.Invoiceno;
             $scope.isCash = "true";
             $scope.isBankAccount = "false";
             $scope.isCheckbook = "false";
@@ -107,6 +108,7 @@
                 JsonCallParam("ShopRiceSales", "Get_Customer_Via_Code",parm);
                 if (list != null) {
                     $scope.ShopRiceSales_pt.Customer = list;
+                    $scope.GetCustomerRemainings();
                 }
             };
             $scope.Get_Customer_Via_Mobile = function () {
@@ -121,6 +123,7 @@
                 JsonCallParam("ShopRiceSales", "Get_Customer_Via_Mobile", parm);
                 if (list != null) {
                     $scope.ShopRiceSales_pt.Customer = list;
+                    $scope.GetCustomerRemainings();
                 } 
             };
             $scope.ShopRice_List=[];
@@ -306,19 +309,36 @@
                 //$scope.ShopRiceSales_pt.Customer_Id = null;
                 $scope.ShopRiceSales_pt.srsp_id = 0;
                 $scope.Calculation();
+                $scope.Invoiceno = 0;
             };
             $scope.LoadGrid = function () {
                 JsonCall("ShopRiceSales", "Get_pt");
                 $scope.Grid = list;
+                angular.forEach($scope.Grid, function (obj) {
+                    var parm = { 'srsp_id': obj.Item1.srsp_id }
+                    $http.post(
+                     '/ShopRiceSales/Get_ReturnStatus',
+                     parm,
+                     {
+                         headers: {
+                             'Content-Type': 'application/json'
+                         }
+                     }).then(function (res) {
+                         obj.Item8 = res.data;
+                     }, function (res) {
+                         //Error here
+                     }
+                     );
+                });
             };
             $scope.LoadGrid();
 
             $scope.GetCustomerRemainings = function () {
                 if ($scope.ShopRiceSales_pt.srsp_id == 0) {
-                    JsonCallParam("ShopRiceSales", "GetCustomerRemainings", { "Customer_Id": $scope.ShopRiceSales_pt.Customer_Id });
+                    JsonCallParam("ShopRiceSales", "GetCustomerRemainings", { "Customer_Id": $scope.ShopRiceSales_pt.Customer.Customer_Id });
                     $scope.RemainingList = list;
                 } else {
-                    JsonCallParam("ShopRiceSales", "GetCustomerRemainings1", { "Customer_Id": $scope.ShopRiceSales_pt.Customer_Id, "srsp_id": $scope.ShopRiceSales_pt.srsp_id });
+                    JsonCallParam("ShopRiceSales", "GetCustomerRemainings1", { "Customer_Id": $scope.ShopRiceSales_pt.Customer.Customer_Id, "srsp_id": $scope.ShopRiceSales_pt.srsp_id });
                     $scope.RemainingList = list;
                 }
             };
@@ -330,6 +350,7 @@
                 $scope.ShopRiceSales_pt.srsp_TotalWeight_KG = obj.Item1.srsp_TotalWeight_KG;
                 $scope.ShopRiceSales_pt.srsp_TotalWeight_Mann = obj.Item1.srsp_TotalWeight_Mann;
                 $scope.ShopRiceSales_pt.srsp_Total_Amount = obj.Item1.srsp_Total_Amount;
+                $scope.Invoiceno = obj.Item7;
                 JsonCallParam("ShopRiceSales", "Get_Customer", { "srsp_id": obj.Item1.srsp_id });
                 $scope.ShopRiceSales_pt.Customer = list;
                 JsonCallParam("ShopRiceSales", "Get_ch", { "id": obj.Item1.srsp_id });
@@ -360,6 +381,24 @@
             $scope.ReceivedRemaining = function (obj) {
                 JsonCallParam("ShopRiceSales", "ReceivedRemaining", { "id": obj.Item1.srsp_id, "Remaining": obj.Item5 });
                 $scope.LoadGrid();
+            };
+            $scope.Return = function (obj) {
+                // console.log(obj.Item1.rsp_id);
+                var parm = { 'srsp_id': obj.Item1.srsp_id }
+                $http.post(
+                 '/ShopRiceSales/Return',
+                 parm,
+                 {
+                     headers: {
+                         'Content-Type': 'application/json'
+                     }
+                 }).then(function (res) {
+                     $scope.Clear();
+                     $scope.LoadGrid();
+                 }, function (res) {
+                     //Error here
+                 }
+                 );
             };
             $scope.ValidateRemainings = function () {
                 angular.forEach($scope.Grid, function (obj) {
@@ -452,7 +491,7 @@
                         <ol class="breadcrumb p-0 m-0">
 
                             <li class="active">
-                                Index{{ShopRiceSales_pt.srsp_id}}
+                                Invoice no :{{Invoiceno}}
                             </li>
                         </ol>
                         <div class="clearfix"></div>
@@ -472,10 +511,10 @@
                                 <div class="col-sm-4">
                                     <label class="control-label col-md-4">Customer Name</label>
                                     <div class="col-md-8">
-                                        <input type="text" class="form-control" name="Customer_Name" ng-model="ShopRiceSales_pt.Customer.Customer_Name" ng-disabled="ShopRiceSales_pt.Customer.Customer_Id>0"  placeholder="ex: Hussnain" pattern="^[A-Za-z ]{2,15}$" required  />
+                                        <input type="text" class="form-control" name="Customer_Name" ng-model="ShopRiceSales_pt.Customer.Customer_Name" ng-disabled="ShopRiceSales_pt.Customer.Customer_Id>0"  placeholder="ex: Hussnain" pattern="^[A-Za-z ]{2,25}$" required  />
                                         <span style="color:red" ng-show="form.Customer_Name.$invalid &&form.Customer_Name.$dirty">
                                             <span ng-show="form.Customer_Name.$error.required">Enter Customer Name</span>
-                                            <span ng-show="form.Customer_Name.$error.pattern">Invalid Customer Name only Alphabetic Name will acceptable and length should be 2 to 15</span>
+                                            <span ng-show="form.Customer_Name.$error.pattern">Invalid Customer Name only Alphabetic Name will acceptable and length should be 2 to 25</span>
                                         </span>
                                     </div>
                                 </div>
@@ -751,6 +790,7 @@
                     <table id="datatable-buttons" class="table table-striped  table-colored table-info">
                         <thead>
                             <tr>
+                                <th>Invoice no</th>
                                 <th>Title</th>
                                 <th>Date</th>
                                 <th>Customer</th>
@@ -759,11 +799,14 @@
                                 <th>Total Amount</th>
                                 <th>Recieved</th>
                                 <th>Remaining</th>
+                                <th>Returning</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="item in Grid">
+                                <
+                                <td>{{item.Item7}}</td>
                                 <td>{{item.Item1.srsp_Title}}</td>
                                 <td>{{item.Item2}}</td>
                                 <td>{{item.Item1.Customer.Customer_Name}}</td>
@@ -771,13 +814,23 @@
                                 <td>{{item.Item1.srsp_TotalWeight_Mann}}</td>
                                 <td>{{item.Item1.srsp_Total_Amount}}</td>
                                 <td>{{item.Item3}}</td>
-                                    <td ng-show="item.Item4>0">
-                                        <input ng-model="item.Item5" type="number" ng-change="ValidateRemainings()"/> 
-                                        <input type="button" value="Receive Remaining" class="btn btn-sm btn-primary" ng-click="ReceivedRemaining(item)" ng-show="item.Item5>0"/> 
-                                    </td>
-                                    <td ng-show="item.Item4==0">0</td>
-                                <td ng-if="item.Item6==1"><input value="Edit" class="btn btn-sm btn-warning" type="button" ng-click="LoadShopRice_pt(item)"/><input value="Delete" class="btn btn-sm btn-danger" ng-click="Delete(item)" type="button"/> </td>
-                                <td ng-if="item.Item6==0">No Action</td>
+
+                                <td ng-show="item.Item4>0 && item.Item8==0">
+                                    <input ng-model="item.Item5" type="number" ng-change="ValidateRemainings()" />
+                                    <input type="button" value="Receive Remaining" class="btn btn-sm btn-primary" ng-click="ReceivedRemaining(item)" ng-show="item.Item5>0" />
+                                </td>
+                                <td ng-show="item.Item4>0 && item.Item8==1">
+                                    {{item.Item5}}
+                                </td>
+                                <td ng-show="item.Item4==0">0</td>
+
+                                <td ng-if="item.Item8==0"> <input type="button" value="Return Invoice" class="btn btn-sm btn-danger" ng-click="Return(item)" />  </td>
+                                <td ng-if="item.Item8==1"> Returned!</td>
+
+                                <td ng-if="item.Item6==1&&item.Item8==0"><input value="Edit" class="btn btn-sm btn-warning" type="button" ng-click="LoadShopRice_pt(item)" /><input value="Delete" class="btn btn-sm btn-danger" ng-click="Delete(item)" type="button" /> </td>
+                                <td ng-if="item.Item6==0||item.Item8==1">No Action</td>      
+
+                                  
                             </tr>
                         </tbody>
                     </table>

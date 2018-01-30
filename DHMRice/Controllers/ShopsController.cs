@@ -10,6 +10,7 @@ using DHMRice.Models;
 
 namespace DHMRice.Controllers
 {
+
     public class ShopsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
