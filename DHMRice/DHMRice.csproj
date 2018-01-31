@@ -267,6 +267,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\FactoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OpeningClosingShopController.cs" />
     <Compile Include="Controllers\OpeningClosingController.cs" />
@@ -1167,6 +1168,7 @@
     <Content Include="Views\ShopRiceSales\Index.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="SqlScripts\30-1%28bhatti%29.rar" />
+    <Content Include="Views\Invoices\RawRiceSellingInvoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -9,6 +9,8 @@
     decimal SumBalance = 0;
     decimal remaining = 0;
     decimal Sumremaining = 0;
+    decimal DebitRemaining = 0;
+    decimal SumDebitremaining = 0;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -74,13 +76,14 @@
                         <th>Sr#</th>
                         <th>Category</th>
                         <th>Item Name</th>
-                        <th>Rate</th>
+                        @*<th>Rate</th>*@
                         <th>Quantity</th>
                        
                         <th>Total Amount</th>
                         <th>Credit  </th>
                         <th>Debit</th>
-                        <th>Remaining</th>
+                        <th>Credit Remaining</th>
+                        <th>Debit Remaining</th>
 
                     </tr>
                 </thead>
@@ -93,29 +96,30 @@
                         var rawTransac = db.Transaction.Where(t => t.Transaction_item_type == "RawRice Sales" && t.Transaction_item_id == item.rsp_id).SingleOrDefault();
                         var raw = db.RawRice_Sales_ch.Where(r => r.rsp_id == item.rsp_id).ToList();
                         //SumAmount += raw.rsc_price;
-
-                        foreach (var item2 in raw)
+                        if (rawTransac != null)
                         {
                             <tr>
                                 <td>@sr</td>
                                 <td>Raw Rice Selling</td>
                                 <td>@rawTransac.Transaction_Description</td>
-                                @{ var rate = item2.rsc_price / item2.rsc_qty; }
-                                <td></td>
+                                @*@{ var rate = item2.rsc_price / item2.rsc_qty; }*@
+
                                 <td>@*@item2.rsc_qty*@</td>
                                 <td>@item.rsp_Total_Amount</td>
                                 <td>@rawTransac.Credit @{ remaining = item.rsp_Total_Amount - rawTransac.Credit;}</td>
                                 <td> </td>
-                                 <td>@remaining  </td>
+                                <td>@remaining  </td>
                                 @{Sumremaining += remaining; }
 
                                 @*<td>Rs @pricing.PerBagPrice</td>
                                     @{ var reamining = item.Bags_qty - item.Bags_Sold_qty; }
                                     <td>@reamining</td>
                                     <td>@item.packing.Packing_Type kg</td>*@
-
+                                <td>  </td>
                             </tr>
                                         }
+
+
 
                                     }
 
@@ -126,51 +130,55 @@
                         sr++;
                         remaining = 0;
                         var producedTransac = db.Transaction.Where(t => t.Transaction_item_type == "Produced Rice Sales" && t.Transaction_item_id == item.prsp_id).SingleOrDefault();
-                        var raw = db.ProducedRiceSales_ch.Where(r => r.prsp_id == item.prsp_id).SingleOrDefault();
+                        var raw = db.ProducedRiceSales_ch.Where(r => r.prsp_id == item.prsp_id).ToList();
 
 
+                        //foreach (var item3 in raw)
+                        //{
                         <tr>
                             <td>@sr</td>
                             <td>Produced Rice Selling</td>
-                            <td>@raw.prsc_title</td>
-                            @{ var rate = raw.prsc_price / raw.prsc_qty; }
-                            <td>@rate</td>
-                            <td>@raw.prsc_qty</td>
-                            <td>@raw.prsc_price</td>
-                            <td>@producedTransac.Credit  @{ remaining = raw.prsc_price - producedTransac.Credit;}</td>
+                            <td>@producedTransac.Transaction_item_type</td>
+                            @*@{ var rate = item3.prsc_price / item3.prsc_qty; }*@
+                            @*<td>@rate</td>*@
+                            <td>@*@item3.prsc_qty*@</td>
+                            <td>@item.prsp_Total_Amount</td>
+                            <td>@producedTransac.Credit  @{ remaining = item.prsp_Total_Amount - producedTransac.Credit;}</td>
                             <td>  </td>
                             <td>@remaining  </td>
-
+                            <td>  </td>
                             @{Sumremaining += remaining; }
 
                         </tr>
+                                    @*}*@
                                 }
 
                     @foreach (var item in db.RarRices.Where(r => r.Party_Id == Model.Party_Id).ToList())
                     {
-                        remaining = 0;
+                        DebitRemaining = 0;
                         sr++;
                         var rawTransac = db.Transaction.Where(t => t.Transaction_item_type == "RawRice" && t.Transaction_item_id == item.RawRice_id).SingleOrDefault();
                         var raw = db.Pricing.Where(r => r.item_id == item.RawRice_id && r.item_Type == "RawRice").SingleOrDefault();
 
                         if (rawTransac != null)
                         {
+                          
                             <tr>
                                 <td>@sr</td>
                                 <td>Raw Rice</td>
                                 <td>@item.Item_Name</td>
 
-                                <td>@raw.PerBagPrice</td>
+                                @*<td>@raw.PerBagPrice</td>*@
                                 <td>@item.Bags_qty</td>
                                 <td>@raw.Pricing_NetTotal </td>
                                 <td>  </td>
                                 <td>@rawTransac.Debit @{ SumPaidAmount +=  rawTransac.Debit;} </td>
-                                @{ remaining = raw.Pricing_NetTotal - rawTransac.Debit;}
-                                <td>@remaining  </td>
+                                @{ DebitRemaining = raw.Pricing_NetTotal - rawTransac.Debit;}
+                                <td>  </td>
+                                <td>@DebitRemaining </td>
 
-
-                             
-
+                             @{SumDebitremaining += DebitRemaining; }
+                                
                             </tr>
                         }
 
@@ -240,23 +248,27 @@
             </table>
 
             <table class="balance">
-                <tr>
+                @*<tr>
                     <th><span contenteditable>Total</span></th>
                     <td></td>
                 </tr>
                 <tr>
                     <th><span contenteditable>Amount Paid</span></th>
                     <td></td>
+                </tr>*@
+                <tr>
+                    <th><span >Credit Due</span></th>
+                    <td>@Sumremaining</td>
                 </tr>
                 <tr>
-                    <th><span contenteditable>Balance Due</span></th>
-                    <td>@Sumremaining</td>
+                    <th><span >Debit Due</span></th>
+                    <td>@DebitRemaining</td>
                 </tr>
             </table>
         </article>
         <aside>
-            <h1><span contenteditable>Additional Notes</span></h1>
-            <div contenteditable>
+            <h1><span >Additional Notes</span></h1>
+            <div >
                 <p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p>
             </div>
         </aside>

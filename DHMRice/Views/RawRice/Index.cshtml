@@ -166,7 +166,8 @@
                                         <input name="PerBagPrice" ng-model="Pricing[@count].PerBagPrice" class="hidden"  />
                                     <input name="PerBagMarketPrice" ng-model="Pricing[@count].PerBagMarketPrice" ng-change="ValidatePricing()" type="number"/> 
                                     </td>
-                                    <td>@(db.Pricing.Where(m => m.item_id == @item.RawRice_id && m.item_Type == "RawRice").Max(c => c.Pricing_NetTotal))</td>
+                                
+                                    <td>@(Convert.ToDecimal(db.Pricing.Where(m => m.item_id == @item.RawRice_id && m.item_Type == "RawRice").Max(c => c.Pricing_NetTotal)).ToString("#,##0.00"))</td>
                                     <td>@item.party.Party_Name</td>
                                     <td>@item.broker.Broker_Name</td>
                                     @{

@@ -40,16 +40,18 @@
                         <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Total Credit </p>
                         @{
                             List<Transaction> trn = db.Transaction.ToList();
-                            Decimal tlc = 0;
-                            string test="";
+                            decimal tlc = 0;
+                            decimal sumcredit = 0;
+
+                            string stlc="";
                             foreach (var item in trn)
                             {
                                 tlc = item.Credit;
-                                tlc += tlc;
-                                 test= Convert.ToDecimal(tlc).ToString("#,##0.00");
+                                sumcredit += tlc;
+                                stlc = Convert.ToDecimal(sumcredit).ToString("#,##0.00");
 
                             }
-                            <h2 class="text-danger"><span data-plugin="counterup">@test</span></h2>
+                            <h2 class="text-danger"><span data-plugin="counterup">@stlc</span></h2>
                         }
                         @*<p class="text-muted m-0"><b>Last:</b> 30.4k</p>*@
                     </div>
@@ -61,15 +63,17 @@
                     <div class="wigdet-one-content">
                         <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Total Debit </p>
                         @{
-                            Decimal tld = 0;
+                           decimal tld = 0;
+                            decimal sum = 0;
+                            string stld = "";
                             foreach (var item in trn)
                             {
                                 tld = item.Debit;
-                                tld += tlc;
-
+                                sum += tld;
+                                stld = Convert.ToDecimal(sum).ToString("#,##0.00");
 
                             }
-                            <h2 class="text-danger"><span data-plugin="counterup">@tld</span></h2>
+                            <h2 class="text-danger"><span data-plugin="counterup">@stld</span></h2>
                         }
                         @*<p class="text-muted m-0"><b>Last:</b> 30.4k</p>*@
                     </div>
@@ -83,6 +87,8 @@
                         <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Today Purchase</p>
                         @{
                             Decimal tod = 0;
+                            string stod = "";
+
                             DateTime mydate = DateTime.Now;
                             int Date = DateTime.Now.Day;
                             int Months = DateTime.Now.Month;
@@ -90,11 +96,11 @@
                             foreach (var item in trn.Where(a => a.Transaction_DateTime.Day == Date && a.Transaction_DateTime.Month==Months && a.Transaction_DateTime.Year == year))
                             {
                                 tod = item.Debit;
-                                
+                                stod = Convert.ToDecimal(tod).ToString("#,##0.00");
 
 
                             }
-                            <h2 class="text-danger"><span data-plugin="counterup">@tod</span></h2>
+                            <h2 class="text-danger"><span data-plugin="counterup">@stod</span></h2>
                             var lastd = trn.Last();
                             @*<p class="text-muted m-0"><b>Last:</b> @lastd.Debit</p>*@
                         }
@@ -110,12 +116,13 @@
                         <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Today Sale</p>
                         @{
                             Decimal toc = 0;
+                            string stoc= "";
                             foreach (var item in trn.Where(a => a.Transaction_DateTime.Day == Date && a.Transaction_DateTime.Month == Months && a.Transaction_DateTime.Year == year))
                             {
                                 toc = item.Credit;
-                               
+                                stoc = Convert.ToDecimal(toc).ToString("#,##0.00");
                             }
-                            <h2 class="text-danger"><span data-plugin="counterup">@toc</span></h2>
+                            <h2 class="text-danger"><span data-plugin="counterup">@stoc</span></h2>
                             var lastc = trn.Last();
                             @*<p class="text-muted m-0"><b>Last:</b> @lastc.Credit</p>*@
                         }
