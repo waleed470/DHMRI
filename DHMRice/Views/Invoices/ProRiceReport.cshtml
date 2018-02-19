@@ -1,0 +1,228 @@
+﻿@model DHMRice.Models.Rice_Production
+@using DHMRice.Models;
+@{
+    ViewBag.Title = "Produced Rice Detail";
+    Layout = null;
+    ApplicationDbContext db = new ApplicationDbContext();
+    decimal SumAmount = 0;
+    decimal paid = 0;
+    decimal SumBalance = 0;
+    decimal remaining = 0;
+    decimal Sumremaining = 0;
+    decimal DebitRemaining = 0;
+    decimal SumDebitremaining = 0;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Produced Rice Detail</title>
+
+
+
+    <link rel="stylesheet" href="~/Content/Invoices/style.css">
+    <style type="text/css">
+        @@media print {
+
+
+            table.as, th.as, td.as {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Invoice</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="license" href="https://www.opensource.org/licenses/mit-license/">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Produced Rice Report</h1>
+            <address contenteditable>
+                <p>55-Circular Road</p>
+                <p>Akbari Mandi Lahore</p>
+                <p>03018412091,03229112107</p>
+            </address>
+            <span><img alt="" src="~/Content/Invoices/logo.png"><input type="file" accept="image/*"></span>
+        </header>
+        <article>
+            <h1>Recipient</h1>
+            <address>
+
+            </address>
+            <div class="row">
+                <div class="col-lg-4">
+                    <p>Rice Name: @Model.Rice_Production_name</p>
+                </div>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    <table class="meta">
+                     
+                        <tr>
+                            <th>Date</th>
+                            <td>@ViewBag.Date</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <table class="inventory">
+                <thead>
+                    <tr>
+                  
+
+                        <th>Rice used</th>
+                        @*<th>Rate</th>*@
+                        <th>Bags Used</th>
+                        <th>Weight</th>
+                        <th>Rate</th>
+                        <th>Market Rate</th>
+
+
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var sr = 0;
+
+                        var producebags = db.Rice_Produce_Bags.Where(r => r.Rice_Production_id == Model.Rice_Production_id).SingleOrDefault();
+
+                        }
+                    @foreach (var item in db.Production_Rices.Where(r => r.Rice_Produce_Bags_id == producebags.Rice_Produce_Bags_id).ToList())
+                    {
+
+                        sr++;
+                   
+
+                        //var raw = db.RawRice_Sales_ch.Where(r => r.rsp_id == item.rsp_id).ToList();
+                        //SumAmount += raw.rsc_price;
+
+                        <tr>
+                         
+
+                            <td>@item.RawRice.Item_Name</td>
+                            @*@{ var rate = item2.rsc_price / item2.rsc_qty; }*@
+
+                            <td>@item.Purchase_Rice_BagsUsed</td>
+                            <td>@item.Total_Weight</td>
+                            <td>@item.Purchase_Rice_Rate</td>
+                            <td>@item.Market_Rate</td>
+                            @{  }
+
+
+                            @*<td>Rs @pricing.PerBagPrice</td>
+                                @{ var reamining = item.Bags_qty - item.Bags_Sold_qty; }
+                                <td>@reamining</td>
+                                <td>@item.packing.Packing_Type kg</td>*@
+
+                        </tr>
+                                }
+                    <tr>                      
+                        <th >ShortFall Description</th>
+                  
+                     
+                        <th>Amount</th>
+                    </tr>
+@foreach (var item2 in db.Rice_Production_ShortFalls.Where(r => r.Rice_Produce_Bags_id == producebags.Rice_Produce_Bags_id).ToList())
+{
+                    <tr>
+                     
+                        <td>@item2.Rice_Production_ShortFall_name</td>
+                        <td>@item2.Rice_Production_ShortFall_Amount</td>
+                    </tr>
+}
+<tr>
+    <th>Expenses</th>
+
+    
+    <th>Amount</th>
+</tr>
+@foreach (var item3 in db.Rice_Production_Expenses.Where(r => r.Rice_Produce_Bags_id == producebags.Rice_Produce_Bags_id).ToList())
+{
+    <tr>
+    
+        <td>@item3.Rice_Production_Expense_name</td>
+        <td>@item3.Rice_Production_Expense_Amount</td>
+    </tr>
+}
+
+                    <tr>
+                        <th>ByProduct Worth</th>
+
+
+                        <th>Qty</th>
+                        <th>Amount</th>
+                    </tr>
+                    @foreach (var item4 in db.Rice_Production_ProductWorths.Where(r => r.Rice_Produce_Bags_id == producebags.Rice_Produce_Bags_id).ToList())
+                    {
+                        <tr>
+
+                            <td>@item4.Rice_Production_ProductWorth_name</td>
+                            <td>@item4.Rice_Production_ProductWorth_Qty</td>
+                            <td>@item4.Rice_Production_ProductWorth_Amount</td>
+                        </tr>
+                    }
+
+
+                    <tr>
+                        <th>Total Bags Produce </th>
+
+                        <th>Average</th>
+                        <th>Stockworth</th>
+                        <th>Factory Cost</th>
+                        <th>PBP</th>
+                        <th>MPBP</th>
+
+                    </tr>
+                
+                        <tr>
+                            <td>@producebags.Rice_Produce_TotalBagsProduce</td>
+                            <td>@producebags.Rice_Produce_Bag_Average</td>
+                            <td>@producebags.Rice_Produce_Bag_StockWorth</td>
+                            <td>@producebags.Rice_Produce_Bag_FactoryCost</td>
+                            <td>@producebags.Rice_Produce_Bag_PerBagPrice</td>
+                            <td>@producebags.Rice_Produce_Bag_PerBagMarketPrice</td>
+                        </tr>
+              
+
+
+
+
+                </tbody>
+
+
+
+
+
+
+
+            </table>
+
+       
+        </article>
+        <table class="as" id="footer">
+            <tr>
+                <td class="as" width="100%" style="border-style:none; text-align:center">
+                    Designed by Digicon-Valley.com
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
+
+<script src="/Content/Invoices/index.js"></script>
+</body>
+</html>

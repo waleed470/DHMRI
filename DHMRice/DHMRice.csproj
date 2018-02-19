@@ -371,6 +371,18 @@
     <Compile Include="Migrations\201801292253036_change Datatype.Designer.cs">
       <DependentUpon>201801292253036_change Datatype.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802151745440_Addition in bpw.cs" />
+    <Compile Include="Migrations\201802151745440_Addition in bpw.Designer.cs">
+      <DependentUpon>201802151745440_Addition in bpw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802161447397_raw chnges.cs" />
+    <Compile Include="Migrations\201802161447397_raw chnges.Designer.cs">
+      <DependentUpon>201802161447397_raw chnges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802190810303_additon in raw rice seeling.cs" />
+    <Compile Include="Migrations\201802190810303_additon in raw rice seeling.Designer.cs">
+      <DependentUpon>201802190810303_additon in raw rice seeling.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Broker.cs" />
@@ -1055,6 +1067,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="SqlScripts\d20-2.sql" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1169,6 +1182,11 @@
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="SqlScripts\30-1%28bhatti%29.rar" />
     <Content Include="Views\Invoices\RawRiceSellingInvoice.cshtml" />
+    <Content Include="Views\Invoices\ProRiceSellingInvoice.cshtml" />
+    <Content Include="Views\Invoices\ShopRiceSellingInvoice.cshtml" />
+    <Content Include="Views\Invoices\ProRiceReport.cshtml" />
+    <Content Include="Views\RawRice\GatePassInwawrdd.cshtml" />
+    <Content Include="Views\RawRice\GatePass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1242,6 +1260,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801292253036_change Datatype.resx">
       <DependentUpon>201801292253036_change Datatype.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802151745440_Addition in bpw.resx">
+      <DependentUpon>201802151745440_Addition in bpw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802161447397_raw chnges.resx">
+      <DependentUpon>201802161447397_raw chnges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802190810303_additon in raw rice seeling.resx">
+      <DependentUpon>201802190810303_additon in raw rice seeling.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

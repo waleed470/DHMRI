@@ -17,6 +17,8 @@ namespace DHMRice.Models
         public decimal rsp_TotalWeight_KG { get; set; }
         public decimal rsp_TotalWeight_Mann { get; set; }
         public decimal rsp_Total_Amount { get; set; }
+        public int Carriage { get; set; }
+        public int Labour { get; set; }
         public bool rsp_status { get; set; }
         public string Id { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }

@@ -794,7 +794,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="item in Grid">
-                                <td>{{item.Item7}}</td>
+                                <td><a href="~/Invoices/ProRiceSellingInvoice?id={{item.Item1.prsp_id}}&&In={{item.Item7}}">{{item.Item7}}</a></td>
                                 <td>{{item.Item1.prsp_Title}}</td>
                                 <td>{{item.Item2}}</td>
                                 <td>{{item.Item1.Party.Party_Name}}</td>

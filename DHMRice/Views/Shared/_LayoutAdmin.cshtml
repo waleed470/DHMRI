@@ -26,6 +26,10 @@
         </script>*@
     <script src="~/Content/assets/js/jquery.min.js"></script>
     <script>
+        var IsAuthenticated="@Session["UserId"]";
+        if(IsAuthenticated==""){
+            window.location = "/Account/Login";
+        }
         function CheckIntialOpening() {
             $.ajax({
                 type: "POST",
@@ -248,14 +252,23 @@
                                 <li><a href="~/RawRice_Sales/Index">RawRice Selling</a></li>
                             </ul>
                         </li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Rice Category </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="~/Rice_Category/Index">View Rice Categories</a></li>
+                                <li><a href="~/Rice_Category/Create">Add Rice Category</a></li>
+
+                             
+                            </ul>
+                        </li>
                      }
                        @if (User.IsInRole("Factory") || User.IsInRole("Admin"))
                        {
                          <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span>Rice Production </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
-                                <li><a href="~/RiceProduction/Index">View RawRice Purchasing</a></li>
-                                <li><a href="~/RiceProduction/AddNew">View RawRice Purchasing</a></li>
+                                <li><a href="~/RiceProduction/Index">View Produced Rice</a></li>
+                                <li><a href="~/RiceProduction/AddNew">Produce a rice</a></li>
                                 <li><a href="~/ProducedRiceSales/Index">Produced Rice Selling</a></li>
                             </ul>
                         </li>

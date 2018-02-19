@@ -313,7 +313,7 @@ namespace DHMRice.Controllers
             
             if (product != null)
             {
-                return Json(new { success = true, Bags_qty = remaining, Packing_Id = packing.Packing_Type, PerBagPrice = rate.PerBagPrice, PerBagMarketPrice=rate.PerBagMarketPrice });
+                return Json(new { success = true, Bags_qty = remaining, Packing_Id = product.Pb_Weight, PerBagPrice = rate.PerBagPrice, PerBagMarketPrice=rate.PerBagMarketPrice });
             }
             
             return Json(new { success = false });

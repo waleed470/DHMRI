@@ -137,7 +137,7 @@
                                 <th>Broker</th>
                                 <th>Date</th>
                                 <th>Actions</th>
-                                <th>Report</th>
+                                <th>GatePass</th>
                                 <th>User</th>
                             </tr>
                         </thead>
@@ -148,8 +148,9 @@
                             @foreach (var item in Model)
                             {
                                 ApplicationUser user = db.Users.Where(u => u.Id.Equals(item.Id, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                                var gate = db.GatePassInwareds.Where(g => g.RawRice_id == item.RawRice_id).SingleOrDefault(); 
                                 <tr>
-
+                                 
 
                                     <td>@item.rice_Category.Rice_Category_Name</td>
                                     <td>@item.Item_Name</td>
@@ -197,7 +198,17 @@
                                             @("No action day is closed")
                                         }
                                     </td>
-                                    <td>@Html.ActionLink("Report", "Report.aspx", "Reports", new { E_id = item.RawRice_id, value = "IndividualReport" }, null)</td>
+                                
+                                   @if (gate == null)
+                                   {
+                                    <td><a href="~/RawRice/GatePass?id=@item.RawRice_id">Gatepass</a></td>
+                                   }else
+                                   {
+                                   
+                                      
+                                    <td><a href="~/RawRice/GatePass?id=@item.RawRice_id">Gatepass</a></td>
+                                   }
+                                  
                                     <td>@user.UserName</td>
                                 </tr>
                                             count++;

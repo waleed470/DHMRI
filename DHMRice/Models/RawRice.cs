@@ -33,6 +33,7 @@ namespace DHMRice.Models
         public int Bags_Sold_qty { get; set; }
         [Required]
         public decimal Total_Weight { get; set; }
+        public decimal Pb_Weight { get; set; }
         [Required]
         public decimal Total_Mann { get; set; }
         //public decimal Payed_Amount { get; set; }
@@ -40,5 +41,6 @@ namespace DHMRice.Models
        
         public DateTime Date { get; set; }
         public bool Status { get; set; }
+
     }
 }

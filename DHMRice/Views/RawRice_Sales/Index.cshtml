@@ -36,6 +36,8 @@
             $scope.RawRice_Sales_pt.rsp_TotalWeight_KG = 0;
             $scope.RawRice_Sales_pt.rsp_Total_Amount = 0;
             $scope.NetTotal = 0;
+            $scope.RawRice_Sales_pt.Carriage = 0;
+            $scope.RawRice_Sales_pt.Labour = 0;
             $scope.RemainingAmount = 0;
             $scope.Invoiceno;
             var list = [];
@@ -109,6 +111,7 @@
                 };
                 JsonCallParam("RawRice_Sales", "Get_Party_Via_Code", parm);
                 if (list != null) {
+                
                     $scope.RawRice_Sales_pt.Party = list;
                     $scope.GetPartyRemainings();
                 }
@@ -205,6 +208,7 @@
                 $scope.Calculation();
             };
             $scope.Calculation = function () {
+             //   alert($scope.NetTotal);
                 var RemainingTotal = 0;
                 $scope.RawRice_Sales_pt.rsp_TotalWeight_Mann = 0;
                 $scope.RawRice_Sales_pt.rsp_TotalWeight_KG = 0;
@@ -238,7 +242,14 @@
                 if (isNaN($scope.RawRice_Sales_pt.rsp_Total_Amount)) {
                     $scope.RawRice_Sales_pt.rsp_Total_Amount = 0;
                 }
-                
+                if (isNaN($scope.RawRice_Sales_pt.Carriage)) {
+
+                    $scope.RawRice_Sales_pt.Carriage = 0;
+                } 
+                if (isNaN($scope.RawRice_Sales_pt.Labour)) {
+
+                    $scope.RawRice_Sales_pt.Labour = 0;
+                }
                 angular.forEach($scope.RemainingList, function (obj) {
                     if (obj.selected) {
                         RemainingTotal += obj.Item3;
@@ -246,17 +257,41 @@
                 });
                 
                 $scope.NetTotal = $scope.RawRice_Sales_pt.rsp_Total_Amount + RemainingTotal;
+                $scope.NetTotal += $scope.RawRice_Sales_pt.Carriage + $scope.RawRice_Sales_pt.Labour;
+               
                 if ($scope.RecievedAmount > $scope.NetTotal) {
                     $scope.RecievedAmount = $scope.NetTotal;
                 }
                 if ($scope.RecievedAmount < RemainingTotal) {
                     $scope.RecievedAmount = RemainingTotal;
                 }
+
                 $scope.RemainingAmount = $scope.NetTotal - $scope.RecievedAmount;
                 if (isNaN($scope.RemainingAmount)) {
                     $scope.RemainingAmount = 0;
                 }
 
+            }
+            $scope.Calculation2 = function () {
+                var nettotal = 0;
+                var net2 = $scope.RawRice_Sales_pt.rsp_Total_Amount;
+                var newNet = 0;
+                nettotal = $scope.NetTotal
+                if (isNaN($scope.Carriage)) {
+
+                    $scope.Carriage = 0;
+                } 
+                if (isNaN($scope.Labour)) {
+
+                    $scope.Labour = 0;
+                }
+                   
+                    newNet = $scope.Carriage + $scope.Labour;
+                    newNet += net2;
+                    $scope.NetTotal = newNet;
+                
+              
+                
             }
             $scope.Deleted_RawRice_Sales_ch = [];
             $scope.remove = function () {
@@ -699,6 +734,25 @@
                         <hr />
                         <div class="form-group" style="margin-left:15%">
                             <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <label class="control-label">Carriage</label>
+                                    
+                                        <input type="number" name="Carriage" ng-model="RawRice_Sales_pt.Carriage" ng-change="Calculation()" ng-init="Carriage=0" class="form-control" required />
+
+                                   
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label ">Labour Expense</label>
+                                  
+                                        <input type="number" name="Labour" ng-model="RawRice_Sales_pt.Labour" ng-change="Calculation()" ng-init="Labour=0" class="form-control" required />
+                                     
+                                 
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-left:15%">
+                            <div class="col-sm-12">
                                 <div class="col-sm-3">
                                     <label class="control-label col-md-2">NetTotal</label>
                                     <div class="col-md-10">
@@ -809,7 +863,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="item in Grid">
-                                <td><a href="~/Invoices/RawRiceSellingInvoice?id={{item.Item1.rsp_id}}">{{item.Item7}}</a></td>
+                                <td><a href="~/Invoices/RawRiceSellingInvoice?id={{item.Item1.rsp_id}}&&In={{item.Item7}}">{{item.Item7}}</a></td>
                                 <td>{{item.Item1.rsp_Title}}</td>
                                 <td>{{item.Item2}}</td>
                                 <td>{{item.Item1.Party.Party_Name}}</td>

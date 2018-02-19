@@ -61,7 +61,8 @@ namespace DHMRice.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if (User.Identity.IsAuthenticated)
+            var IsAuthe = Session["UserId"];
+            if (User.Identity.IsAuthenticated && IsAuthe =="")
             {
                 return RedirectToAction("Dashboard", "Home");
             }
@@ -442,6 +443,10 @@ namespace DHMRice.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+          
+            Session.Clear();
+            Session.RemoveAll();
+            Session.Abandon();
             return RedirectToAction("Login", "Account");
         }
 

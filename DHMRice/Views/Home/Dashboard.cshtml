@@ -101,7 +101,7 @@
 
                             }
                             <h2 class="text-danger"><span data-plugin="counterup">@stod</span></h2>
-                            var lastd = trn.Last();
+                            //var lastd = trn.Last();
                             @*<p class="text-muted m-0"><b>Last:</b> @lastd.Debit</p>*@
                         }
 
@@ -118,12 +118,12 @@
                             Decimal toc = 0;
                             string stoc= "";
                             foreach (var item in trn.Where(a => a.Transaction_DateTime.Day == Date && a.Transaction_DateTime.Month == Months && a.Transaction_DateTime.Year == year))
-                            {
+                            {   
                                 toc = item.Credit;
                                 stoc = Convert.ToDecimal(toc).ToString("#,##0.00");
                             }
                             <h2 class="text-danger"><span data-plugin="counterup">@stoc</span></h2>
-                            var lastc = trn.Last();
+                            //var lastc = trn.Last();
                             @*<p class="text-muted m-0"><b>Last:</b> @lastc.Credit</p>*@
                         }
                     </div>

@@ -98,7 +98,8 @@ namespace DHMRice.Controllers
 
             string idd = Convert.ToString(Session["UserId"]);
             rawRice.Id = idd;
-
+            rawRice.Pb_Weight = rawRice.Total_Weight / rawRice.Bags_qty;
+            
             rawRice.Bags_Sold_qty = 0;
             db.RarRices.Add(rawRice);
             db.SaveChanges();
@@ -160,10 +161,10 @@ namespace DHMRice.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public ActionResult GatePassInwawrd(int Id)
+        public ActionResult GatePassInwawrd(int id)
         {
            
-            var rawrice = db.RarRices.Find(Id);
+            var rawrice = db.RarRices.Find(id);
 
             return View(rawrice);
         }
@@ -177,15 +178,32 @@ namespace DHMRice.Controllers
                 db.GatePassInwareds.Add(GatePass);
 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                var GatePassInwaredId = db.GatePassInwareds.Max(m => m.GatePassInwaredId);
+                return RedirectToAction("GatePassInwawrdd", "RawRice", new { GatePassInwaredId = GatePassInwaredId });
             }
 
-            return View(GatePass);
-
-
-            
+            return View(GatePass);            
         }
+
+       
+        public ActionResult GatePass(int id)
+        {
+
+            GatePassInwared Gatepas = db.GatePassInwareds.Find(id);
+            db.SaveChanges();
+            return View(Gatepas);
+        }
+
+
         [HttpPost]
+        public ActionResult GatePassInwawrdd(int GatePassInwaredId)
+        {
+
+            GatePassInwared Gatepas = db.GatePassInwareds.Find(GatePassInwaredId);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+        }
+        [HttpPost] 
         public JsonResult GetPartyRemainings(int Party_Id)
         {
             var rawRice = db.RarRices.Where(m => m.Party_Id == Party_Id && m.Status).ToList();

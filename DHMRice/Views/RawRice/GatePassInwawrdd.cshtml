@@ -1,0 +1,151 @@
+﻿@model DHMRice.Models.GatePassInwared
+@using DHMRice.Models;
+@{
+    ViewBag.Title = "RawRiceSellingInvoice";
+    Layout = null;
+    ApplicationDbContext db = new ApplicationDbContext();
+    decimal SumAmount = 0;
+    decimal paid = 0;
+    decimal SumBalance = 0;
+    decimal remaining = 0;
+    decimal Sumremaining = 0;
+    decimal DebitRemaining = 0;
+    decimal SumDebitremaining = 0;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Raw Rice Stock</title>
+
+
+
+    <link rel="stylesheet" href="~/Content/Invoices/style.css">
+    <style type="text/css">
+        @@media print {
+
+
+            table.as, th.as, td.as {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Invoice</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="license" href="https://www.opensource.org/licenses/mit-license/">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Raw Rice selling Invoice</h1>
+            <address contenteditable>
+                <p>55-Circular Road</p>
+                <p>Akbari Mandi Lahore</p>
+                <p>03018412091,03229112107</p>
+            </address>
+            <span><img alt="" src="~/Content/Invoices/logo.png"><input type="file" accept="image/*"></span>
+        </header>
+        <article>
+            <h1>Recipient</h1>
+            <address>
+
+            </address>
+            <div class="row">
+                <div class="col-lg-4">
+                    <p>Party Name: @Model</p>
+                </div>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    <table class="meta">
+                        <tr>
+                            <th>Invoice #</th>
+                            <td>@ViewBag.InoviceNum</td>
+                        </tr>
+                        <tr>
+                            <th>Date</th>
+                            <td>@ViewBag.Date</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <table class="inventory">
+                <thead>
+                    <tr>
+                        <th>Sr#</th>
+
+                        <th>Item Name</th>
+                        @*<th>Rate</th>*@
+                        <th>Quantity</th>
+                        <th>Weight</th>
+                        <th>Mann</th>
+                        <th>Total Amount</th>
+
+
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var sr = 0; }
+                  
+
+                </tbody>
+
+
+
+
+
+
+
+            </table>
+
+            <table class="balance">
+                @*<tr>
+                        <th><span contenteditable>Total</span></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th><span contenteditable>Amount Paid</span></th>
+                        <td></td>
+                    </tr>*@
+             
+                <tr>
+                    <th><span>Total Amount</span></th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th><span>Paid Amount</span></th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th><span>Remaining</span></th>
+                    <td></td>
+                </tr>
+            </table>
+        </article>
+        <table class="as" id="footer">
+            <tr>
+                <td class="as" width="100%" style="border-style:none; text-align:center">
+                    Designed by Digicon-Valley.com
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
+
+<script src="/Content/Invoices/index.js"></script>
+</body>
+</html>
