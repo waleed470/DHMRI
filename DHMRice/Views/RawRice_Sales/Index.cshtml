@@ -53,10 +53,10 @@
                     url: '/' + Controller + '/' + Action,
                     context: document.body,
                     success: function (json) {
-                        list= json;
-                    }
-               ,
+                         list=null; list= json;
+                    },
                     error: function (xhr) {
+                        list = null;
                         //debugger;
                     }
                 });
@@ -71,11 +71,12 @@
                     context: document.body,
                     data:Parameters,
                     success: function (json) {
-                        list = json;
+                        list = null; list = json;
                     }
                ,
                     error: function (xhr) {
                         //debugger;
+                        list = null;
                     }
                 });
             }

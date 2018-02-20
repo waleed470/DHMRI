@@ -148,11 +148,12 @@ namespace DHMRice.Controllers
             {
                 var js = new JavaScriptSerializer();
                 string Code = JsonConvert.DeserializeObject<string>(form["Code"]);
-                if (Code != null)
+                var obj = db.Parties.Where(m => (m.Status) && (m.Party_Code == Code)).SingleOrDefault();
+                if (obj != null)
                 {
-                    var obj = db.Parties.Where(m => (m.Status) && (m.Party_Code == Code)).SingleOrDefault();
                     return Json(obj, JsonRequestBehavior.AllowGet);
                 }
+                return Json(null, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
