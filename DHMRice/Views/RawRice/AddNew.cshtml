@@ -51,271 +51,289 @@
                         {
                             @Html.AntiForgeryToken()
 
-                            <div class="form-horizontal">
-                                <h4>RawRice</h4>
-                                <hr />
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <div class="form-group">
+                        <div class="form-horizontal">
+                            <h4>RawRice</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
 
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-6">
-                                            <label class="control-label col-md-2">Party</label>
-                                            <div class="col-md-10">
-                                                @Html.DropDownList("Party_Id", null, htmlAttributes: new { @class = "form-control, selectpicker" })
-                                                @Html.ValidationMessageFor(model => model.Party_Id, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label class="control-label col-md-2">Broker</label>
-                                            <div class="col-md-10">
-                                                @Html.DropDownList("Broker_Id", null, htmlAttributes: new { @class = "form-control, selectpicker" })
-                                                @Html.ValidationMessageFor(model => model.Broker_Id, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <label class="control-label col-md-1">Rice Category</label>
-                                        <div class="col-md-11">
-                                            @Html.DropDownList("Rice_category_Id", null, htmlAttributes: new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(model => model.Rice_category_Id, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-6">
-                                            <label class="control-label col-md-2">Item Name</label>
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.Item_Name, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Item_Name, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Item Code</label>
-                                                <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Item_Code, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Item_Code, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-6">
-                                            <label class="control-label col-md-2">Packing Type</label>
-                                            <div class="col-md-4">
-                                                @Html.DropDownList("Packing_Id", null, htmlAttributes: new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.Packing_Id, "", new { @class = "text-danger" })
-                                            </div>
-                                            <div class="col-md-4"><p style="margin-top:5px">Kg</p></div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Bags Qty</label>
-                                                <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Bags_qty, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Bags_qty, "", new { @class = "text-danger" })
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-6">
-                                            <label class="control-label col-md-2">Total Weight</label>
-                                            <div class="col-md-8">
-                                                <input name="Total_Weight" id="Total_Weight" class="form-control" />
-                                            </div>
-                                            <div class="col-md-2"><p style="margin-top:5px">Kg</p></div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2">Total Mann</label>
-                                                <div class="col-md-10">
-                                                    <input name="Total_Mann" id="Total_Mann" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-
-                                <div class="form-group ">
-                                            <div class="col-sm-6">
-                                                <label class="control-label col-md-2">Rate per Maan</label>
-                                                <div class="col-md-10">
-                                                    <input name="Pricing_Rate_Maan" id="Rate2" class="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label class="control-label col-md-2">Rate per Kg</label>
-                                                <div class="col-md-10">
-                                                    <input name="Pricing_Rate_kg" id="Rate1" class="form-control" />
-                                                </div>
-                                            </div>
-                                           
-                                        
-
-                                </div>
-                                <div class="form-group">
+                                <div class="col-sm-12">
                                     <div class="col-sm-6">
-
-                                        <label class="control-label col-md-2">Per Bag Amount</label>
-                                        <div class="col-md-9" style="margin-left:1%">
-                                            <input name="PerBagPrice" id="PerBagAmount" class="form-control" />
-
-
+                                        <label class="control-label col-md-2">Party</label>
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("Party_Id", null, htmlAttributes: new { @class = "form-control, selectpicker" })
+                                            @Html.ValidationMessageFor(model => model.Party_Id, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-
-                                        <label class="control-label col-md-2">Total Amount</label>
-                                        <div class="col-md-9" style="margin-left:1%">
-                                            <input name="Pricing_Total" id="Total_Amount" class="form-control" />
-
-
+                                        <label class="control-label col-md-2">Broker</label>
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("Broker_Id", null, htmlAttributes: new { @class = "form-control, selectpicker" })
+                                            @Html.ValidationMessageFor(model => model.Broker_Id, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
-                                <br />
-                                <hr />
-                                <h5>Expenses</h5>
-                                <div id="Expenses">
-                                    <div class="row" id="row_0">
-                                        <div class="col-sm-12">
 
-                                            <div class="col-sm-6">
-                                                <label class="control-label col-md-2">Expense Name</label>
-                                                <div class="col-md-10">
-                                                       <input name="RawRiceExpense[0].RawRiceExpense_Name" id="RawRiceExpense_Name_0" class="form-control"  />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
+                            </div>
 
-                                                <label class="control-label col-md-2">Amount</label>
-                                                <div class="col-md-1"></div>
-                                                <div class="col-md-9">
-                                                    <input name="RawRiceExpense[0].RawRiceExpense_Amount" id="RawRiceExpense_Amount_0" onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()" class="form-control"  />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-2 text-center">
-                                                <button type="button" id="btnAdd_RawRiceExpense_0" class="btn btn-warning" onclick="JavaScript: return Add_RawRiceExpense_0();" required>Add</button>
-                                                <button id="btnDelete_RawRiceExpense_0" class="btn btn-danger" onclick="JavaScript: return Delete_RawRiceExpense_0();" required>Delete</button>
 
-                                            </div>
-                                        </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label class="control-label col-md-1">Rice Category</label>
+                                    <div class="col-md-11">
+                                        @Html.DropDownList("Rice_category_Id", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Rice_category_Id, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <br />
-                                <div class="form-group ">
-                                    <label class="control-label col-md-2">Net Total</label>
-                                    <div class="col-md-9">
-                                        <input name="Pricing_NetTotal" id="ExpenseTotal" class="form-control" />
-                                    </div>
 
-                                </div>
-                                <div id="RawRiceRemaining_main">
-                                    @*<div id="RawRiceRemaining_content">
-                                            <hr />
-                                            <h5>Previous RawRice remaining</h5>
-                                            <div>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
+                            </div>
 
-                                                        <div class="col-sm-6">
-                                                            <label class="control-label col-md-2">RiceName</label>
-                                                            <div class="col-md-10">
-                                                                <p style="margin-top:10px">Zarafa 10</p>
-                                                                <input name="RawRice_Remaining[0].Item_Name" id="RawRice_Remaining_Item_Name_0" class="form-control hidden" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-
-                                                            <label class="control-label col-md-2">Remaining amount</label>
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-md-9">
-                                                                <p style="margin-top:10px">10</p>
-                                                                <input name="RawRice_Remaining[0].RawRice_RemainingAmount" id="RawRice_Remaining_Amount_0" class="form-control hidden" value="10" />
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>*@
-                                </div>
-
-
-                                <hr />
-
-                                <br />
-                                <div class="form-group ">
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-6">
-                                            <label class="control-label col-md-2">Payed Amount</label>
-                                            <div class="col-md-10">
-                                                <input name="Payed_Amount" id="payed_amount" class="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-
-                                            <label class="control-label col-md-2">Remaining Amount</label>
-                                            <div class="col-md-1"></div>
-                                            <div class="col-md-9">
-                                                <input name="Remaining_Amount" id="remaining_amount" class="form-control" />
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="form-group ">
-                                    <label class="control-label col-md-2">Select Payment method</label>
-                                    <div class="col-md-10" style="margin-top:10px">
-
-                                        <input type="radio" name="isCash" id="isCash" value="1" checked>Cash Payment
-                                        <input type="radio" name="isBankAccount" id="isBankAccount" value="1" style="margin-left:20px">Payment By Bank Account
-                                        <input type="radio" name="isCheckbook" id="isCheckbook" value="1" style="margin-left:20px">Payment By Check
-                                    </div>
-                                </div>
-                                <div class="form-group" id="checkbook_id">
-                                    @*<div id="checkbook_content">
-                                            <label class="control-label col-md-2">Checkbook no</label>
-                                            <div class="col-md-9">
-                                                <input name="CheckBookNo" id="CheckBookNo" class="form-control" />
-                                            </div>
-                                        </div>*@
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-3"></div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
                                     <div class="col-sm-6">
-                                        <input type="submit" id="submit" value="Add RawRice" class="btn btn-success" style="width:100%" />
+                                        <label class="control-label col-md-2">Item Name</label>
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Item_Name, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Item_Name, "", new { @class = "text-danger" })
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Item Code</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Item_Code, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Item_Code, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-6">
+                                        <label class="control-label col-md-2">Packing Type</label>
+                                        <div class="col-md-4">
+                                            @Html.DropDownList("Packing_Id", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Packing_Id, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4"><p style="margin-top:5px">Kg</p></div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Bags Qty</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Bags_qty, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Bags_qty, "", new { @class = "text-danger" })
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-6">
+                                        <label class="control-label col-md-2">Total Weight</label>
+                                        <div class="col-md-8">
+                                            <input name="Total_Weight" id="Total_Weight" class="form-control" />
+                                        </div>
+                                        <div class="col-md-2"><p style="margin-top:5px">Kg</p></div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Total Mann</label>
+                                            <div class="col-md-10">
+                                                <input name="Total_Mann" id="Total_Mann" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="form-group ">
+                                <div class="col-sm-6">
+                                    <label class="control-label col-md-2">Rate per Maan</label>
+                                    <div class="col-md-10">
+                                        <input name="Pricing_Rate_Maan" id="Rate2" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label col-md-2">Rate per Kg</label>
+                                    <div class="col-md-10">
+                                        <input name="Pricing_Rate_kg" id="Rate1" class="form-control" />
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-6">
+
+                                    <label class="control-label col-md-2">Per Bag Amount</label>
+                                    <div class="col-md-9" style="margin-left:1%">
+                                        <input name="PerBagPrice" id="PerBagAmount" class="form-control" />
+
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+
+                                    <label class="control-label col-md-2">Total Amount</label>
+                                    <div class="col-md-9" style="margin-left:1%">
+                                        <input name="Pricing_Total" id="Total_Amount" class="form-control" />
+
+
+                                    </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="col-sm-2" style="margin-top:1%">
+                                    Pay Commission
+                                    <input type="checkbox" id="Pay_CommissionPercentage" onclick="CalculateNetTotal();" name="Pay_CommissionPercentage"/>
+                                </div>
+                                <div class="col-sm-5">
+                                    <label class="control-label col-md-4">Broker commission Percentage</label>
+                                    <div class="col-md-4" style="margin-left:1%">
+                                        <input type="number" name="BrokerCommissionPercentage" id="BrokerCommissionPercentage" class="form-control" value="0"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <label class="control-label col-md-4">Broker commission Amount</label>
+                                    <div class="col-md-4" style="margin-left:1%">
+                                        <input type="number" name="BrokerCommissionAmount" id="BrokerCommissionAmount" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <hr />
+                            <h5>Expenses</h5>
+                            <div id="Expenses">
+                                <div class="row" id="row_0">
+                                    <div class="col-sm-12">
+
+                                        <div class="col-sm-6">
+                                            <label class="control-label col-md-2">Expense Name</label>
+                                            <div class="col-md-10">
+                                                <input name="RawRiceExpense[0].RawRiceExpense_Name" id="RawRiceExpense_Name_0" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+
+                                            <label class="control-label col-md-2">Amount</label>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-9">
+                                                <input name="RawRiceExpense[0].RawRiceExpense_Amount" id="RawRiceExpense_Amount_0" onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2 text-center">
+                                            <button type="button" id="btnAdd_RawRiceExpense_0" class="btn btn-warning" onclick="JavaScript: return Add_RawRiceExpense_0();" required>Add</button>
+                                            <button id="btnDelete_RawRiceExpense_0" class="btn btn-danger" onclick="JavaScript: return Delete_RawRiceExpense_0();" required>Delete</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group ">
+                                <label class="control-label col-md-2">Net Total</label>
+                                <div class="col-md-9">
+                                    <input name="Pricing_NetTotal" id="ExpenseTotal" class="form-control" />
+                                </div>
+
+                            </div>
+                            <div id="RawRiceRemaining_main">
+                                @*<div id="RawRiceRemaining_content">
+                <hr />
+                <h5>Previous RawRice remaining</h5>
+                <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div class="col-sm-6">
+                                <label class="control-label col-md-2">RiceName</label>
+                                <div class="col-md-10">
+                                    <p style="margin-top:10px">Zarafa 10</p>
+                                    <input name="RawRice_Remaining[0].Item_Name" id="RawRice_Remaining_Item_Name_0" class="form-control hidden" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+
+                                <label class="control-label col-md-2">Remaining amount</label>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-9">
+                                    <p style="margin-top:10px">10</p>
+                                    <input name="RawRice_Remaining[0].RawRice_RemainingAmount" id="RawRice_Remaining_Amount_0" class="form-control hidden" value="10" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+                            </div>
+
+
+                            <hr />
+
+                            <br />
+                            <div class="form-group ">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-6">
+                                        <label class="control-label col-md-2">Payed Amount</label>
+                                        <div class="col-md-10">
+                                            <input name="Payed_Amount" id="payed_amount" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+
+                                        <label class="control-label col-md-2">Remaining Amount</label>
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-9">
+                                            <input name="Remaining_Amount" id="remaining_amount" class="form-control" />
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-md-2">Select Payment method</label>
+                                <div class="col-md-10" style="margin-top:10px">
+
+                                    <input type="radio" name="isCash" id="isCash" value="1" checked>Cash Payment
+                                    <input type="radio" name="isBankAccount" id="isBankAccount" value="1" style="margin-left:20px">Payment By Bank Account
+                                    <input type="radio" name="isCheckbook" id="isCheckbook" value="1" style="margin-left:20px">Payment By Check
+                                </div>
+                            </div>
+                            <div class="form-group" id="checkbook_id">
+                                @*<div id="checkbook_content">
+                <label class="control-label col-md-2">Checkbook no</label>
+                <div class="col-md-9">
+                    <input name="CheckBookNo" id="CheckBookNo" class="form-control" />
+                </div>
+            </div>*@
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-6">
+                                    <input type="submit" id="submit" value="Add RawRice" class="btn btn-success" style="width:100%" />
+                                </div>
+                                <div class="col-sm-3"></div>
+                            </div>
+                        </div>
 
                         }
 
@@ -456,10 +474,6 @@
                 $('#Total_Mann').val(Totalwieght_Mann);
             }
             var Rate1 = $('#Rate1').val();
-            
-            
-              
-           
             var Total_Amount = parseFloat(Totaleight_Kg) * parseFloat(Rate1);
             if (isNaN(Total_Amount)) {
                 $('#Total_Amount').val(0);
@@ -638,6 +652,41 @@
         $("#Party_Id").on('click change', function (e) {
 
             GetParty_Remainings();
+        });
+        $("#BrokerCommissionPercentage").on('input', function (e) {
+            var inputVal = $(this).val();
+            var BrokercommisionAmount = 0;
+            if (inputVal > 100) {
+                inputVal = 100;
+                $(this).val(inputVal);
+            } else if (inputVal < 0 || inputVal.length == 0) {
+                inputVal = 0;
+                $(this).val(inputVal);
+            }
+            if (inputVal <= 100) {
+                var Total_Amount = $('#Total_Amount').val();
+                var temp = Total_Amount / 100;
+                BrokercommisionAmount = Math.round(temp * inputVal);
+                $('#BrokerCommissionAmount').val(BrokercommisionAmount);
+            }
+            CalculateNetTotal();
+        });
+        $('#BrokerCommissionAmount').on('input', function (e) {
+            var inputVal = $(this).val();
+            var Total_Amount = $('#Total_Amount').val();
+            if (inputVal > Total_Amount) {
+                $(this).val(Total_Amount);
+            } else if (inputVal < 0 ) {
+                $(this).val(0);
+            }
+            var cal1 = Math.round(inputVal) * 100;
+            var Percentage = cal1 / Math.round(Total_Amount);
+            if (Percentage > 100) {
+                $("#BrokerCommissionPercentage").val(100);
+            } else {
+                $("#BrokerCommissionPercentage").val(Percentage);
+            }
+            CalculateNetTotal();
         });
         $('#payed_amount').keyup(function () {
             $('span.error-payed_amount').remove();
@@ -869,19 +918,14 @@
     function SumExpenseTotal()
     {
         TotalExpense = 0;
-
-
         @for (int i = 0; i < 100; i++)
         {
             <text>
-
                 var temp_@i = parseFloat($('#RawRiceExpense_Amount_@i').val());
                 if (!isNaN(temp_@i)) {
                     TotalExpense += temp_@i;
                 }
-
-
-         </text>
+          </text>
         }
 
     }
@@ -892,7 +936,7 @@
         {
         <text>
 
-        var isChecked_@i = $('#RawRice_Remaining_checkbox_@i').is(':checked'); 
+        var isChecked_@i = $('#RawRice_Remaining_checkbox_@i').is(':checked');
         if (isChecked_@i)
         {
             var temp_@i = parseFloat($('#RawRice_RemainingAmount_@i').val());
@@ -911,7 +955,6 @@
     }
     function CalculateNetTotal()
     {
-
         SumExpenseTotal();
         SumPreviousRawRiceTotal();
         var BagsQty = $('#Bags_qty').val();
@@ -923,13 +966,22 @@
             else {
                 ExpenseTotal = parseFloat(TotalAmount + TotalExpense);
             }
+            if (!isNaN(ExpenseTotal / BagsQty)) {
+                $('#PerBagAmount').val(Math.round(ExpenseTotal / BagsQty));
+            }
+            else {
+                $('#PerBagAmount').val(0);
+            }
             if(!isNaN(ExpenseTotal))
             {
+                ExpenseTotal=DeductBrokerCommissionPercentage(ExpenseTotal);
                 $('#ExpenseTotal').val(ExpenseTotal);
             }
             else {
-                $('#ExpenseTotal').val(0);
+                ExpenseTotal = 0;
+                $('#ExpenseTotal').val(ExpenseTotal);
             }
+           
             var RemainingAmount = 0.0,payed_amount=parseFloat($('#payed_amount').val());
             if (payed_amount > ExpenseTotal && RawRiceRemainingtotal==0) {
                 $('#payed_amount').val(ExpenseTotal);
@@ -957,16 +1009,18 @@
             else {
                 $('#remaining_amount').val(0);
             }
-            if (!isNaN(ExpenseTotal / BagsQty)) {
-                $('#PerBagAmount').val(Math.round( ExpenseTotal / BagsQty));
-            }
-            else {
-                $('#PerBagAmount').val(0);
-            }
+          
         }
         else {
             calculate();
         }
+    }
+    function DeductBrokerCommissionPercentage(val) {
+        var Pay_CommissionPercentage = $('#Pay_CommissionPercentage').is(':checked');
+        if (Pay_CommissionPercentage) {
+            val -= $('#BrokerCommissionAmount').val();
+        }
+        return val;
     }
     @for (int i = 0; i < 100; i++)
             {

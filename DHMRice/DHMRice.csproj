@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -396,6 +397,10 @@
     <Compile Include="Migrations\201803060954119_chnages in worth sale table.Designer.cs">
       <DependentUpon>201803060954119_chnages in worth sale table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803061926257_RawRice changes.cs" />
+    <Compile Include="Migrations\201803061926257_RawRice changes.Designer.cs">
+      <DependentUpon>201803061926257_RawRice changes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BpRiceSales_ch.cs" />
@@ -404,6 +409,7 @@
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Factory.cs" />
     <Compile Include="Models\GatePassInwared.cs" />
+    <Compile Include="Models\HardCode\BrokerTransactions.cs" />
     <Compile Include="Models\HardCode\SaleInvoiceType.cs" />
     <Compile Include="Models\HardCode\SellingCategory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -1295,6 +1301,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803060954119_chnages in worth sale table.resx">
       <DependentUpon>201803060954119_chnages in worth sale table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803061926257_RawRice changes.resx">
+      <DependentUpon>201803061926257_RawRice changes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
