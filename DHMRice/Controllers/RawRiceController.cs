@@ -177,6 +177,7 @@ namespace DHMRice.Controllers
                 GatePass.Date = DateTime.Now;
                 db.GatePassInwareds.Add(GatePass);
 
+
                 db.SaveChanges();
                 var GatePassInwaredId = db.GatePassInwareds.Max(m => m.GatePassInwaredId);
                 return RedirectToAction("GatePassInwawrdd", "RawRice", new { GatePassInwaredId = GatePassInwaredId });
@@ -189,7 +190,7 @@ namespace DHMRice.Controllers
         public ActionResult GatePass(int id)
         {
 
-            GatePassInwared Gatepas = db.GatePassInwareds.Find(id);
+            GatePassInwared Gatepas = db.GatePassInwareds.Where(r=> r.RawRice_id==id).SingleOrDefault();
             db.SaveChanges();
             return View(Gatepas);
         }

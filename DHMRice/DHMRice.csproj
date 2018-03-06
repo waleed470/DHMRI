@@ -273,6 +273,7 @@
     <Compile Include="Controllers\OpeningClosingController.cs" />
     <Compile Include="Controllers\PackingsController.cs" />
     <Compile Include="Controllers\PartiesController.cs" />
+    <Compile Include="Controllers\ProductWorthSalesController.cs" />
     <Compile Include="Controllers\ShopRiceSalesController.cs" />
     <Compile Include="Controllers\ProducedRiceSalesController.cs" />
     <Compile Include="Controllers\RawRiceController.cs" />
@@ -383,8 +384,18 @@
     <Compile Include="Migrations\201802190810303_additon in raw rice seeling.Designer.cs">
       <DependentUpon>201802190810303_additon in raw rice seeling.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802201522439_adition in production.cs" />
+    <Compile Include="Migrations\201802201522439_adition in production.Designer.cs">
+      <DependentUpon>201802201522439_adition in production.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803060851513_by product sales table.cs" />
+    <Compile Include="Migrations\201803060851513_by product sales table.Designer.cs">
+      <DependentUpon>201803060851513_by product sales table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BpRiceSales_ch.cs" />
+    <Compile Include="Models\BpRiceSales_pt.cs" />
     <Compile Include="Models\Broker.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Factory.cs" />
@@ -1187,6 +1198,7 @@
     <Content Include="Views\Invoices\ProRiceReport.cshtml" />
     <Content Include="Views\RawRice\GatePassInwawrdd.cshtml" />
     <Content Include="Views\RawRice\GatePass.cshtml" />
+    <Content Include="Views\ProductWorthSales\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1269,6 +1281,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802190810303_additon in raw rice seeling.resx">
       <DependentUpon>201802190810303_additon in raw rice seeling.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802201522439_adition in production.resx">
+      <DependentUpon>201802201522439_adition in production.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803060851513_by product sales table.resx">
+      <DependentUpon>201803060851513_by product sales table.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -314,6 +314,7 @@ namespace DHMRice.Controllers
         {
             var js = new JavaScriptSerializer();
             decimal Recieved_Amount = Convert.ToDecimal(form["RecievedAmount"]);
+            decimal NetTotal = Convert.ToDecimal(form["NetTotal"]);
             try
             {
                 List<int> remaining_rsp_id = js.Deserialize<List<int>>(form["remaining_prsp_id"]);
@@ -370,6 +371,7 @@ namespace DHMRice.Controllers
             }
 
             ProducedRiceSales_pt ProducedRiceSales_pt = js.Deserialize<ProducedRiceSales_pt>(form["ProducedRiceSales_pt"]);
+            ProducedRiceSales_pt.prsp_Total_Amount = NetTotal;
             if (ProducedRiceSales_pt.Party.Party_Id > 0)
             {
                 ProducedRiceSales_pt.Party_Id = ProducedRiceSales_pt.Party.Party_Id;

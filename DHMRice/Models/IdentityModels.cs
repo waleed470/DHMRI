@@ -76,5 +76,8 @@ namespace DHMRice.Models
         public DbSet<Opening_ClosingDays_Shop> Opening_ClosingDays_Shop { get; set; }
         public DbSet<Transaction_Shop> Transaction_Shop { get; set; }
 
+        public DbSet<BpRiceSales_pt> BpRiceSales_pts { get; set; }
+        public DbSet<BpRiceSales_ch> BpRiceSales_chs { get; set; }
+
     }
 }

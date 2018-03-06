@@ -19,6 +19,8 @@ namespace DHMRice.Models
         public decimal prsp_TotalWeight_KG { get; set; }
         public decimal prsp_TotalWeight_Mann { get; set; }
         public decimal prsp_Total_Amount { get; set; }
+        public int Carriage { get; set; }
+        public int Labour { get; set; }
         public bool prsp_status { get; set; }
     }
 }

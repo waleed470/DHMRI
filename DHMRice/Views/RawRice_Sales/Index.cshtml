@@ -384,6 +384,7 @@
             $scope.LoadGrid();
 
             $scope.GetPartyRemainings = function () {
+             
                 if ($scope.RawRice_Sales_pt.rsp_id == 0) {
                     JsonCallParam("RawRice_Sales", "GetPartyRemainings", { "Party_Id": $scope.RawRice_Sales_pt.Party.Party_Id });
                     $scope.RemainingList = list;
@@ -490,6 +491,7 @@
                         'isCash': $scope.isCash,
                         'isBankAccount': $scope.isBankAccount,
                         'isCheckbook': $scope.isCheckbook,
+                        'NetTotal': $scope.NetTotal,
                         'CheckNo': $scope.CheckNo,
                         'BankAccountNo':$scope.BankAccountNo,
                         'RawRice_Sales_ch': JSON.stringify($scope.RawRice_Sales_ch),
@@ -517,6 +519,7 @@
                         'isBankAccount': $scope.isBankAccount,
                         'isCheckbook': $scope.isCheckbook,
                         'CheckNo': $scope.CheckNo,
+                        'NetTotal': $scope.NetTotal,
                         'BankAccountNo': $scope.BankAccountNo,
                         'RawRice_Sales_ch': JSON.stringify(RawRice_Sales_ch_obj),
                         'remaining_rsp_id': JSON.stringify(remaining_rsp_id),
