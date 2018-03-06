@@ -35,6 +35,8 @@
             $scope.ProducedRiceSales_pt.prsp_TotalWeight_KG = 0;
             $scope.ProducedRiceSales_pt.prsp_Total_Amount = 0;
             $scope.NetTotal = 0;
+            $scope.ProducedRiceSales_pt.Carriage = 0;
+            $scope.ProducedRiceSales_pt.Labour = 0;
             $scope.RemainingAmount = 0;
             var list = [];
             $scope.isCash = "true";
@@ -225,7 +227,14 @@
                 if (isNaN($scope.ProducedRiceSales_pt.prsp_Total_Amount)) {
                     $scope.ProducedRiceSales_pt.prsp_Total_Amount = 0;
                 }
+                if (isNaN($scope.ProducedRiceSales_pt.Carriage)) {
 
+                    $scope.ProducedRiceSales_pt.Carriage = 0;
+                }
+                if (isNaN($scope.ProducedRiceSales_pt.Labour)) {
+
+                    $scope.ProducedRiceSales_pt.Labour = 0;
+                }
                 angular.forEach($scope.RemainingList, function (obj) {
                     if (obj.selected) {
                         RemainingTotal += obj.Item3;
@@ -233,6 +242,7 @@
                 });
 
                 $scope.NetTotal = $scope.ProducedRiceSales_pt.prsp_Total_Amount + RemainingTotal;
+                $scope.NetTotal += $scope.ProducedRiceSales_pt.Carriage + $scope.ProducedRiceSales_pt.Labour;
                 if ($scope.RecievedAmount > $scope.NetTotal) {
                     $scope.RecievedAmount = $scope.NetTotal;
                 }
@@ -437,6 +447,7 @@
                         'RecievedAmount': $scope.RecievedAmount,
                         'isCash': $scope.isCash,
                         'isBankAccount': $scope.isBankAccount,
+                        'NetTotal': $scope.NetTotal,
                         'isCheckbook': $scope.isCheckbook,
                         'CheckNo': $scope.CheckNo,
                         'BankAccountNo': $scope.BankAccountNo,
@@ -466,6 +477,7 @@
                         'isBankAccount': $scope.isBankAccount,
                         'isCheckbook': $scope.isCheckbook,
                         'CheckNo': $scope.CheckNo,
+                        'NetTotal': $scope.NetTotal,
                         'BankAccountNo': $scope.BankAccountNo,
                         'ProducedRiceSales_ch': JSON.stringify(ProducedRiceSales_ch_obj),
                         'remaining_prsp_id': JSON.stringify(remaining_prsp_id),
@@ -681,6 +693,25 @@
                             </div>
                         </div>
                         <hr />
+                        <div class="form-group" style="margin-left:15%">
+                            <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <label class="control-label">Carriage</label>
+
+                                    <input type="number" name="Carriage" ng-model="ProducedRiceSales_pt.Carriage" ng-change="Calculation()" ng-init="Carriage=0" class="form-control" required />
+
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label ">Labour Expense</label>
+
+                                    <input type="number" name="Labour" ng-model="ProducedRiceSales_pt.Labour" ng-change="Calculation()" ng-init="Labour=0" class="form-control" required />
+
+
+                                </div>
+
+                            </div>
+                        </div>
                         <div class="form-group" style="margin-left:15%">
                             <div class="col-sm-12">
                                 <div class="col-sm-3">
