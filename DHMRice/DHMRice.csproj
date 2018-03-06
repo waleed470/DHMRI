@@ -392,6 +392,10 @@
     <Compile Include="Migrations\201803060851513_by product sales table.Designer.cs">
       <DependentUpon>201803060851513_by product sales table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803060954119_chnages in worth sale table.cs" />
+    <Compile Include="Migrations\201803060954119_chnages in worth sale table.Designer.cs">
+      <DependentUpon>201803060954119_chnages in worth sale table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BpRiceSales_ch.cs" />
@@ -1079,6 +1083,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="SqlScripts\d20-2.sql" />
+    <Content Include="SqlScripts\dhm3-6.sql" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1287,6 +1292,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803060851513_by product sales table.resx">
       <DependentUpon>201803060851513_by product sales table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803060954119_chnages in worth sale table.resx">
+      <DependentUpon>201803060954119_chnages in worth sale table.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

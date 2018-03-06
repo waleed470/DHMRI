@@ -11,8 +11,8 @@ namespace DHMRice.Models
         [Key]
         public int bprsc_id { get; set; }
         public string bprsc_title { get; set; }
-        public int Rice_Production_id { get; set; }
-        public virtual Rice_Production Rice_Production { get; set; }
+        public int Rice_Production_ProductWorth_id { get; set; }
+        public virtual Rice_Production_ProductWorth Rice_Production_ProductWorth { get; set; }
         public int bprsc_qty { get; set; }
         public decimal bprsc_Weight_kg { get; set; }
         public decimal bprsc_Weight_mann { get; set; }
