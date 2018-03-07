@@ -274,6 +274,7 @@
     <Compile Include="Controllers\OpeningClosingController.cs" />
     <Compile Include="Controllers\PackingsController.cs" />
     <Compile Include="Controllers\PartiesController.cs" />
+    <Compile Include="Controllers\PartyRemainingsController.cs" />
     <Compile Include="Controllers\ProductWorthSalesController.cs" />
     <Compile Include="Controllers\ShopRiceSalesController.cs" />
     <Compile Include="Controllers\ProducedRiceSalesController.cs" />
@@ -401,6 +402,10 @@
     <Compile Include="Migrations\201803061926257_RawRice changes.Designer.cs">
       <DependentUpon>201803061926257_RawRice changes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803071928436_new mig.cs" />
+    <Compile Include="Migrations\201803071928436_new mig.Designer.cs">
+      <DependentUpon>201803071928436_new mig.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BpRiceSales_ch.cs" />
@@ -410,6 +415,7 @@
     <Compile Include="Models\Factory.cs" />
     <Compile Include="Models\GatePassInwared.cs" />
     <Compile Include="Models\HardCode\BrokerTransactions.cs" />
+    <Compile Include="Models\HardCode\PartyRemainingTypes.cs" />
     <Compile Include="Models\HardCode\SaleInvoiceType.cs" />
     <Compile Include="Models\HardCode\SellingCategory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -418,6 +424,7 @@
     <Compile Include="Models\Opening_ClosingDays.cs" />
     <Compile Include="Models\Packing.cs" />
     <Compile Include="Models\Party.cs" />
+    <Compile Include="Models\PartyRemaining.cs" />
     <Compile Include="Models\Pricing.cs" />
     <Compile Include="Models\SaleInvoice.cs" />
     <Compile Include="Models\ShopRiceSales_ch.cs" />
@@ -478,6 +485,8 @@
     <Compile Include="ViewModels\ProductionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Angular\Controller\PartyRemaining_controller.js" />
+    <Content Include="Angular\Services\RequestService.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Invoices\index.js" />
@@ -1210,6 +1219,7 @@
     <Content Include="Views\RawRice\GatePassInwawrdd.cshtml" />
     <Content Include="Views\RawRice\GatePass.cshtml" />
     <Content Include="Views\ProductWorthSales\Index.cshtml" />
+    <Content Include="Views\PartyRemainings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1304,6 +1314,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803061926257_RawRice changes.resx">
       <DependentUpon>201803061926257_RawRice changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803071928436_new mig.resx">
+      <DependentUpon>201803071928436_new mig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
