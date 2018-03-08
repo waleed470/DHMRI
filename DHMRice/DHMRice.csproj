@@ -396,6 +396,14 @@
     <Compile Include="Migrations\201803060954119_chnages in worth sale table.Designer.cs">
       <DependentUpon>201803060954119_chnages in worth sale table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803061316491_addition in production worth.cs" />
+    <Compile Include="Migrations\201803061316491_addition in production worth.Designer.cs">
+      <DependentUpon>201803061316491_addition in production worth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803081001504_chnages in bp sales pt.cs" />
+    <Compile Include="Migrations\201803081001504_chnages in bp sales pt.Designer.cs">
+      <DependentUpon>201803081001504_chnages in bp sales pt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BpRiceSales_ch.cs" />
@@ -1295,6 +1303,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803060954119_chnages in worth sale table.resx">
       <DependentUpon>201803060954119_chnages in worth sale table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803061316491_addition in production worth.resx">
+      <DependentUpon>201803061316491_addition in production worth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803081001504_chnages in bp sales pt.resx">
+      <DependentUpon>201803081001504_chnages in bp sales pt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

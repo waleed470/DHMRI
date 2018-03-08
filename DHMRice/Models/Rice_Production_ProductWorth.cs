@@ -18,6 +18,7 @@ namespace DHMRice.Models
 
         public decimal Rice_Production_ProductWorth_Qty { get; set; }
 
+        public decimal Rice_Production_ProductWorth_SoldQty { get; set; }
 
         public decimal Rice_Production_ProductWorth_Amount { get; set; }
 

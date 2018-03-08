@@ -14,10 +14,13 @@ namespace DHMRice.Models.HardCode
         public const string RawRice_Sales_Return = "RawRice Sales Return";
 
         public const string Produced_Rice_Sales = "Produced Rice Sales";
+        public const string Worth_Rice_Sales = "Worth Rice Sales";
 
         public const string Produced_Rice_Sales_Remaining = "Produced Rice Sales Remaining";
+        public const string Worth_Rice_Sales_Remaining = "Worth Rice Sales Remaining";
 
         public const string Produced_Rice_Sales_Return = "Produced Rice Sales Return";
+        public const string Worth_Rice_Sales_Return = "Worth Rice Sales Return";
 
         public const string Shop_Rice_Sales = "Shop Rice Sales";
 

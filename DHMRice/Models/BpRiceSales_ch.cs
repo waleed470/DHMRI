@@ -18,7 +18,7 @@ namespace DHMRice.Models
         public decimal bprsc_Weight_mann { get; set; }
         public decimal bprsc_price { get; set; }
         public int bprsp_id { get; set; }
-        public virtual ProducedRiceSales_pt ProducedRiceSales_pt { get; set; }
+        public virtual BpRiceSales_pt BpRiceSales_pt { get; set; }
         public bool bprsc_status { get; set; }
     }
 }

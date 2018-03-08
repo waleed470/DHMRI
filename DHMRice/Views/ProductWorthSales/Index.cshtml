@@ -31,10 +31,13 @@
             $scope.ProducedRiceSales_pt = { Party_Id: 0 };
             $scope.ProducedRiceSales_pt.Party = { Party_Id: 0, Party_Name: '', Party_Code: '', Party_MobileNo: '', Party_Address: '' };
             $scope.ProducedRiceSales_pt.prsp_id = 0;
+            $scope.ProducedRiceSales_pt.bprsp_id = 0;
             $scope.ProducedRiceSales_pt.prsp_Title = "";
+            $scope.ProducedRiceSales_pt.bprsp_Title = "";
             $scope.ProducedRiceSales_pt.prsp_TotalWeight_Mann = 0;
             $scope.ProducedRiceSales_pt.prsp_TotalWeight_KG = 0;
             $scope.ProducedRiceSales_pt.prsp_Total_Amount = 0;
+            $scope.ProducedRiceSales_pt.bprsp_Total_Amount = 0;
             $scope.NetTotal = 0;
             $scope.ProducedRiceSales_pt.Carriage = 0;
             $scope.ProducedRiceSales_pt.Labour = 0;
@@ -141,69 +144,66 @@
             $scope.ProducedRiceSales_ch = [];
             $scope.addNew = function (obj) {
                 $scope.ProducedRiceSales_ch.push({
+                    'bprsc_id': 0,
                     'prsc_id': 0,
                     'Rice_Production_ProductWorth_id': 0,
-                    'prsc_title':"",
+                    'bprsc_title': "",
+                    'prsc_title': "",
                     'prsc_ttl_qty': 0,
                     'prsc_sld_qty':0,
-                    'prsc_qty': 0,
-                    'prsc_packing_type':0,
-                    'prsc_Weight_kg': 0,
-                    'prsc_Weight_kg_ttl': 0,
-                    'prsc_Weight_mann': 0,
-                    'prsc_Weight_mann_ttl': 0,
+                    'bprsc_qty': 0,                
                     'prsc_PerBagMarketPrice':0,
-                    'prsc_price': 0,
-                    'prsp_id': 0,
-                    'prsp_status':false
+                    'bprsc_price': 0,
+                    'bprsp_id': 0,
+                    'bprsc_status': true
                 });
                 $scope.Calculation();
             };
             $scope.WorthRice_List = [];
             $scope.Fill_fields_on_WorthRiceChange = function (i) {
-
+               
                 JsonCallParam("ProductWorthSales", "Get_Worth_Rice_id", {
                     "id": $scope.ProducedRiceSales_ch[i].Rice_Production_id
                 });
 
-              
-                $scope.ProducedRiceSales_ch[i].Rice_Production_ProductWorth_id = list.Item5;
-                $scope.WorthRice_List = list;
-              
+               
+                $scope.ProducedRiceSales_ch[i].prsc_title = list;
+               // $scope.WorthRice_List = list;
+               
             };
             $scope.Fill_fields_on_ProducedRiceChange = function (i) {
-
-                JsonCallParam("ProducedRiceSales", "Get_Produced_Rice_id", {
-                    "id": $scope.ProducedRiceSales_ch[i].Rice_Production_id
+              
+                JsonCallParam("ProductWorthSales", "Get_Produced_Rice_id", {
+                    "id": $scope.ProducedRiceSales_ch[i].Rice_Production_ProductWorth_id
                 });
-
+              
                 $scope.ProducedRiceSales_ch[i].prsc_ttl_qty = list.Item1;
-                $scope.ProducedRiceSales_ch[i].prsc_sld_qty = list.Item2;
-                $scope.ProducedRiceSales_ch[i].prsc_qty = 0;
-                $scope.ProducedRiceSales_ch[i].prsc_Weight_kg_ttl = list.Item3;
-                $scope.ProducedRiceSales_ch[i].prsc_packing_type = list.Item4;
-                $scope.ProducedRiceSales_ch[i].prsc_Weight_mann_ttl = (parseFloat(list.Item4) * parseFloat("0.025"));
-                $scope.ProducedRiceSales_ch[i].Rice_Production_id = list.Item5;
-                $scope.ProducedRiceSales_ch[i].prsc_title = list.Item6;
-
-                $scope.ProducedRiceSales_ch[i].prsc_PerBagMarketPrice = list.Item7;
+                $scope.ProducedRiceSales_ch[i].prsc_sld_qty = list.Item3;
+                $scope.ProducedRiceSales_ch[i].bprsc_qty = 0;
+                $scope.ProducedRiceSales_ch[i].Rice_Production_ProductWorth_id = list.Item6;
+         
+                //$scope.ProducedRiceSales_ch[i].Rice_Production_id = list.Item5;
+                $scope.ProducedRiceSales_ch[i].bprsc_title = list.Item4;
+              
+                $scope.ProducedRiceSales_ch[i].prsc_PerBagMarketPrice = list.Item5;
                 $scope.Calculation();
             };
             $scope.Fill_fields_on_ProducedRiceChange2 = function (i) {
 
-                JsonCallParam("ProducedRiceSales", "Get_Produced_Rice_id", {
-                    "id": $scope.ProducedRiceSales_ch[i].Rice_Production_id
+                JsonCallParam("ProductWorthSales", "Get_Produced_Rice_id", {
+                    "id": $scope.ProducedRiceSales_ch[i].Rice_Production_ProductWorth_id
                 });
 
                 $scope.ProducedRiceSales_ch[i].prsc_ttl_qty = list.Item1;
-                $scope.ProducedRiceSales_ch[i].prsc_sld_qty = list.Item2 - $scope.ProducedRiceSales_ch[i].prsc_qty;
-                $scope.ProducedRiceSales_ch[i].prsc_Weight_kg_ttl = list.Item3;
-                $scope.ProducedRiceSales_ch[i].prsc_packing_type = list.Item4;
-                $scope.ProducedRiceSales_ch[i].prsc_Weight_mann_ttl = (parseFloat(list.Item4)*parseFloat("0.025"));
-                $scope.ProducedRiceSales_ch[i].Rice_Production_id = list.Item5;
-                $scope.ProducedRiceSales_ch[i].prsc_title = list.Item6;
+                $scope.ProducedRiceSales_ch[i].prsc_sld_qty = list.Item3 - $scope.ProducedRiceSales_ch[i].bprsc_qty;
+               
+                $scope.ProducedRiceSales_ch[i].Rice_Production_ProductWorth_id = list.Item2;
+               
+                $scope.ProducedRiceSales_ch[i].Rice_Production_id = list.Item7;
+              
+                $scope.ProducedRiceSales_ch[i].bprsc_title = list.Item4;
 
-                $scope.ProducedRiceSales_ch[i].prsc_PerBagMarketPrice = list.Item7;
+                $scope.ProducedRiceSales_ch[i].prsc_PerBagMarketPrice = list.Item5;
                 $scope.Calculation();
             };
             $scope.Calculation = function () {
@@ -214,20 +214,20 @@
                 $scope.ProducedRiceSales_pt.prsp_Title = "Sales ";
                 var count = 0;
                 angular.forEach($scope.ProducedRiceSales_ch, function (obj) {
-                    if (obj.prsc_qty > (obj.prsc_ttl_qty - obj.prsc_sld_qty)) {
-                        obj.prsc_qty = obj.prsc_ttl_qty - obj.prsc_sld_qty;
+                    if (obj.bprsc_qty > (obj.prsc_ttl_qty - obj.prsc_sld_qty)) {
+                        obj.bprsc_qty = obj.prsc_ttl_qty - obj.prsc_sld_qty;
                     }
-                    obj.prsc_Weight_kg = obj.prsc_qty * obj.prsc_packing_type;
+                    obj.prsc_Weight_kg = obj.bprsc_qty * obj.prsc_packing_type;
                     obj.prsc_Weight_mann = (parseFloat(obj.prsc_Weight_kg) * parseFloat("0.025"));
-                    obj.prsc_price = Math.round( obj.prsc_PerBagMarketPrice * obj.prsc_qty);
+                    obj.bprsc_price = Math.round( obj.prsc_PerBagMarketPrice * obj.bprsc_qty);
                     $scope.ProducedRiceSales_pt.prsp_TotalWeight_Mann += obj.prsc_Weight_mann;
                     $scope.ProducedRiceSales_pt.prsp_TotalWeight_KG += obj.prsc_Weight_kg;
-                    $scope.ProducedRiceSales_pt.prsp_Total_Amount += obj.prsc_price;
+                    $scope.ProducedRiceSales_pt.prsp_Total_Amount += obj.bprsc_price;
                     if (count == 0) {
-                        $scope.ProducedRiceSales_pt.prsp_Title += obj.prsc_title;
+                        $scope.ProducedRiceSales_pt.prsp_Title += obj.bprsc_title;
                     }
                     else {
-                        $scope.ProducedRiceSales_pt.prsp_Title += (", " + obj.prsc_title);
+                        $scope.ProducedRiceSales_pt.prsp_Title += (", " + obj.bprsc_title);
                     }
                     count++;
                 });
@@ -253,7 +253,7 @@
                         RemainingTotal += obj.Item3;
                     }
                 });
-
+                //alert($scope.ProducedRiceSales_pt.Carriage);
                 $scope.NetTotal = $scope.ProducedRiceSales_pt.prsp_Total_Amount + RemainingTotal;
                 $scope.NetTotal += $scope.ProducedRiceSales_pt.Carriage + $scope.ProducedRiceSales_pt.Labour;
                 if ($scope.RecievedAmount > $scope.NetTotal) {
@@ -266,7 +266,8 @@
                 if (isNaN($scope.RemainingAmount)) {
                     $scope.RemainingAmount = 0;
                 }
-
+                $scope.ProducedRiceSales_pt.prsp_Total_Amount = $scope.NetTotal
+                //alert($scope.ProducedRiceSales_pt.prsp_Total_Amount);
             }
             $scope.Deleted_ProducedRiceSales_ch = [];
             $scope.remove = function () {
@@ -283,7 +284,7 @@
                     }
                 });
                 $scope.ProducedRiceSales_ch = newDataList;
-                $scope.Calculation();
+               
             };
 
             $scope.checkAll = function () {
@@ -336,12 +337,12 @@
                 $scope.Invoiceno = 0;
             };
             $scope.LoadGrid = function () {
-                JsonCall("ProducedRiceSales", "Get_pt");
+                JsonCall("ProductWorthSales", "Get_pt");
                 $scope.Grid = list;
                 angular.forEach($scope.Grid, function (obj) {
-                    var parm = { 'prsp_id': obj.Item1.prsp_id }
+                    var parm = { 'prsp_id': obj.Item1.bprsp_id }
                     $http.post(
-                     '/ProducedRiceSales/Get_ReturnStatus',
+                     '/ProductWorthSales/Get_ReturnStatus',
                      parm,
                      {
                          headers: {
@@ -349,6 +350,7 @@
                          }
                      }).then(function (res) {
                          obj.Item8 = res.data;
+                       
                          console.log($scope.Grid);
                      }, function (res) {
                          //Error here
@@ -369,21 +371,24 @@
             };
             $scope.LoadProducedRice_pt = function (obj) {
 
-                $scope.ProducedRiceSales_pt.prsp_id = obj.Item1.prsp_id;
-                $scope.ProducedRiceSales_pt.prsp_Title = obj.Item1.prsp_Title;
+                $scope.ProducedRiceSales_pt.prsp_id = obj.Item1.bprsp_id;
+                $scope.ProducedRiceSales_pt.prsp_Title = obj.Item1.bprsp_Title;
                 $scope.ProducedRiceSales_pt.Party_Id = obj.Item1.Party_Id;
                 $scope.GetPartyRemainings();
                 $scope.ProducedRiceSales_pt.prsp_TotalWeight_KG = obj.Item1.prsp_TotalWeight_KG;
                 $scope.ProducedRiceSales_pt.prsp_TotalWeight_Mann = obj.Item1.prsp_TotalWeight_Mann;
-                $scope.ProducedRiceSales_pt.prsp_Total_Amount = obj.Item1.prsp_Total_Amount;
+                $scope.ProducedRiceSales_pt.prsp_Total_Amount = obj.Item1.bprsp_Total_Amount;
+                $scope.ProducedRiceSales_pt.Labour = obj.Item1.Labour;
+                $scope.ProducedRiceSales_pt.Carriage = obj.Item1.Carriage;
                 $scope.Invoiceno = obj.Item7;
-                JsonCallParam("ProducedRiceSales", "Get_Party", { "prsp_id": obj.Item1.prsp_id });
+                JsonCallParam("ProductWorthSales", "Get_Party", { "prsp_id": obj.Item1.bprsp_id });
                 $scope.ProducedRiceSales_pt.Party = list;
-                JsonCallParam("ProducedRiceSales", "Get_ch", { "id": obj.Item1.prsp_id });
+                JsonCallParam("ProductWorthSales", "Get_ch", { "id": obj.Item1.bprsp_id });
                 var i = 0;
                 angular.forEach(list, function (obj) {
                     $scope.ProducedRiceSales_ch[i] = obj;
                     $scope.Fill_fields_on_ProducedRiceChange2(i);
+                    $scope.Fill_fields_on_WorthRiceChange(i);
                     $scope.Calculation();
                     i++;
                 });
@@ -401,18 +406,18 @@
 
             };
             $scope.Delete = function (obj) {
-                JsonCallParam("ProducedRiceSales", "Delete_sales", { "id": obj.Item1.prsp_id });
+                JsonCallParam("ProducedRiceSales", "Delete_sales", { "id": obj.Item1.bprsp_id });
                 $scope.LoadGrid();
             }
             $scope.ReceivedRemaining = function (obj) {
-                JsonCallParam("ProducedRiceSales", "ReceivedRemaining", { "id": obj.Item1.prsp_id, "Remaining": obj.Item5 });
+                JsonCallParam("ProducedRiceSales", "ReceivedRemaining", { "id": obj.Item1.bprsp_id, "Remaining": obj.Item5 });
                 $scope.LoadGrid();
             };
             $scope.Return = function (obj) {
                 // console.log(obj.Item1.rsp_id);
-                var parm = { 'prsp_id': obj.Item1.prsp_id }
+                var parm = { 'prsp_id': obj.Item1.bprsp_id }
                 $http.post(
-                 '/ProducedRiceSales/Return',
+                 '/ProductWorthSales/Return',
                  parm,
                  {
                      headers: {
@@ -455,6 +460,12 @@
                 angular.extend(Party, $scope.ProducedRiceSales_pt.Party);
                 $scope.ProducedRiceSales_pt.Party = Party;
                 if ($scope.ProducedRiceSales_pt.prsp_id == 0) {
+                    $scope.ProducedRiceSales_pt.bprsp_id = $scope.ProducedRiceSales_pt.prsp_id;
+                    $scope.ProducedRiceSales_pt.Party_Id = $scope.ProducedRiceSales_pt.Party_Id;
+                    $scope.ProducedRiceSales_ch.Party_Id = $scope.ProducedRiceSales_pt.Party_Id;
+                    $scope.ProducedRiceSales_pt.bprsp_Title = $scope.ProducedRiceSales_pt.prsp_Title;
+                    $scope.ProducedRiceSales_pt.bprsp_Total_Amount = $scope.ProducedRiceSales_pt.prsp_Total_Amount;
+
                     var pram = {
                         'ProducedRiceSales_pt': JSON.stringify($scope.ProducedRiceSales_pt),
                         'RecievedAmount': $scope.RecievedAmount,
@@ -468,21 +479,30 @@
                         'remaining_prsp_id': JSON.stringify(remaining_prsp_id)
                     };
 
-                    JsonCallParam("ProducedRiceSales", "Insert_sales", pram);
+                    JsonCallParam("ProductWorthSales", "Insert_sales", pram);
 
                 }
                 else {
                     var ProducedRiceSales_ch_obj = $scope.ProducedRiceSales_ch;
-
+                    
                     for (var i = 0; i < ProducedRiceSales_ch_obj.length; i++) {
                         ProducedRiceSales_ch_obj[i].Rice_Production = null;
                         ProducedRiceSales_ch_obj[i].ProducedRiceSales_pt = null;
-                    }
+                        ProducedRiceSales_ch_obj[i].BpRiceSales_pt = null;
+                        ProducedRiceSales_ch_obj[i].Rice_Production_ProductWorth = null;
+
+                    } 
                     var Deleted_ProducedRiceSales_ch = $scope.Deleted_ProducedRiceSales_ch;
                     for (var i = 0; i < Deleted_ProducedRiceSales_ch.length; i++) {
                         Deleted_ProducedRiceSales_ch[i].Rice_Production = null;
                         Deleted_ProducedRiceSales_ch[i].ProducedRiceSales_pt = null;
                     }
+                    $scope.ProducedRiceSales_pt.bprsp_id = $scope.ProducedRiceSales_pt.prsp_id;
+                    $scope.ProducedRiceSales_pt.Party_Id = $scope.ProducedRiceSales_pt.Party_Id;
+                  
+                    $scope.ProducedRiceSales_pt.bprsp_Title = $scope.ProducedRiceSales_pt.prsp_Title;
+                    $scope.ProducedRiceSales_pt.bprsp_Total_Amount = $scope.ProducedRiceSales_pt.prsp_Total_Amount;
+                  
                     var pram = {
                         'ProducedRiceSales_pt': JSON.stringify($scope.ProducedRiceSales_pt),
                         'RecievedAmount': $scope.RecievedAmount,
@@ -496,8 +516,8 @@
                         'remaining_prsp_id': JSON.stringify(remaining_prsp_id),
                         'Deleted_ProducedRiceSales_ch': JSON.stringify(Deleted_ProducedRiceSales_ch)
                     };
-
-                    JsonCallParam("ProducedRiceSales", "Update_sales", pram);
+                 
+                    JsonCallParam("ProductWorthSales", "Update_sales", pram);
                 }
 
                 $scope.LoadGrid();
@@ -584,20 +604,11 @@
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <div class="col-sm-4">
-                                    <label class="control-label col-md-4">Total Weight (Mann)</label>
-                                    <div class="col-md-8">
-                                        <p style="margin-top:3%">{{ProducedRiceSales_pt.prsp_TotalWeight_Mann}}</p>
-                                        @* <input name="prsp_TotalWeight_KG" ng-model="prsp_TotalWeight_Mann" ng-init="prsp_TotalWeight_Mann=0" class="form-control" disabled />*@
-                                    </div>
+                                  
                                 </div>
                                 <div class="col-sm-4">
-                                    <label class="control-label col-md-4">Total Weight (KG)</label>
-                                    <div class="col-md-8">
-                                        <p style="margin-top:3%">
-                                            {{ProducedRiceSales_pt.prsp_TotalWeight_KG}}
-                                        </p>
-                                        @* <input name="prsp_TotalWeight_KG" ng-model="prsp_TotalWeight_KG"  ng-init="prsp_TotalWeight_KG=0" class="form-control" disabled />*@
-                                    </div>
+                                  
+                                  
                                 </div>
                                 <div class="col-sm-4">
                                     <label class="control-label col-md-4">Total Amount</label>
@@ -623,8 +634,7 @@
                                             <th>Stock QTY</th>
                                             <th>Per Bag Price</th>
                                             <th>Qty</th>
-                                            <th>Weight KG</th>
-                                            <th>Weight Mann</th>
+                                          
                                             <th>Price</th>
                                         </tr>
                                     </thead>
@@ -639,8 +649,8 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <select ng-model="obj.Rice_Production_ProductWorth_id" name="Rice_Production_ProductWorth_id" id="Rice_Production_id_{{$index}}" ng-options="item.Rice_Production_ProductWorth_id as item.Rice_Production_ProductWorth_name for item in WorthRice_List" class="form-control selectpicker" ng-change="Fill_fields_on_ProducedRiceChange({{$index}})" required>
-                                                    <option value="">Select PWRice</option>
+                                                <select ng-model="obj.Rice_Production_ProductWorth_id" name="Rice_Production_ProductWorth_id" id="Rice_Production_ProductWorth_id_{{$index}}" ng-options="item.Rice_Production_ProductWorth_id as item.Rice_Production_ProductWorth_name for item in obj.prsc_title" class="form-control selectpicker" ng-change="Fill_fields_on_ProducedRiceChange({{$index}})" required>
+                                                    <option value="">Select Worth Rice</option>
                                                 </select>
                                             </td>
                                             <td>
@@ -652,17 +662,11 @@
 
                                             </td>
                                             <td>
-                                                <input type="number" class="form-control" ng-model="obj.prsc_qty" ng-change="Calculation()" required />
+                                                <input type="number" class="form-control" ng-model="obj.bprsc_qty" ng-change="Calculation()" required />
                                             </td>
+                                          
                                             <td>
-
-                                                <input type="text" class="form-control" ng-model="obj.prsc_Weight_kg" required disabled />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" ng-model="obj.prsc_Weight_mann" required disabled />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" ng-model="obj.prsc_price" required disabled />
+                                                <input type="text" class="form-control" ng-model="obj.bprsc_price" required disabled />
                                             </td>
                                         </tr>
                                     </tbody>
@@ -832,8 +836,7 @@
                                 <th>Title</th>
                                 <th>Date</th>
                                 <th>Party</th>
-                                <th>Total Weight (KG)</th>
-                                <th>Total Weight (Mann)</th>
+                               
                                 <th>Total Amount</th>
                                 <th>Recieved</th>
                                 <th>Remaining</th>
@@ -844,12 +847,11 @@
                         <tbody>
                             <tr ng-repeat="item in Grid">
                                 <td><a href="~/Invoices/ProRiceSellingInvoice?id={{item.Item1.prsp_id}}&&In={{item.Item7}}">{{item.Item7}}</a></td>
-                                <td>{{item.Item1.prsp_Title}}</td>
+                                <td>{{item.Item1.bprsp_Title}}</td>
                                 <td>{{item.Item2}}</td>
                                 <td>{{item.Item1.Party.Party_Name}}</td>
-                                <td>{{item.Item1.prsp_TotalWeight_KG}}</td>
-                                <td>{{item.Item1.prsp_TotalWeight_Mann}}</td>
-                                <td>{{item.Item1.prsp_Total_Amount}}</td>
+
+                                <td>{{item.Item1.bprsp_Total_Amount}}</td>
                                 <td>{{item.Item3}}</td>
 
                                 <td ng-show="item.Item4>0 && item.Item8==0">
