@@ -78,6 +78,7 @@ namespace DHMRice.Models
 
         public DbSet<BpRiceSales_pt> BpRiceSales_pts { get; set; }
         public DbSet<BpRiceSales_ch> BpRiceSales_chs { get; set; }
+        public DbSet<PartyRemaining> PartyRemaining { get; set; }
 
     }
 }

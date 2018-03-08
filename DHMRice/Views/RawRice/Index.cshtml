@@ -50,7 +50,7 @@
             }
             $scope.Pricing=list;
 
-        };
+            };
         function UpdatePrice(price_obj)
         {
             $http.post(
@@ -82,6 +82,7 @@
             //});
         }
 
+       
 
 
     });
@@ -166,11 +167,16 @@
                                         <input name="Pricing_id" ng-model="Pricing[@count].Pricing_id" class="hidden" />
                                         <input name="PerBagPrice" ng-model="Pricing[@count].PerBagPrice" class="hidden"  />
                                     <input name="PerBagMarketPrice" ng-model="Pricing[@count].PerBagMarketPrice" ng-change="ValidatePricing()" type="number"/> 
-                                    </td>
-                                
+                                    </td>                                
                                     <td>@(Convert.ToDecimal(db.Pricing.Where(m => m.item_id == @item.RawRice_id && m.item_Type == "RawRice").Max(c => c.Pricing_NetTotal)).ToString("#,##0.00"))</td>
                                     <td>@item.party.Party_Name</td>
-                                    <td>@item.broker.Broker_Name</td>
+                                    <td>
+                                        @item.broker.Broker_Name @((item.Pay_CommissionPercentage)?"(Commission Payed)":"")
+                                        @if (!item.Pay_CommissionPercentage && item.BrokerCommissionPercentage > 0)
+                                        {
+                                            <input type="button" value="Pay @item.BrokerCommissionPercentage% Commission" style="margin-left:1%" class="btn btn-primary btn-sm" onclick="PayCommision(@item.RawRice_id)" />
+                                        }
+                                    </td>
                                     @{
                                         string Rawrice_Date = item.Date.ToShortDateString();
 
@@ -277,6 +283,22 @@
                 });
             });
             TableManageButtons.init();
-
+            function PayCommision(rawRiceId) {
+                $.ajax({
+                    type: "PUT",
+                    traditional: true,
+                    async: false,
+                    cache: false,
+                    url: '/RawRice/PayBrokerCommision',
+                    context: document.body,
+                    data: { RawRiceID: rawRiceId },
+                    success: function (json) {
+                        location.reload();
+                    },
+                    error: function (xhr) {
+                        
+                    }
+                });
+            }
     </script>
 }

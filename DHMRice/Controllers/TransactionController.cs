@@ -5,12 +5,18 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace DHMRice.Controllers
 {
     public class TransactionController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
+        int Opening_ClosingDays_id;
+        public TransactionController()
+        {
+           
+        }
         // GET: Transaction
         public ActionResult Index()
         {
@@ -117,6 +123,27 @@ namespace DHMRice.Controllers
             db.Entry(trans).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("ViewToday");
+        }
+        [HttpPost]
+        public void JSON_Transaction(FormCollection form)
+        {
+            foreach (var item in db.Opening_ClosingDays)
+            {
+                if (item.Date.ToShortDateString() == DateTime.Now.ToShortDateString() && !item.isClosed)
+                {
+                    Opening_ClosingDays_id = item.Opening_ClosingDays_id;
+                    break;
+                }
+            }
+            var js = new JavaScriptSerializer();
+            Transaction mTransaction = js.Deserialize<Transaction>(form["Transaction"]);
+            if (mTransaction != null)
+            {
+                mTransaction.Transaction_DateTime = DateTime.Now;
+                mTransaction.Opening_ClosingDays_id = Opening_ClosingDays_id;
+                db.Transaction.Add(mTransaction);
+                db.SaveChanges();
+            }
         }
 
     }

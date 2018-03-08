@@ -1,5 +1,6 @@
 ﻿using CrystalDecisions.CrystalReports.Engine;
 using DHMRice.Models;
+using DHMRice.Models.HardCode;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -40,16 +41,17 @@ namespace DHMRice.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddNew(RawRice rawRice,List<RawRiceExpense> RawRiceExpense,Pricing pricing,List<RawRice> RawRice_Remaining,List<decimal> Previous_Remainings,List<int> RawRice_Remaining_checkbox, FormCollection form)
+        public ActionResult AddNew(RawRice rawRice, List<RawRiceExpense> RawRiceExpense, Pricing pricing, List<RawRice> RawRice_Remaining, List<decimal> Previous_Remainings, List<int> RawRice_Remaining_checkbox, FormCollection form)
         {
+            var Pay_CommissionPercentage = form["Pay_CommissionPercentage"];
             decimal payedamount = Convert.ToDecimal(form["Payed_Amount"]);
-            if (RawRice_Remaining != null&& Previous_Remainings!=null&& RawRice_Remaining_checkbox!=null)
+            if (RawRice_Remaining != null && Previous_Remainings != null && RawRice_Remaining_checkbox != null)
             {
                 for (int i = 0; i < RawRice_Remaining.Count; i++)
                 {
                     try
                     {
-                        if (RawRice_Remaining_checkbox.Where(m=>m.Equals(RawRice_Remaining[i].RawRice_id)).Count()>0)
+                        if (RawRice_Remaining_checkbox.Where(m => m.Equals(RawRice_Remaining[i].RawRice_id)).Count() > 0)
                         {
                             Transaction rem_trans = new Transaction();
                             rem_trans.Transaction_item_id = RawRice_Remaining[i].RawRice_id;
@@ -99,67 +101,103 @@ namespace DHMRice.Controllers
             string idd = Convert.ToString(Session["UserId"]);
             rawRice.Id = idd;
             rawRice.Pb_Weight = rawRice.Total_Weight / rawRice.Bags_qty;
-            
+            rawRice.Pay_CommissionPercentage = (Pay_CommissionPercentage == "on") ? true:false;
             rawRice.Bags_Sold_qty = 0;
             db.RarRices.Add(rawRice);
             db.SaveChanges();
             var rawrice_id = db.RarRices.Max(m => m.RawRice_id);
-            
-            foreach (var item in RawRiceExpense)
+
+            if (rawRice.Pay_CommissionPercentage)
             {
-                if (item.RawRiceExpense_Name!=null)
-                {
-                    item.RawRice_id = rawrice_id;                
-                db.RawRiceExpense.Add(item);
-                db.SaveChanges();
-                }
-            }
-
-            pricing.PerBagMarketPrice = pricing.PerBagPrice;
-            pricing.item_id = rawrice_id;
-            pricing.item_Type = "RawRice";
-            pricing.Pricing_Date = DateTime.Now;
-            pricing.Status = true;
-            db.Pricing.Add(pricing);
-            db.SaveChanges();
-
-            
-                Transaction trans = new Transaction();
+                Transaction BrokerTransaction = new Transaction();
                 if (form["isBankAccount"] != null)
                 {
-                    trans.BankAccountNo = form["BankAccountNo"];
-            }
+                    BrokerTransaction.BankAccountNo = form["BankAccountNo"];
+                }
                 else if (form["isCheckbook"] != null)
                 {
-                    trans.checkno = Convert.ToInt32(form["CheckNo"]);
-                    trans.BankAccountNo = form["BankAccountNo"];
-            }
+                    BrokerTransaction.checkno = Convert.ToInt32(form["CheckNo"]);
+                    BrokerTransaction.BankAccountNo = form["BankAccountNo"];
+                }
                 else if (form["isCash"] != null)
                 {
-                    trans.isByCash = true;
-                    trans.BankAccountNo = "";
+                    BrokerTransaction.isByCash = true;
+                    BrokerTransaction.BankAccountNo = "";
                 }
                 foreach (var item in db.Opening_ClosingDays)
                 {
                     if (item.Date.ToShortDateString() == DateTime.Now.ToShortDateString() && !item.isClosed)
                     {
-                        trans.Opening_ClosingDays_id = item.Opening_ClosingDays_id;
+                        BrokerTransaction.Opening_ClosingDays_id = item.Opening_ClosingDays_id;
                         break;
                     }
                 }
-                trans.Transaction_DateTime = DateTime.Now;
-                trans.Transaction_Description = "Purchase " + rawRice.Item_Name + "  Qty: "+rawRice.Bags_qty+" Packing type: "+db.Packings.Find(rawRice.Packing_Id).Packing_Type +"Kgs from Party " + db.Parties.Find(rawRice.Party_Id).Party_Name;
-                trans.Transaction_item_id = rawrice_id;
-                trans.Transaction_item_type = "RawRice";
-                trans.Debit = payedamount;
-                trans.Credit = 0;
-                trans.status = true;
-                db.Transaction.Add(trans);
+                BrokerTransaction.Transaction_DateTime = DateTime.Now;
+                BrokerTransaction.Transaction_Description = "Pay Commission to Broker "+db.Brokers.Find(db.RarRices.Find(rawrice_id).Broker_Id).Broker_Name+" for RawRice " + rawRice.Item_Name + "  Qty: " + rawRice.Bags_qty + " Packing type: " + db.Packings.Find(rawRice.Packing_Id).Packing_Type + "Kgs from Party " + db.Parties.Find(rawRice.Party_Id).Party_Name;
+                BrokerTransaction.Transaction_item_id = rawrice_id;
+                BrokerTransaction.Transaction_item_type = BrokerTransactions.PaycommissionToBroker;
+                BrokerTransaction.Debit = payedamount;
+                BrokerTransaction.Credit = 0;
+                BrokerTransaction.status = true;
+                db.Transaction.Add(BrokerTransaction);
                 db.SaveChanges();
-            
+            }
+
+            foreach (var item in RawRiceExpense)
+            {
+                if (item.RawRiceExpense_Name != null)
+                {
+                    item.RawRice_id = rawrice_id;
+                    db.RawRiceExpense.Add(item);
+                    db.SaveChanges();
+                }
+            }
+            pricing.PerBagMarketPrice = pricing.PerBagPrice;
+            pricing.item_id = rawrice_id;
+            pricing.item_Type = "RawRice";
+            pricing.Pricing_Date = DateTime.Now;
+            pricing.Pricing_ModifiedDate = DateTime.Now;
+            pricing.Status = true;
+            db.Pricing.Add(pricing);
+            db.SaveChanges();
+
+
+            Transaction trans = new Transaction();
+            if (form["isBankAccount"] != null)
+            {
+                trans.BankAccountNo = form["BankAccountNo"];
+            }
+            else if (form["isCheckbook"] != null)
+            {
+                trans.checkno = Convert.ToInt32(form["CheckNo"]);
+                trans.BankAccountNo = form["BankAccountNo"];
+            }
+            else if (form["isCash"] != null)
+            {
+                trans.isByCash = true;
+                trans.BankAccountNo = "";
+            }
+            foreach (var item in db.Opening_ClosingDays)
+            {
+                if (item.Date.ToShortDateString() == DateTime.Now.ToShortDateString() && !item.isClosed)
+                {
+                    trans.Opening_ClosingDays_id = item.Opening_ClosingDays_id;
+                    break;
+                }
+            }
+            trans.Transaction_DateTime = DateTime.Now;
+            trans.Transaction_Description = "Purchase " + rawRice.Item_Name + "  Qty: " + rawRice.Bags_qty + " Packing type: " + db.Packings.Find(rawRice.Packing_Id).Packing_Type + "Kgs from Party " + db.Parties.Find(rawRice.Party_Id).Party_Name;
+            trans.Transaction_item_id = rawrice_id;
+            trans.Transaction_item_type = "RawRice";
+            trans.Debit = payedamount;
+            trans.Credit = 0;
+            trans.status = true;
+            db.Transaction.Add(trans);
+            db.SaveChanges();
 
             return RedirectToAction("Index");
         }
+        
         [HttpGet]
         public ActionResult GatePassInwawrd(int id)
         {
@@ -239,6 +277,43 @@ namespace DHMRice.Controllers
             //var RawRice = db.RarRices.Where(m => m.Party_Id == Party_Id /*&& m.pricing.Pricing_NetTotal != m.transaction. */&& m.Status).ToList();
             return Json(jsonret.ToList(), JsonRequestBehavior.AllowGet);           
         }
+        [HttpPut]
+        public void PayBrokerCommision(int? RawRiceID)
+        {
+            if (RawRiceID != null)
+            {
+                RawRice rawRice = db.RarRices.Find(RawRiceID);
+                if (rawRice != null && !rawRice.Pay_CommissionPercentage && rawRice.BrokerCommissionPercentage > 0)
+                {
+                    Transaction BrokerTransaction = new Transaction();
+                  
+                        BrokerTransaction.isByCash = true;
+                        BrokerTransaction.BankAccountNo = "";
+                    
+                    foreach (var item in db.Opening_ClosingDays)
+                    {
+                        if (item.Date.ToShortDateString() == DateTime.Now.ToShortDateString() && !item.isClosed)
+                        {
+                            BrokerTransaction.Opening_ClosingDays_id = item.Opening_ClosingDays_id;
+                            break;
+                        }
+                    }
+                    BrokerTransaction.Transaction_DateTime = DateTime.Now;
+                    BrokerTransaction.Transaction_Description = "Pay Commission to Broker " + db.Brokers.Find(db.RarRices.Find(rawRice.RawRice_id).Broker_Id).Broker_Name + " for RawRice " + rawRice.Item_Name + "  Qty: " + rawRice.Bags_qty + " Packing type: " + db.Packings.Find(rawRice.Packing_Id).Packing_Type + "Kgs from Party " + db.Parties.Find(rawRice.Party_Id).Party_Name;
+                    BrokerTransaction.Transaction_item_id = rawRice.RawRice_id;
+                    BrokerTransaction.Transaction_item_type = BrokerTransactions.PaycommissionToBroker;
+                    BrokerTransaction.Debit = rawRice.BrokerCommissionAmount;
+                    BrokerTransaction.Credit = 0;
+                    BrokerTransaction.status = true;
+                    db.Transaction.Add(BrokerTransaction);
+                    db.SaveChanges();
+
+                    rawRice.Pay_CommissionPercentage = true;
+                    db.Entry(rawRice).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+        }
         public JsonResult GetPartyRemainings2(int Party_Id,int rawrice_id)
         {
             var rawRice = db.RarRices.Where(m => m.Party_Id == Party_Id&&m.RawRice_id!=rawrice_id && m.Status).ToList();
@@ -306,6 +381,7 @@ namespace DHMRice.Controllers
         [HttpPost]
         public ActionResult Edit(RawRice rawRice, List<RawRiceExpense> RawRiceExpense, Pricing pricing, List<RawRice> RawRice_Remaining, List<decimal> Previous_Remainings, List<int> RawRice_Remaining_checkbox,List<int> Expense_id_delete, FormCollection form)
         {
+            var Pay_CommissionPercentage = form["Pay_CommissionPercentage"];
             decimal payedamount = Convert.ToDecimal(form["Payed_Amount"]);
             if (RawRice_Remaining != null && Previous_Remainings != null && RawRice_Remaining_checkbox != null)
             {
@@ -362,6 +438,7 @@ namespace DHMRice.Controllers
             rawRice.Status = true;
             rawRice.Date = DateTime.Now;
             rawRice.Bags_Sold_qty = 0;
+            rawRice.Pay_CommissionPercentage = (Pay_CommissionPercentage == "on") ? true : false;
             db.Entry(rawRice).State = EntityState.Modified;
             db.SaveChanges();
 
@@ -394,16 +471,52 @@ namespace DHMRice.Controllers
             pricing.item_id = rawRice.RawRice_id;
             pricing.item_Type = "RawRice";
             pricing.Pricing_Date = DateTime.Now;
+            pricing.Pricing_ModifiedDate = DateTime.Now;
             pricing.Status = true;
             db.Entry(pricing).State = EntityState.Modified;
             db.SaveChanges();
 
 
-            foreach (var item in db.Transaction.Where(m => m.Transaction_item_id == rawRice.RawRice_id && m.Transaction_item_type == "RawRice" && m.status))
+            foreach (var item in db.Transaction.Where(m => m.Transaction_item_id == rawRice.RawRice_id && (m.Transaction_item_type == "RawRice"||m.Transaction_item_type==BrokerTransactions.PaycommissionToBroker ) && m.status))
             {
                 db.Transaction.Remove(item);
             }
             db.SaveChanges();
+            if (rawRice.Pay_CommissionPercentage)
+            {
+                Transaction BrokerTransaction = new Transaction();
+                if (form["isBankAccount"] != null)
+                {
+                    BrokerTransaction.BankAccountNo = form["BankAccountNo"];
+                }
+                else if (form["isCheckbook"] != null)
+                {
+                    BrokerTransaction.checkno = Convert.ToInt32(form["CheckNo"]);
+                    BrokerTransaction.BankAccountNo = form["BankAccountNo"];
+                }
+                else if (form["isCash"] != null)
+                {
+                    BrokerTransaction.isByCash = true;
+                    BrokerTransaction.BankAccountNo = "";
+                }
+                foreach (var item in db.Opening_ClosingDays)
+                {
+                    if (item.Date.ToShortDateString() == DateTime.Now.ToShortDateString() && !item.isClosed)
+                    {
+                        BrokerTransaction.Opening_ClosingDays_id = item.Opening_ClosingDays_id;
+                        break;
+                    }
+                }
+                BrokerTransaction.Transaction_DateTime = DateTime.Now;
+                BrokerTransaction.Transaction_Description = "Pay Commission to Broker " + db.Brokers.Find(db.RarRices.Find(rawRice.RawRice_id).Broker_Id).Broker_Name + " for RawRice " + rawRice.Item_Name + "  Qty: " + rawRice.Bags_qty + " Packing type: " + db.Packings.Find(rawRice.Packing_Id).Packing_Type + "Kgs from Party " + db.Parties.Find(rawRice.Party_Id).Party_Name;
+                BrokerTransaction.Transaction_item_id = rawRice.RawRice_id;
+                BrokerTransaction.Transaction_item_type = BrokerTransactions.PaycommissionToBroker;
+                BrokerTransaction.Debit = payedamount;
+                BrokerTransaction.Credit = 0;
+                BrokerTransaction.status = true;
+                db.Transaction.Add(BrokerTransaction);
+                db.SaveChanges();
+            }
             Transaction trans = new Transaction();
             if (form["isBankAccount"] != null)
             {
@@ -455,7 +568,7 @@ namespace DHMRice.Controllers
                 {
                     db.Pricing.Remove(pricing);
                 }
-                var trans = db.Transaction.Where(m => m.Transaction_item_id == RawRice.RawRice_id && m.Transaction_item_type == "RawRice" && m.status).ToList();
+                var trans = db.Transaction.Where(m => m.Transaction_item_id == RawRice.RawRice_id && (m.Transaction_item_type == "RawRice"||m.Transaction_item_type==BrokerTransactions.PaycommissionToBroker) && m.status).ToList();
                 foreach (var item in trans)
                 {
                     db.Transaction.Remove(item);
@@ -478,6 +591,26 @@ namespace DHMRice.Controllers
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
             return File(stream, "application/pdf", "All_Rice.pdf");
+        }
+        [HttpGet]
+        public void MonthWisePerbagMarketPriceUpdation()
+        {
+            var RawRices = db.RarRices.Where(m => m.Status).ToList();
+            foreach (var item in RawRices)
+            {
+                Pricing pricing = db.Pricing.Where(m => m.item_id == item.RawRice_id && m.item_Type == "RawRice").First();
+                if (pricing != null)
+                {
+                    var m = pricing.Pricing_ModifiedDate.AddMonths(1);
+                    if (DateTime.Now >= m)
+                    {
+                        pricing.PerBagMarketPrice += 15;
+                        pricing.Pricing_ModifiedDate = DateTime.Now;
+                        db.Entry(pricing).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+            }
         }
         protected override void Dispose(bool disposing)
         {
