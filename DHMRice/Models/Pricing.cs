@@ -19,6 +19,7 @@ namespace DHMRice.Models
         public decimal PerBagMarketPrice { get; set; }
         public decimal Pricing_NetTotal { get; set; }
         public DateTime Pricing_Date { get; set; }
+        public DateTime Pricing_ModifiedDate { get; set; }
         public bool Status { get; set; }
     }
 }

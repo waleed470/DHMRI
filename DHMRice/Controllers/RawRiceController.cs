@@ -156,6 +156,7 @@ namespace DHMRice.Controllers
             pricing.item_id = rawrice_id;
             pricing.item_Type = "RawRice";
             pricing.Pricing_Date = DateTime.Now;
+            pricing.Pricing_ModifiedDate = DateTime.Now;
             pricing.Status = true;
             db.Pricing.Add(pricing);
             db.SaveChanges();
@@ -470,6 +471,7 @@ namespace DHMRice.Controllers
             pricing.item_id = rawRice.RawRice_id;
             pricing.item_Type = "RawRice";
             pricing.Pricing_Date = DateTime.Now;
+            pricing.Pricing_ModifiedDate = DateTime.Now;
             pricing.Status = true;
             db.Entry(pricing).State = EntityState.Modified;
             db.SaveChanges();
@@ -589,6 +591,26 @@ namespace DHMRice.Controllers
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
             return File(stream, "application/pdf", "All_Rice.pdf");
+        }
+        [HttpGet]
+        public void MonthWisePerbagMarketPriceUpdation()
+        {
+            var RawRices = db.RarRices.Where(m => m.Status).ToList();
+            foreach (var item in RawRices)
+            {
+                Pricing pricing = db.Pricing.Where(m => m.item_id == item.RawRice_id && m.item_Type == "RawRice").First();
+                if (pricing != null)
+                {
+                    var m = pricing.Pricing_ModifiedDate.AddMonths(1);
+                    if (DateTime.Now >= m)
+                    {
+                        pricing.PerBagMarketPrice += 15;
+                        pricing.Pricing_ModifiedDate = DateTime.Now;
+                        db.Entry(pricing).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+            }
         }
         protected override void Dispose(bool disposing)
         {
