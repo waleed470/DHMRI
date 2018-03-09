@@ -410,6 +410,10 @@
     <Compile Include="Migrations\201803080956311_Monthly perBag market price changes.Designer.cs">
       <DependentUpon>201803080956311_Monthly perBag market price changes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803081915111_chnges in db.cs" />
+    <Compile Include="Migrations\201803081915111_chnges in db.Designer.cs">
+      <DependentUpon>201803081915111_chnges in db.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BpRiceSales_ch.cs" />
@@ -1225,6 +1229,8 @@
     <Content Include="Views\RawRice\GatePass.cshtml" />
     <Content Include="Views\ProductWorthSales\Index.cshtml" />
     <Content Include="Views\PartyRemainings\Index.cshtml" />
+    <Content Include="Views\Invoices\WorthRiceSellingInvoice.cshtml" />
+    <Content Include="Views\RiceProduction\WorthRice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1325,6 +1331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803080956311_Monthly perBag market price changes.resx">
       <DependentUpon>201803080956311_Monthly perBag market price changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803081915111_chnges in db.resx">
+      <DependentUpon>201803081915111_chnges in db.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

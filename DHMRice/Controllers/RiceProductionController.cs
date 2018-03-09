@@ -18,6 +18,10 @@ namespace DHMRice.Controllers
             return View(db.Rice_Productions.Where(m => m.Status).ToList());
         }
 
+        public ActionResult WorthRice()
+        {
+            return View(db.Rice_Production_ProductWorths.ToList());
+        }
         public ActionResult AddNew()
         {
 

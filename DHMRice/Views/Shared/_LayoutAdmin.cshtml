@@ -123,7 +123,75 @@
                     </ul>
                     <!-- Right(Notification) -->
                     <ul class="nav navbar-nav navbar-right">
+
+                        <li>
+                            <a href="#" class="right-menu-item dropdown-toggle" data-toggle="dropdown" style="border:none !important">
+                                <i> <img class="icon-colored" src="~/Content/assets/sales_performance.svg" title="Opening Closing" /></i>
+
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right dropdown-lg user-list notify-list">
+                                <li>
+                                    <h5>Opening Closing</h5>
+                                </li>
+
+                               
 @if (User.IsInRole("Shop") || User.IsInRole("Admin"))
+{
+
+                                    <li>
+                                        <a href="#" class="user-list-item">
+
+                                            <div class="avatar">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="">
+                                            </div>
+                                            <div class="user-desc">
+                                                <span class="name">Opening Balance shop</span>
+                                                <div id="openingBal_shop" ></div>
+
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="all-msgs text-center">
+                                        <p class="m-0" style="background-color:red; color:white"><a onclick="ClosingdayConfirmation_Shop()">Close Day</a></p>
+                                    </li>
+}
+                                  
+                      @if (User.IsInRole("Factory") || User.IsInRole("Admin"))
+                      {
+                                    <li>
+                                        <a href="#  " class="user-list-item">
+
+                                            <div class="avatar">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="">
+                                            </div>
+                                            <div class="user-desc">
+                                                <span class="name">Opening Balance factory</span>
+                                                <div id="openingBal" ></div>
+
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="all-msgs text-center">
+                                        <p class="m-0" style="background-color:red; color:white"><a onclick="ClosingdayConfirmation()">Close Day</a></p>
+                                    </li>
+                      }
+
+                           
+
+                            </ul>
+                        </li>
+
+
+
+
+
+
+
+
+
+
+@*@if (User.IsInRole("Shop") || User.IsInRole("Admin"))
 {
 
                         <li>
@@ -147,10 +215,7 @@
                         <li>
                           <button class="btn btn-danger" style="margin-top:10%;margin-left:10%" onclick="ClosingdayConfirmation()">Close the Day</button>
                         </li>
-}
-@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-{
-    @Html.AntiForgeryToken()
+}*@
 
                         <li class="dropdown user-box">
                             <a href="" class="dropdown-toggle waves-effect waves-light user-link" data-toggle="dropdown" aria-expanded="true">
@@ -159,16 +224,20 @@
                          
 
                             <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
-                                <li>
+                             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                             {
+                                @Html.AntiForgeryToken()
+
+                                   <li>
                                     <h5>Hi, @Session["UserName"]</h5>
                                 </li>
                               
                                 @*<li><a href="javascript:void(0)"><i class="ti-power-off m-r-5"></i> Logout</a></li>*@
                                 @*@Html.ActionLink("LogOff", "LogOff", "Account")*@
                                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-                            </ul>
+                             }  </ul>
                            
-                        </li> }
+                        </li>
                     </ul> <!-- end navbar-right -->
                 </div><!-- end container -->
             </div><!-- end navbar -->
@@ -183,7 +252,7 @@
                                 url: '/OpeningClosing/GetCureentOpeningBalance',
                                 context: document.body,
                                 success: function (json) {
-                                    var temp = ' <p style="color:white">' + json + '</p>';
+                                    var temp = ' <p >' + json + '</p>';
                                     $('#openingBal').append(temp);
                                 }
                             });
@@ -203,7 +272,7 @@
                                 url: '/OpeningClosingShop/GetCureentOpeningBalance',
                                 context: document.body,
                                 success: function (json) {
-                                    var temp = ' <p style="color:white">' + json + '</p>';
+                                    var temp = ' <p >' + json + '</p>';
                                     $('#openingBal_shop').append(temp);
                                 }
                             });
@@ -274,6 +343,17 @@
                             </ul>
                         </li>
                        }
+                        @if (User.IsInRole("Factory") || User.IsInRole("Admin"))
+                        {
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span>Rice Product Worth </span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="~/RiceProduction/WorthRice">View Product Worth</a></li>
+                                    <li><a href="~/ProductWorthSales/Index">Sell Worth Rice</a></li>
+                                   
+                                </ul>
+                            </li>
+                        }
 @if (User.IsInRole("Factory") || User.IsInRole("Admin"))
 {
                         <li class="has_sub">

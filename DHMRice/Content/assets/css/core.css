@@ -943,9 +943,9 @@ a:focus {
 }
 /* Icon colored demo */
 .icon-colored {
-  height: 48px;
-  width: 48px;
-  margin: 2rem;
+  height: 24px;
+  width: 24px;
+ 
 }
 /* === LOADER === */
 #preloader {

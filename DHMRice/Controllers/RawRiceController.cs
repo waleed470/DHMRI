@@ -195,7 +195,7 @@ namespace DHMRice.Controllers
             db.Transaction.Add(trans);
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("GatePassInwawrd", "RawRice", new { id = rawrice_id });
         }
         
         [HttpGet]
@@ -218,7 +218,7 @@ namespace DHMRice.Controllers
 
                 db.SaveChanges();
                 var GatePassInwaredId = db.GatePassInwareds.Max(m => m.GatePassInwaredId);
-                return RedirectToAction("GatePassInwawrdd", "RawRice", new { GatePassInwaredId = GatePassInwaredId });
+                return RedirectToAction("GatePass", "RawRice", new { id = GatePassInwaredId });
             }
 
             return View(GatePass);            

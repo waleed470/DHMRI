@@ -481,7 +481,7 @@
                                         <div class="row" id="row_0">
                                             <div class="row">
 
-                                                <div class="col-sm-5">
+                                                <div class="col-sm-4">
                                                     <label>By Product Name</label>
 
                                                     <input name="Rice_Production_ProductWorth[0].Rice_Production_ProductWorth_name" id="RawRiceExpense_Name_0" class="form-control" required />
@@ -499,6 +499,13 @@
                                                     <label>Amount</label>
 
                                                     <input name="Rice_Production_ProductWorth[0].Rice_Production_ProductWorth_Amount" id="BPW_0" onkeyup="calculateBPW()" onfocusout="calculateBPW()" class="form-control" required />
+
+                                                </div>
+                                                <div class="col-sm-2">
+
+                                                    <label>Market Price</label>
+
+                                                    <input name="Rice_Production_ProductWorth[0].Rice_Production_ProductWorth_PBA" id="BPW_0"  class="form-control" required />
 
                                                 </div>
                                                 <div class="col-sm-2 text-center">
@@ -1036,7 +1043,7 @@
             var temp = '';
             temp += '								<div class="row" id="row_@i_new">';
             temp += '                                        <div class="row">';
-            temp += '                                            <div class="col-sm-5">';
+            temp += '                                            <div class="col-sm-4">';
             temp += '                                                <label >By Product Name</label>';
             temp += '                                                    <input name="Rice_Production_ProductWorth[@i_new].Rice_Production_ProductWorth_name" id="RawRiceExpense_Name_@i_new" class="form-control" required/>';
             temp += '                                            </div>';
@@ -1044,9 +1051,13 @@
             temp += '                                                <label >Quantity</label>';
             temp += '                                                     <input name="Rice_Production_ProductWorthh[@i_new].Rice_Production_ProductWorth_Qty"  class="form-control" required />';
             temp += '                                            </div>';
-            temp += '                                            <div class="col-sm-4">';
+            temp += '                                            <div class="col-sm-2">';
             temp += '                                                <label >Amount</label>';
             temp += '                                                    <input type="number" name="Rice_Production_ProductWorth[@i_new].Rice_Production_ProductWorth_Amount" id="BPW_@i_new"  onkeyup="calculateBPW()" onfocusout="calculateBPW()"  class="form-control" required/>';
+            temp += '                                            </div>';
+            temp += '                                            <div class="col-sm-2">';
+            temp += '                                                <label >Amount</label>';
+            temp += '                                                    <input type="number" name="Rice_Production_ProductWorth[@i_new].Rice_Production_ProductWorth_PBA" id="BPW_@i_new"  onkeyup="calculateBPW()" onfocusout="calculateBPW()"  class="form-control" required/>';
             temp += '                                            </div>';
             temp += '                                            <div class="col-sm-2 text-center">';
             temp += '											    <button id="btnAdd_BPW_@i_new" class="btn btn-warning"  onclick="JavaScript: return Add_BPW_@(i_new)();">Add</button> ';

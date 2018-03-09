@@ -1,4 +1,4 @@
-﻿@model DHMRice.Models.ProducedRiceSales_pt
+﻿@model DHMRice.Models.BpRiceSales_pt
 @using DHMRice.Models;
 @{
     ViewBag.Title = "RawRiceSellingInvoice";
@@ -23,7 +23,7 @@
 
     <link rel="stylesheet" href="~/Content/Invoices/style.css">
     <style type="text/css">
-                    .watermark{
+                 .watermark{
     background:url("../Content/Invoices/logo.png")  no-repeat;opacity:0.6;
   opacity: 0.6;
     background-position: center 140px;
@@ -31,6 +31,7 @@
   width: 100%;
   height: 80%;
 }
+
         @@media print {
 
 
@@ -97,8 +98,7 @@
                         <th>Item Name</th>
                         @*<th>Rate</th>*@
                         <th>Quantity</th>
-                        <th>Weight</th>
-                        <th>Mann</th>
+                        
                         <th>Total Amount</th>
 
 
@@ -109,11 +109,11 @@
                 </thead>
                 <tbody>
                     @{ var sr = 0; }
-                    @foreach (var item in db.ProducedRiceSales_ch.Where(r => r.prsp_id == Model.prsp_id).ToList())
+                    @foreach (var item in db.BpRiceSales_chs.Where(r => r.bprsp_id == Model.bprsp_id).ToList())
                     {
 
                         sr++;
-                        var rawTransac = db.Transaction.Where(t => t.Transaction_item_type == "Produced Rice Sales" && t.Transaction_item_id == item.prsp_id).SingleOrDefault();
+                        var rawTransac = db.Transaction.Where(t => t.Transaction_item_type == "Worth Rice Sales" && t.Transaction_item_id == item.bprsp_id).SingleOrDefault();
                         paid = rawTransac.Credit;
 
                         //var raw = db.RawRice_Sales_ch.Where(r => r.rsp_id == item.rsp_id).ToList();
@@ -122,14 +122,13 @@
                         <tr>
                             <td>@sr</td>
 
-                            <td>@item.prsc_title</td>
+                            <td>@item.bprsc_title</td>
                             @*@{ var rate = item2.rsc_price / item2.rsc_qty; }*@
 
-                            <td>@item.prsc_qty</td>
-                            <td>@item.prsc_Weight_kg</td>
-                            <td>@item.prsc_Weight_mann</td>
-                            <td>@item.prsc_price</td>
-                            @{ SumAmount += item.prsc_price;
+                            <td>@item.bprsc_qty bags</td>
+                            
+                            <td>@item.bprsc_price</td>
+                            @{ SumAmount += item.bprsc_price;
                                 SumAmount += Model.Carriage + Model.Labour;
                                  }
 
@@ -162,10 +161,10 @@
                         <th><span contenteditable>Amount Paid</span></th>
                         <td></td>
                     </tr>*@
-                @{ remaining = Model.prsp_Total_Amount - paid; }
+                @{ remaining = Model.bprsp_Total_Amount - paid; }
                 <tr>
                     <th><span>Total Amount</span></th>
-                    <td>@Model.prsp_Total_Amount</td>
+                    <td>@Model.bprsp_Total_Amount</td>
                 </tr>
                 <tr>
                     <th><span>Paid Amount</span></th>

@@ -40,7 +40,13 @@ namespace DHMRice.Controllers
             ViewBag.Date = pt.prsp_date;
             return View(pt);
         }
-
+        public ActionResult WorthRiceSellingInvoice(int? id, int In)
+        {
+            BpRiceSales_pt pt = db.BpRiceSales_pts.Find(id);
+            ViewBag.InoviceNum = In;
+            ViewBag.Date = pt.bprsp_date;
+            return View(pt);
+        }
         public ActionResult ShopRiceSellingInvoice(int? id, int In)
         {
             ShopRiceSales_pt pt = db.ShopRiceSales_pt.Find(id);
