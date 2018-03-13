@@ -1,7 +1,8 @@
-﻿
+﻿@using DHMRice.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ApplicationDbContext db = new ApplicationDbContext();
 }
 
 <script>
@@ -853,6 +854,7 @@
                         <thead>
                             <tr>
                                 <th>Invoice no</th>
+                                <th>GatePass</th>
                                 <th>Title</th>
                                 <th>Date</th>
                                 <th>Party</th>
@@ -868,6 +870,8 @@
                         <tbody>
                             <tr ng-repeat="item in Grid">
                                 <td><a href="~/Invoices/RawRiceSellingInvoice?id={{item.Item1.rsp_id}}&&In={{item.Item7}}">{{item.Item7}}</a></td>
+                                <td ><a href="~/RawRice_Sales/GatePassOutward?id={{item.Item1.rsp_id}}">Gatepass</a></td>
+                               
                                 <td>{{item.Item1.rsp_Title}}</td>
                                 <td>{{item.Item2}}</td>
                                 <td>{{item.Item1.Party.Party_Name}}</td>
@@ -876,7 +880,7 @@
                                 <td>{{item.Item1.rsp_Total_Amount}}</td>
                                 <td>{{item.Item3}}</td>
                                     <td ng-show="item.Item4>0 && item.Item8==0">
-                                        <input ng-model="item.Item5" type="number" ng-change="ValidateRemainings()"/> 
+                                        <input ng-model="item.Item5" type="number" ng-change="ValidateRemainings()"/>
                                         <input type="button" value="Receive Remaining" class="btn btn-sm btn-primary" ng-click="ReceivedRemaining(item)" ng-show="item.Item5>0"/> 
                                     </td>
                                     <td ng-show="item.Item4>0 && item.Item8==1">

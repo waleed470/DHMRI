@@ -414,6 +414,22 @@
     <Compile Include="Migrations\201803081915111_chnges in db.Designer.cs">
       <DependentUpon>201803081915111_chnges in db.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803101408316_delete commison colums.cs" />
+    <Compile Include="Migrations\201803101408316_delete commison colums.Designer.cs">
+      <DependentUpon>201803101408316_delete commison colums.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803101409299_add commision colum.cs" />
+    <Compile Include="Migrations\201803101409299_add commision colum.Designer.cs">
+      <DependentUpon>201803101409299_add commision colum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803121547116_gate pass outward.cs" />
+    <Compile Include="Migrations\201803121547116_gate pass outward.Designer.cs">
+      <DependentUpon>201803121547116_gate pass outward.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803121821296_changes.cs" />
+    <Compile Include="Migrations\201803121821296_changes.Designer.cs">
+      <DependentUpon>201803121821296_changes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BpRiceSales_ch.cs" />
@@ -422,6 +438,7 @@
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Factory.cs" />
     <Compile Include="Models\GatePassInwared.cs" />
+    <Compile Include="Models\GatePassOutward.cs" />
     <Compile Include="Models\HardCode\BrokerTransactions.cs" />
     <Compile Include="Models\HardCode\PartyRemainingTypes.cs" />
     <Compile Include="Models\HardCode\SaleInvoiceType.cs" />
@@ -1231,6 +1248,8 @@
     <Content Include="Views\PartyRemainings\Index.cshtml" />
     <Content Include="Views\Invoices\WorthRiceSellingInvoice.cshtml" />
     <Content Include="Views\RiceProduction\WorthRice.cshtml" />
+    <Content Include="Views\RawRice_Sales\GatePassOutward.cshtml" />
+    <Content Include="Views\RawRice_Sales\GatePass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1334,6 +1353,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803081915111_chnges in db.resx">
       <DependentUpon>201803081915111_chnges in db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803101408316_delete commison colums.resx">
+      <DependentUpon>201803101408316_delete commison colums.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803101409299_add commision colum.resx">
+      <DependentUpon>201803101409299_add commision colum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803121547116_gate pass outward.resx">
+      <DependentUpon>201803121547116_gate pass outward.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803121821296_changes.resx">
+      <DependentUpon>201803121821296_changes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

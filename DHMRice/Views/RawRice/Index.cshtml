@@ -138,7 +138,8 @@
                                 <th>Broker</th>
                                 <th>Date</th>
                                 <th>Actions</th>
-                                <th>GatePass</th>
+                                <th>GatePass Shop</th>
+                                <th>GatePass Original</th>
                                 <th>User</th>
                             </tr>
                         </thead>
@@ -207,12 +208,14 @@
                                 
                                    @if (gate == null)
                                    {
-                                    <td><a href="~/RawRice/GatePassInwawrd?id=@item.RawRice_id">Gatepass</a></td>
+                                    <td><a href="~/RawRice/GatePassInwawrd?id=@item.RawRice_id">Gatepass Shop</a></td>
+                                    <td><a href="~/RawRice/GatePassInwawrd?id=@item.RawRice_id">Gatepass Shop</a></td>
                                    }else
                                    {
                                    
                                       
-                                    <td><a href="~/RawRice/GatePass?id=@item.RawRice_id">Gatepass</a></td>
+                                    <td><a href="~/RawRice/GatePass?id=@item.RawRice_id">Gatepass Original </a></td>
+                                    <td><a href="~/RawRice/GatePass?id=@item.RawRice_id">Gatepass Original</a></td>
                                    }
                                   
                                     <td>@user.UserName</td>

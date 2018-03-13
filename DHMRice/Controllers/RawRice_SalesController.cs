@@ -22,6 +22,51 @@ namespace DHMRice.Controllers
         {
             return View();
         }
+        public ActionResult GatePassOutward(int id)
+        {
+            var gate = db.GatePassOutward.Where(g => g.RiceTypeId == id && g.RiceType == "RawRice Sale").SingleOrDefault();
+            if (gate== null)
+            {
+                var rawsale = db.RawRice_Sales_pt.Find(id);
+                return View(rawsale);
+            }
+            else
+            {
+                return RedirectToAction("GatePass", "RawRice", new { id = id });
+            }
+          
+
+
+          
+        }
+
+        [HttpPost]
+        public ActionResult GatePassOutward(GatePassOutward  GatePass, FormCollection form)
+        {
+            if (ModelState.IsValid)
+            {
+
+                GatePass.Date = DateTime.Now;
+                GatePass.RiceType = "RawRice Sale";
+                db.GatePassOutward.Add(GatePass);
+
+
+                db.SaveChanges();
+                var GatePassId = GatePass.RiceTypeId;
+                return RedirectToAction("GatePass", "RawRice_Sales", new { id = GatePassId });
+            }
+
+            return View(GatePass);
+        }
+
+        public ActionResult GatePass(int id)
+        {
+
+            GatePassOutward Gatepas = db.GatePassOutward.Where(r => r.RiceTypeId == id && r.RiceType== "RawRice Sale").SingleOrDefault();
+            db.SaveChanges();
+            return View(Gatepas);
+        }
+
         [HttpPost]
         public JsonResult Get_pt()
         {

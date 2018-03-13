@@ -217,7 +217,7 @@ namespace DHMRice.Controllers
 
 
                 db.SaveChanges();
-                var GatePassInwaredId = db.GatePassInwareds.Max(m => m.GatePassInwaredId);
+                var GatePassInwaredId = GatePass.RawRice_id;
                 return RedirectToAction("GatePass", "RawRice", new { id = GatePassInwaredId });
             }
 

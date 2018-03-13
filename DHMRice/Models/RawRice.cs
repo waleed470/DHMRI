@@ -39,8 +39,8 @@ namespace DHMRice.Models
         //public decimal Payed_Amount { get; set; }
         //public decimal Remaining_Amount { get; set; }
         public bool Pay_CommissionPercentage { get; set; }
-        public int BrokerCommissionPercentage { get; set; }
-        public int BrokerCommissionAmount { get; set; }
+        public decimal BrokerCommissionPercentage { get; set; }
+        public decimal BrokerCommissionAmount { get; set; }
 
         public DateTime Date { get; set; }
         public bool Status { get; set; }

@@ -77,7 +77,7 @@
                                 ApplicationUser user = db.Users.Where(u => u.Id.Equals(item.Id, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                                 <tr>
                                     @{ var commision = db.RarRices.Where(r => r.Broker_Id == item.Broker_Id && r.Pay_CommissionPercentage==false).ToList();
-                                        var ComissionAmount = 0;
+                                        decimal ComissionAmount = 0;
                                         foreach (var item2 in commision)
                                         {
                                             ComissionAmount += item2.BrokerCommissionAmount;
