@@ -32,7 +32,7 @@ namespace DHMRice.Controllers
             }
             else
             {
-                return RedirectToAction("GatePass", "RawRice", new { id = id });
+                return RedirectToAction("GatePass", "RawRice_Sales", new { id = id });
             }
           
 
