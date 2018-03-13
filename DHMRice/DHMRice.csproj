@@ -1250,6 +1250,7 @@
     <Content Include="Views\RiceProduction\WorthRice.cshtml" />
     <Content Include="Views\RawRice_Sales\GatePassOutward.cshtml" />
     <Content Include="Views\RawRice_Sales\GatePass.cshtml" />
+    <Content Include="Views\RawRice\GatePass2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

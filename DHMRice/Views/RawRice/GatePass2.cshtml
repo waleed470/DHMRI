@@ -52,7 +52,7 @@
 <body>
     <header>
         <h1>Gate Pass Outward</h1>
-        <h5 align="center">Gate Pass Factory</h5>
+        <h5 align="center">Gate Pass Original</h5>
         <address contenteditable>
             <p>55-Circular Road</p>
             <p>Akbari Mandi Lahore</p>
@@ -86,7 +86,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4">
-                   
+
                     <p style="font-size:12px">Party No: @rice.Party.Party_MobileNo</p>
                     <p style="font-size:12px">Address: @rice.Party.Party_Address</p>
                 </div>
@@ -112,21 +112,21 @@
                 </thead>
                 <tbody>
                     @{ var sr = 0; }
-                    
-                        @foreach (var item in db.RawRice_Sales_ch.Where(r => r.rsp_id == rice.rsp_id).ToList())
-                        {
-                            <tr>
-                                <td>@item.rsc_title</td>
-                                <td>@item.RawRice.Item_Code</td>
-                                <td>@item.RawRice.packing.Packing_Type</td>
-                                <td>@item.rsc_qty</td>
-                                <td>@item.rsc_Weight_kg</td>
-                                <td>@item.rsc_Weight_mann</td>
-                            </tr>
 
-                        }
+                    @foreach (var item in db.RawRice_Sales_ch.Where(r => r.rsp_id == rice.rsp_id).ToList())
+                    {
+                        <tr>
+                            <td>@item.rsc_title</td>
+                            <td>@item.RawRice.Item_Code</td>
+                            <td>@item.RawRice.packing.Packing_Type</td>
+                            <td>@item.rsc_qty</td>
+                            <td>@item.rsc_Weight_kg</td>
+                            <td>@item.rsc_Weight_mann</td>
+                        </tr>
 
-                   
+                    }
+
+
 
 
                 </tbody>

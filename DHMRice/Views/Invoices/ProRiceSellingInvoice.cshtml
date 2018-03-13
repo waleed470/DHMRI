@@ -56,7 +56,7 @@
     </head>
     <body>
         <header>
-            <h1>Produced Rice selling Invoice</h1>
+            <h1>Invoice</h1>
             <address contenteditable>
                 <p>55-Circular Road</p>
                 <p>Akbari Mandi Lahore</p>
@@ -73,6 +73,8 @@
             <div class="row">
                 <div class="col-lg-4">
                     <p>Party Name: @Model.Party.Party_Name</p>
+                    <p style="font-size:12px">Party No: @Model.Party.Party_MobileNo</p>
+                    <p style="font-size:12px">Address: @Model.Party.Party_Address</p>
                 </div>
                 <div class="col-lg-4"></div>
                 <div class="col-lg-4">
@@ -166,6 +168,14 @@
                 <tr>
                     <th><span>Total Amount</span></th>
                     <td>@Model.prsp_Total_Amount</td>
+                </tr>
+                <tr>
+                    <th><span>Labour</span></th>
+                    <td>@Model.Labour</td>
+                </tr>
+                <tr>
+                    <th><span>Carriage</span></th>
+                    <td>@Model.Carriage</td>
                 </tr>
                 <tr>
                     <th><span>Paid Amount</span></th>

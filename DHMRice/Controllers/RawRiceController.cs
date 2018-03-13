@@ -206,6 +206,8 @@ namespace DHMRice.Controllers
 
             return View(rawrice);
         }
+
+        [
         [HttpPost]
         public ActionResult GatePassInwawrd(GatePassInwared GatePass, FormCollection form)
         {
@@ -233,6 +235,13 @@ namespace DHMRice.Controllers
             return View(Gatepas);
         }
 
+        public ActionResult GatePass2(int id)
+        {
+
+            GatePassInwared Gatepas = db.GatePassInwareds.Where(r => r.RawRice_id == id).SingleOrDefault();
+            db.SaveChanges();
+            return View(Gatepas);
+        }
 
         [HttpPost]
         public ActionResult GatePassInwawrdd(int GatePassInwaredId)
