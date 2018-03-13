@@ -130,8 +130,7 @@
                              
                             </tr>
                                    }
-
-
+                    
                 </tbody>
 
 
@@ -151,10 +150,18 @@
                         <th><span contenteditable>Amount Paid</span></th>
                         <td></td>
                     </tr>*@
-                @{ remaining = SumAmount - paid; }
+                @{ remaining = Model.rsp_Total_Amount - paid; }
+                <tr>
+                    <th><span>Labour</span></th>
+                    <td>@Model.Labour</td>
+                </tr>
+                <tr>
+                    <th><span>Carriage</span></th>
+                    <td>@Model.Carriage</td>
+                </tr>
                 <tr>
                     <th><span>Total Amount</span></th>
-                    <td>@SumAmount</td>
+                    <td>@Model.rsp_Total_Amount</td>
                 </tr>
                 <tr>
                     <th><span>Paid Amount</span></th>
