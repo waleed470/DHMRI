@@ -1009,7 +1009,6 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="SqlScripts\d20-2.sql" />
-    <Content Include="SqlScripts\dhm3-6.sql" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1111,7 +1110,6 @@
     <Content Include="Views\Reports\PartyDetail.cshtml" />
     <Content Include="Views\ShopStock\Index.cshtml" />
     <Content Include="Views\Reports\DriverExpense.cshtml" />
-    <Content Include="SqlScripts\25-1.rar" />
     <Content Include="Views\OpeningClosingShop\Index.cshtml" />
     <Content Include="Views\OpeningClosingShop\AddInitialOpenningDay.cshtml" />
     <Content Include="Views\OpeningClosingShop\ClosingdayConfirmation.cshtml" />
@@ -1122,7 +1120,6 @@
     <Content Include="Views\TransactionShop\ViewToday.cshtml" />
     <Content Include="Views\ShopRiceSales\Index.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
-    <Content Include="SqlScripts\30-1%28bhatti%29.rar" />
     <Content Include="Views\Invoices\RawRiceSellingInvoice.cshtml" />
     <Content Include="Views\Invoices\ProRiceSellingInvoice.cshtml" />
     <Content Include="Views\Invoices\ShopRiceSellingInvoice.cshtml" />
