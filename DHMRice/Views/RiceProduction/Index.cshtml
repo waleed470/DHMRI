@@ -95,6 +95,7 @@
                                     @{
                                         var ProduceBagsid = db.Rice_Produce_Bags.Where(r => r.Rice_Production_id == item.Rice_Production_id).Max(r => r.Rice_Produce_Bags_id);
                                         var ProduceBags = db.Rice_Produce_Bags.Find(ProduceBagsid);
+
                                     }
                                    
 
@@ -109,9 +110,17 @@
 
                                     <td>@ProduceBags.Rice_Produce_Bag_ShortFall_total</td>
                                     <td class="actions">
-                                        <a href="~/RiceProduction/Edit?id=@item.Rice_Production_id" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-                                        <a href="~/RiceProduction/Delete?id=@item.Rice_Production_id" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-                                        <a href="~/RiceProduction/IncreaseRicee?id=@item.Rice_Production_id" class="on-default remove-row"><i class="mdi mdi-plus"></i></a>
+                                        @if (ProduceBags.Rice_Produce_Bag_ShortFall_total == 0)
+                                        {
+                                            <a href="~/RiceProduction/RiceStockEdit?id=@item.Rice_Production_id" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="~/RiceProduction/Edit?id=@item.Rice_Production_id" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                            <a href="~/RiceProduction/Delete?id=@item.Rice_Production_id" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                            <a href="~/RiceProduction/IncreaseRicee?id=@item.Rice_Production_id" class="on-default remove-row"><i class="mdi mdi-plus"></i></a>
+                                        }
+                                      
                                     </td>
                                      <td>@ProduceBags.Rice_Produce_Bag_TotalExpenses</td>
                                    

@@ -36,6 +36,11 @@
             $scope.ProducedRiceSales_pt.prsp_TotalWeight_Mann = 0;
             $scope.ProducedRiceSales_pt.prsp_TotalWeight_KG = 0;
             $scope.ProducedRiceSales_pt.prsp_Total_Amount = 0;
+            $scope.ProducedRiceSales_pt.prsp_Title = "";
+            $scope.ProducedRiceSales_pt.srsp_id = 0;
+            $scope.ProducedRiceSales_pt.srsp_TotalWeight_Mann = 0;
+            $scope.ProducedRiceSales_pt.srsp_TotalWeight_KG = 0;
+            $scope.ProducedRiceSales_pt.srsp_Total_Amount = 0;
          
             //$scope.Section.TotalWeight_Mann = 0;
             //$scope.Section.TotalWeight_KG = 0;
@@ -152,14 +157,44 @@
                     context: document.body,
                     success: function (json) {
                         $scope.Grid = json;
+                        angular.forEach($scope.Grid, function (obj) {
+                         
+
+                        });
                     },
+
                     error: function (xhr) {
                         //debugger;
                         alert('error');
                     }
+                    
                 });
             };
             $scope.GetStock();
+
+            $scope.LoadGrid = function () {
+                JsonCall("ProductWorthSales", "Get_pt");
+                $scope.Grid = list;
+                angular.forEach($scope.Grid, function (obj) {
+                    var parm = { 'prsp_id': obj.Item1.bprsp_id }
+                    $http.post(
+                     '/ProductWorthSales/Get_ReturnStatus',
+                     parm,
+                     {
+                         headers: {
+                             'Content-Type': 'application/json'
+                         }
+                     }).then(function (res) {
+                         obj.Item8 = res.data;
+
+                         console.log($scope.Grid);
+                     }, function (res) {
+                         //Error here
+                     }
+                     );
+                });
+            };
+
             $scope.Get_Produced_Rice = function () {                       //Get Section
 
                 $.ajax({
@@ -191,6 +226,8 @@
                     'prsc_ttl_qty': 0,
                     'Rice_Production_id': 0,
                     'Qty': 0,
+                    'srsc_title': "",
+                    'prsc_title': "",
                     'packing_type': 0,
                     'SoldQty': 0,
                     'Rate': 0,
@@ -215,6 +252,9 @@
                 $scope.ProducedRiceSales_ch[i].Qty = 0;
                 $scope.ProducedRiceSales_ch[i].TotalWeight_KG = list.Item3;
                 $scope.ProducedRiceSales_ch[i].packing_type = list.Item4;
+            
+                $scope.ProducedRiceSales_ch[i].srsc_title = list.Item6;
+               
                 $scope.ProducedRiceSales_ch[i].TotalWeight_Mann = (parseFloat(list.Item4) * parseFloat("0.025"));
                 $scope.ProducedRiceSales_ch[i].Rice_Production_id = list.Item5;
                
@@ -245,7 +285,7 @@
                    $scope.ProducedRiceSales_pt.prsp_TotalWeight_Mann = 0;
                    $scope.ProducedRiceSales_pt.prsp_TotalWeight_KG = 0;
                    $scope.ProducedRiceSales_pt.prsp_Total_Amount = 0;
-              
+                   $scope.ProducedRiceSales_pt.prsp_Title = "Sales ";
                    var count = 0;
                  
                    angular.forEach($scope.ProducedRiceSales_ch, function (obj) {
@@ -263,13 +303,13 @@
                        $scope.ProducedRiceSales_pt.prsp_TotalWeight_Mann += obj.TotalWeight_Mann;
                        $scope.ProducedRiceSales_pt.prsp_TotalWeight_KG += obj.TotalWeight_KG;
                        $scope.ProducedRiceSales_pt.prsp_Total_Amount += obj.Total_Amount;
-
-                       //if (count == 0) {
-                       //    $scope.ProducedRiceSales_pt.prsp_Title += obj.prsc_title;
-                       //}
-                       //else {
-                       //    $scope.ProducedRiceSales_pt.prsp_Title += (", " + obj.prsc_title);
-                       //}
+                    
+                       if (count == 0) {
+                           $scope.ProducedRiceSales_pt.prsp_Title += obj.srsc_title;
+                       }
+                       else {
+                           $scope.ProducedRiceSales_pt.prsp_Title += (", " + obj.srsc_title);
+                       }
                        count++;
                    });
                 
@@ -373,8 +413,13 @@
                
 
                 if ($scope.ProducedRiceSales_pt.prsp_id == 0) {
+                    $scope.ProducedRiceSales_pt.srsp_id = $scope.ProducedRiceSales_pt.prsp_id;
+                    $scope.ProducedRiceSales_pt.srsp_Title = $scope.ProducedRiceSales_pt.prsp_Title;
+                    $scope.ProducedRiceSales_pt.srsp_TotalWeight_KG = $scope.ProducedRiceSales_pt.prsp_TotalWeight_KG;
+                    $scope.ProducedRiceSales_pt.srsp_TotalWeight_Mann = $scope.ProducedRiceSales_pt.prsp_TotalWeight_Mann;
+                    $scope.ProducedRiceSales_pt.srsp_Total_Amount = $scope.ProducedRiceSales_pt.prsp_Total_Amount;
                     var pram = {
-                       
+                        'ProducedRiceSales_pt': JSON.stringify($scope.ProducedRiceSales_pt),
                         'ProducedRiceSales_ch': JSON.stringify($scope.ProducedRiceSales_ch),
                         'SumWeight_Mann': $scope.ProducedRiceSales_pt.prsp_TotalWeight_Mann,
                         'SumWeight_KG': $scope.ProducedRiceSales_pt.prsp_TotalWeight_KG,
@@ -593,32 +638,34 @@
                         <thead>
                             <tr>
                               
-                              
-                                <th>Shop</th>
-                                <th>Rice</th>
-                                <th>Qty</th>
+                                <th>GatePass</th>
+                            
+                                <th>Title</th>
+                               
+                            
                                 <th>Total Weight (KG)</th>
                                 <th>Total Weight (Mann)</th>
                                 <th>Total Amount</th>
-                                <th>PBP</th>
-                                <th>User</th>
-                                <th>Action</th>
+                               
+                           
+                                <th>USer</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="item in Grid">
                               
+                                <td><a href="~/ShopStock/GatePassOutward?id={{item.srsp_id}}">Gatepass</a></td>
+                                
+                                <td>{{item.srsp_Title}}</td>
+                              
                              
-                                <td>{{item.Shop.Shop_Name}}</td>
-                                <td>{{item.Rice_Production.Rice_Production_name}}</td>
-                                <td>{{item.Qty}}</td>
-                                <td>{{item.TotalWeight_KG}}</td>
-                                <td>{{item.TotalWeight_Mann}}</td>
-                                <td>{{item.Total_Amount}}</td>
-                                <td>{{item.PerBagPrice}}</td>
+                                <td>{{item.srsp_TotalWeight_KG}}</td>
+                                <td>{{item.srsp_TotalWeight_Mann}}</td>
+                                <td>{{item.srsp_Total_Amount}}</td>
+                                
                                 <td>{{item.ApplicationUser.UserName}}</td>
                                
-                                <td><input value="Edit" class="btn btn-sm btn-warning" type="button" ng-click="LoadProducedRice_pt(item )" /><input value="Delete" class="btn btn-sm btn-danger" ng-click="Delete(item)" type="button" /> </td>
+                                @*<td><input value="Edit" class="btn btn-sm btn-warning" type="button" ng-click="LoadProducedRice_pt(item )" /><input value="Delete" class="btn btn-sm btn-danger" ng-click="Delete(item)" type="button" /> </td>*@
                                
 
                             </tr>

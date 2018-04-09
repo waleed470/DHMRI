@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -28,6 +29,95 @@ namespace DHMRice.Controllers
 
             return View();
         }
+        public ActionResult ShopRiceStock()
+        {
+            ViewBag.Rice_category_Id = new SelectList(db.Rice_Categories.Where(m => m.Status == true).ToList(), "Rice_category_Id", "Rice_Category_Name");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ShopRiceStock(FormCollection form, RawRice worth, Pricing pricing)
+        {
+            string idd = Convert.ToString(Session["UserId"]);
+
+            var RiceName = Convert.ToString(form["RiceName"]);
+
+           
+
+          
+          
+            worth.Date = DateTime.Now;
+            worth.Id = idd;
+            worth.Status = true;   
+            db.RarRices.Add(worth);
+            db.SaveChanges();
+            var RawRice_id = db.RarRices.Max(m => m.RawRice_id);
+
+           
+            pricing.item_id = RawRice_id;
+            pricing.item_Type = "RawRice";
+            pricing.Pricing_Date = DateTime.Now;
+            pricing.Pricing_ModifiedDate = DateTime.Now;
+            pricing.Status = true;
+            db.Pricing.Add(pricing);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        public ActionResult RiceStockEdit(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            RawRice RawRice = db.RarRices.Find(id);
+
+            if (RawRice == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Rice_category_Id = new SelectList(db.Rice_Categories.Where(m => m.Status == true).ToList(), "Rice_category_Id", "Rice_Category_Name");
+            return View(RawRice);
+        }
+
+        [HttpPost]
+        public ActionResult RiceStockEdit(FormCollection form, RawRice worth, Pricing pricing)
+        {
+            string idd = Convert.ToString(Session["UserId"]);
+
+            var RiceName = Convert.ToString(form["RiceName"]);
+
+
+
+            RawRice rice = db.RarRices.Find(worth.RawRice_id);
+
+            rice.Item_Name = worth.Item_Name;
+            rice.Item_Code = worth.Item_Code;
+            rice.Packing_Id = worth.Packing_Id;
+            rice.Bags_qty = worth.Bags_qty;
+            rice.Date = DateTime.Now;
+            rice.Id = idd;
+            rice.Status = true;
+
+            db.Entry(rice).State = EntityState.Modified;
+            db.SaveChanges();
+
+            var price = db.Pricing.Where(p => p.item_id == worth.RawRice_id && p.item_Type == "RawRice").SingleOrDefault();
+
+            price.item_id = worth.RawRice_id;
+            price.item_Type = "RawRice";
+            price.PerBagPrice = pricing.PerBagPrice;
+            pricing.PerBagMarketPrice = pricing.PerBagMarketPrice;
+            pricing.Pricing_Total = pricing.Pricing_Total;
+            price.Pricing_Date = DateTime.Now;
+            price.Pricing_ModifiedDate = DateTime.Now;
+            price.Status = true;
+            db.Entry(price).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         public ActionResult AddNew()
         {
 
@@ -207,7 +297,7 @@ namespace DHMRice.Controllers
             return View(rawrice);
         }
 
-        [
+        
         [HttpPost]
         public ActionResult GatePassInwawrd(GatePassInwared GatePass, FormCollection form)
         {

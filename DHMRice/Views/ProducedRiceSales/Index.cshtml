@@ -810,7 +810,9 @@
                         <thead>
                             <tr>
                                 <th>Invoice no</th>
+                                <th>GatePass</th>
                                 <th>Title</th>
+                             
                                 <th>Date</th>
                                 <th>Party</th>
                                 <th>Total Weight (KG)</th>
@@ -825,6 +827,7 @@
                         <tbody>
                             <tr ng-repeat="item in Grid">
                                 <td><a href="~/Invoices/ProRiceSellingInvoice?id={{item.Item1.prsp_id}}&&In={{item.Item7}}">{{item.Item7}}</a></td>
+                                <td><a href="~/ProducedRiceSales/GatePassOutward?id={{item.Item1.prsp_id}}">Gatepass</a></td>
                                 <td>{{item.Item1.prsp_Title}}</td>
                                 <td>{{item.Item2}}</td>
                                 <td>{{item.Item1.Party.Party_Name}}</td>

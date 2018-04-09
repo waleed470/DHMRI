@@ -1,0 +1,211 @@
+﻿@model DHMRice.Models.GatePassOutward
+@using DHMRice.Models;
+@{
+    ViewBag.Title = "Gatepass";
+    Layout = null;
+    ApplicationDbContext db = new ApplicationDbContext();
+    var rice = db.ProducedRiceSales_pt.Find(Model.RiceTypeId);
+    decimal SumAmount = 0;
+    decimal paid = 0;
+    decimal SumBalance = 0;
+    decimal remaining = 0;
+    decimal Sumremaining = 0;
+    decimal DebitRemaining = 0;
+    decimal SumDebitremaining = 0;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gate Pass Outward</title>
+
+
+
+    <link rel="stylesheet" href="~/Content/Invoices/style.css">
+    <style type="text/css">
+        .watermark {
+            background: url("/Content/Invoices/logo.png") no-repeat;
+            opacity: 0.6;
+            opacity: 0.6;
+            background-position: center 10px;
+            position: absolute;
+            width: 100%;
+            height: 80%;
+        }
+
+        @@media print {
+
+            .print {
+                display: none;
+            }
+
+            table.as, th.as, td.as {
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+    <span class="print"><a href="~/Home/Dashboard">Home</a></span>
+    <header>
+
+        <h1>Gate Pass Outward</h1>
+        <h5 contenteditable align="center">Gate Pass Factory</h5>
+        <address contenteditable>
+            <p>55-Circular Road</p>
+            <p>Akbari Mandi Lahore</p>
+            <p>03018412091,03229112107</p>
+        </address>
+        <span><img alt="" src="~/Content/Invoices/logo3.png" height="82" width="103"><input type="file" accept="image/*"></span>
+    </header>
+
+
+    <article>
+        <div class="watermark"></div>
+        <div class="">
+            <h1>Recipient</h1>
+            <address>
+
+            </address>
+            <div class="row">
+                <div class="col-lg-4">
+                    <p>Party Name: @rice.Party.Party_Name</p>
+                </div>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    <table class="meta">
+                        <tr>
+                            <th>Gatepass #</th>
+                            <td>@Model.GatePassOutwardId</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+
+                    <p style="font-size:12px">Party No: @rice.Party.Party_MobileNo</p>
+                    <p style="font-size:12px">Address: @rice.Party.Party_Address</p>
+                </div>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+
+                </div>
+            </div>
+            <table class="inventory">
+                <thead>
+                    <tr>
+
+
+                        <th>Item Name</th>
+                        <th>Item Code</th>
+                        <th>Packing Type</th>
+
+                        <th>Quantity</th>
+                        <th>Weight</th>
+                        <th>Mann</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var sr = 0; }
+
+                    @foreach (var item in db.ProducedRiceSales_ch.Where(r => r.prsp_id == rice.prsp_id).ToList())
+                    {
+                        <tr>
+                            <td>@item.prsc_title</td>
+                            <td>@item.Rice_Production.Rice_Production_Code</td>
+                            <td>@item.Rice_Production.packing.Packing_Type</td>
+                            <td>@item.prsc_qty</td>
+                            <td>@item.prsc_Weight_kg</td>
+                            <td>@item.prsc_Weight_mann</td>
+                        </tr>
+
+                    }
+
+
+
+
+                </tbody>
+
+
+
+
+
+
+
+            </table>
+
+
+            <div style="margin-bottom:15px">
+                <label>Vehicle No:</label>
+                <u><span>@Model.Vehicle_No</span></u>
+                <div style="float:right; width:300px">
+                    <label>Driver Name:</label>
+                    <u><span>@Model.Driver_Name</span></u>
+                </div>
+            </div>
+
+            <div style="margin-bottom:15px">
+                <label>Bility No:</label>
+                <u><span>@Model.Bility_No</span></u>
+                <div style="float:right; width:300px">
+                    <label>Purchased By:</label>
+                    <u><span></span></u>
+                </div>
+            </div>
+
+            <div style="margin-bottom:95px">
+                <label>Designation :</label>
+                <u><span>@Model.Designation</span></u>
+                <div style="float:right; width:300px">
+                    <label>Date:</label>
+                    <u><span>@DateTime.Now.ToShortDateString()</span></u>
+                </div>
+            </div>
+            <form style="margin-bottom:80px">
+                <span>Case:</span>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="">Repair/Processing
+                </label>
+                <label class="checkbox-inline" style="margin-left:80px">
+                    <input type="checkbox" value="">Sale
+                </label>
+                <label class="checkbox-inline" style="margin-left:80px">
+                    <input type="checkbox" value="">Rejected
+                </label>
+                <label class="checkbox-inline" style="margin-left:80px">
+                    <input type="checkbox" value="">Shop
+                </label>
+            </form>
+            <div style="width:700px">
+                <span style="margin-right:100px">Store Keeper &nbsp; </span>
+                <span style="margin-right:100px">Foreman</span>
+
+                <span style="margin-right:100px">Gate Incharge</span>
+                <span>Authorized</span>
+
+
+
+
+            </div>
+        </div>
+    </article>
+
+    <table class="as" id="footer">
+        <tr>
+            <td class="as" width="100%" style="border-style:none; text-align:center">
+                Designed by Digicon-Valley.com
+            </td>
+        </tr>
+    </table>
+</body>
+
+
+<script src="/Content/Invoices/index.js"></script>
+</body>
+</html>

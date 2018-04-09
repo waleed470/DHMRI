@@ -1,10 +1,10 @@
-﻿@model DHMRice.Models.GatePassOutward
+﻿@model DHMRice.Models.GatePassInwared
 @using DHMRice.Models;
 @{
     ViewBag.Title = "Gatepass";
     Layout = null;
     ApplicationDbContext db = new ApplicationDbContext();
-    var rice = db.RawRice_Sales_pt.Find(Model.RiceTypeId);
+    var rice = db.RarRices.Find(Model.RawRice_id);
     decimal SumAmount = 0;
     decimal paid = 0;
     decimal SumBalance = 0;
@@ -18,7 +18,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Gate Pass Outward</title>
+    <title>Raw Rice Stock</title>
 
 
 
@@ -51,7 +51,7 @@
 
 <body>
     <header>
-        <h1>Gate Pass Outward</h1>
+        <h1>Gate Pass Inward</h1>
         <h5 align="center">Gate Pass Original</h5>
         <address contenteditable>
             <p>55-Circular Road</p>
@@ -71,14 +71,16 @@
             </address>
             <div class="row">
                 <div class="col-lg-4">
-                    <p>Party Name: @rice.Party.Party_Name</p>
+                    <p>Party Name: @rice.party.Party_Name</p>
+                    <p style="font-size:12px">Party No: @rice.party.Party_MobileNo</p>
+                    <p style="font-size:12px">Address: @rice.party.Party_Address</p>
                 </div>
                 <div class="col-lg-4"></div>
                 <div class="col-lg-4">
                     <table class="meta">
                         <tr>
                             <th>Gatepass #</th>
-                            <td>@Model.GatePassOutwardId</td>
+                            <td>@Model.GatePassInwaredId</td>
                         </tr>
 
                     </table>
@@ -86,9 +88,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4">
-
-                    <p style="font-size:12px">Party No: @rice.Party.Party_MobileNo</p>
-                    <p style="font-size:12px">Address: @rice.Party.Party_Address</p>
+                   
                 </div>
                 <div class="col-lg-4"></div>
                 <div class="col-lg-4">
@@ -112,21 +112,37 @@
                 </thead>
                 <tbody>
                     @{ var sr = 0; }
+                    <tr>
 
-                    @foreach (var item in db.RawRice_Sales_ch.Where(r => r.rsp_id == rice.rsp_id).ToList())
+                        <td>@rice.Item_Name</td>
+                        <td>@rice.Item_Code</td>
+                        <td>@rice.packing.Packing_Type</td>
+                        <td>@rice.Bags_qty</td>
+                        <td>@rice.Total_Weight</td>
+                        <td>@rice.Total_Mann</td>
+                    </tr>
+                    @{ var expense = db.RawRiceExpense.Where(e => e.RawRice_id == rice.RawRice_id).ToList(); }
+                    @if (expense.Count > 0)
                     {
                         <tr>
-                            <td>@item.rsc_title</td>
-                            <td>@item.RawRice.Item_Code</td>
-                            <td>@item.RawRice.packing.Packing_Type</td>
-                            <td>@item.rsc_qty</td>
-                            <td>@item.rsc_Weight_kg</td>
-                            <td>@item.rsc_Weight_mann</td>
+                            <th>Expense </th>
+
+
+
+                            <th>Amount</th>
                         </tr>
 
+                                <tr>
+                                    @foreach (var item in expense)
+                                    {
+                                        <td>@item.RawRiceExpense_Name</td>
+                                        <td>@item.RawRiceExpense_Amount</td>
+                                    }
+
+
+
+                                </tr>
                     }
-
-
 
 
                 </tbody>
@@ -154,7 +170,7 @@
                 <u><span>@Model.Bility_No</span></u>
                 <div style="float:right; width:300px">
                     <label>Purchased By:</label>
-                    <u><span></span></u>
+                    <u><span>@Model.Purchased_By</span></u>
                 </div>
             </div>
             <div style="margin-bottom:95px">
@@ -166,10 +182,9 @@
                 </div>
             </div>
             <div style="width:700px">
-                <span style="margin-right:100px">Store Keeper &nbsp; </span>
-                <span style="margin-right:100px">Foreman</span>
+                <span style="margin-right:155px">Gate Clerk &nbsp; </span>
+                <span style="margin-right:155px">Gate Incharge</span>
 
-                <span style="margin-right:100px">Gate Incharge</span>
                 <span>Authorized</span>
 
 

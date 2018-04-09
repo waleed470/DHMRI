@@ -791,6 +791,7 @@
                         <thead>
                             <tr>
                                 <th>Invoice no</th>
+                                <th>GatePass</th>
                                 <th>Title</th>
                                 <th>Date</th>
                                 <th>Customer</th>
@@ -807,6 +808,7 @@
                             <tr ng-repeat="item in Grid">
                                 <
                                 <td><a href="~/Invoices/ShopRiceSellingInvoice?id={{item.Item1.srsp_id}}&&In={{item.Item7}}">{{item.Item7}}</a></td>
+                                <td><a href="~/ShopRiceSales/GatePassOutward?id={{item.Item1.srsp_id}}">Gatepass</a></td>
                                 <td>{{item.Item1.srsp_Title}}</td>
                                 <td>{{item.Item2}}</td>
                                 <td>{{item.Item1.Customer.Customer_Name}}</td>

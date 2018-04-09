@@ -1,0 +1,155 @@
+﻿@model IEnumerable<DHMRice.Models.PartyRemaining>
+@using DHMRice.Models;
+@{
+    ViewBag.Title = "AllRice";
+    Layout = null;
+    ApplicationDbContext db = new ApplicationDbContext();
+    decimal total = 0;
+
+    int DateFrom = ViewBag.DateFrom;
+    int DateTo = ViewBag.DateTo;
+    int Month = ViewBag.Month;
+    int year = DateTime.Now.Year;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>invoice</title>
+
+
+
+    <link rel="stylesheet" href="~/Content/Invoices/style.css">
+    <style type="text/css">
+        .watermark {
+            background: url("/Content/Invoices/logo.png") no-repeat;
+            opacity: 0.6;
+            opacity: 0.6;
+            background-position: center 10px;
+            position: absolute;
+            width: 100%;
+            height: 80%;
+        }
+
+        @@media print {
+
+
+            table.as, th.as, td.as {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Invoice</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="license" href="https://www.opensource.org/licenses/mit-license/">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Party Remaining</h1>
+            <address contenteditable>
+                <p>55-Circular Road</p>
+                <p>Akbari Mandi Lahore</p>
+                <p>03018412091,03229112107</p>
+            </address>
+            <span><img alt="" src="~/Content/Invoices/logo3.png" height="82" width="103"><input type="file" accept="image/*"></span>
+        </header>
+        <article>
+            <div class="watermark"></div>
+            <h1>Recipient</h1>
+            <address>
+
+            </address>
+            <div class="col-lg-4">
+
+            </div>
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <table class="meta">
+
+                    <tr>
+                        <th><span contenteditable>Date</span></th>
+                        <td><span contenteditable>@DateTime.Now</span></td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <table class="inventory">
+                <thead>
+                    <tr>
+                        <th><span contenteditable>Sr#</span></th>
+                        <th><span contenteditable>Item Type</span></th>
+                        <th><span contenteditable>Description Description</span></th>
+                        <th><span contenteditable>Debit</span></th>
+                        <th><span contenteditable>Credit</span></th>
+                        <th><span contenteditable>Date </span></th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{decimal TotalExpense = 0; var sr = 0; }
+                    @foreach (var item in Model)
+                    {
+
+                        foreach (var item2 in db.Transaction.Where(r => r.Transaction_DateTime.Month == Month && r.Transaction_DateTime.Day >= DateFrom && r.Transaction_DateTime.Day <= DateTo && r.Transaction_DateTime.Year == year && r.Transaction_item_type == "PartyRemaining Payed" && r.Transaction_item_id == item.PartyRemaining_Id))
+                        {
+                            sr++;
+                            <tr>
+                                <td>@sr</td>
+                                <td>@item2.Transaction_item_type</td>
+                                <td>@item2.Transaction_Description</td>
+                                <td>Rs @item2.Debit</td>
+                                <td>Rs @item2.Credit</td>
+                                <td> @item2.Transaction_DateTime.ToShortDateString()</td>
+
+
+
+                                @{ @*total += item.Debit;*@}
+                            </tr>
+                                        }
+                                      
+                                        //var pricing = db.Pricing.Where(r => r.item_id == item.RawRice_id && r.item_Type == "RawRice").SingleOrDefault();
+                                        //var expense = db.RawRiceExpense.Where(p => p.RawRice_id == item.RawRice_id).ToList();
+                                        //if (expense != null)
+                                        //{
+                                        //    foreach (var exp in expense)
+                                        //    {
+                                        //        TotalExpense += exp.RawRiceExpense_Amount;
+                                        //    }
+                                        //}
+
+                                    }
+
+                </tbody>
+            </table>
+
+            <table class="balance">
+                <tr>
+                    <th><span contenteditable>Total</span></th>
+                    <td>@total</td>
+                </tr>
+
+            </table>
+        </article>
+        <aside>
+           
+        </aside>
+    </body>
+</html>
+
+<script src="/Content/Invoices/index.js"></script>
+</body>
+</html>

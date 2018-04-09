@@ -6,9 +6,9 @@
     ApplicationDbContext db = new ApplicationDbContext();
 }
 
-<script>
+@*<script>
     CheckIntialOpening();
-</script>
+</script>*@
 @section Css {
     <!-- DataTables -->
     <link href="~/Content/assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
@@ -77,7 +77,7 @@
 
 
                                     <td>@item.Rice_Production_ProductWorth_name </td>
-                                    <td>@item.Rice_Produce_Bag.Rice_Production.Rice_Production_name</td>
+                                    <td>@if (item.Rice_Produce_Bag != null) { @item.Rice_Produce_Bag.Rice_Production.Rice_Production_name } </td>
                                     <td>@item.Rice_Production_ProductWorth_Qty </td>
                                     <td>@item.Rice_Production_ProductWorth_SoldQty</td>
                                     <td>@item.Rice_Production_ProductWorth_PBA</td>

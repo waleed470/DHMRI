@@ -21,14 +21,14 @@
     <title>Gate Pass Outward</title>
 
 
-
+   
     <link rel="stylesheet" href="~/Content/Invoices/style.css">
     <style type="text/css">
         .watermark {
-            background: url("../Content/Invoices/logo.png") no-repeat;
+            background: url("/Content/Invoices/logo.png") no-repeat;
             opacity: 0.6;
             opacity: 0.6;
-            background-position: center 140px;
+            background-position: center 10px;
             position: absolute;
             width: 100%;
             height: 80%;
@@ -36,12 +36,11 @@
 
         @@media print {
 
-
+             .print {
+          display:none
+       }
             table.as, th.as, td.as {
-                display: block;
-                position: fixed;
-                bottom: 20px;
-                text-align: center;
+               
             }
         }
     </style>
@@ -49,16 +48,17 @@
 </head>
 
 
-<body>
+<body><span class="print"><a href="~/Home/Dashboard">Home</a></span>
     <header>
+        
         <h1>Gate Pass Outward</h1>
-        <h5 align="center">Gate Pass Factory</h5>
+        <h5 contenteditable align="center">Gate Pass Factory</h5>
         <address contenteditable>
             <p>55-Circular Road</p>
             <p>Akbari Mandi Lahore</p>
             <p>03018412091,03229112107</p>
         </address>
-        <span><img alt="" src="~/Content/Invoices/logo.png"><input type="file" accept="image/*"></span>
+        <span><img alt="" src="~/Content/Invoices/logo3.png" height="82" width="103"><input type="file" accept="image/*"></span>
     </header>
 
 
@@ -157,6 +157,7 @@
                     <u><span></span></u>
                 </div>
             </div>
+            
             <div style="margin-bottom:95px">
                 <label>Designation :</label>
                 <u><span>@Model.Designation</span></u>
@@ -165,18 +166,33 @@
                     <u><span>@DateTime.Now.ToShortDateString()</span></u>
                 </div>
             </div>
-            <div style="width:700px">
-                <span style="margin-right:100px">Store Keeper &nbsp; </span>
-                <span style="margin-right:100px">Foreman</span>
+            <form style="margin-bottom:80px">
+                <span>Case:</span>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="">Repair/Processing 
+                </label>
+                <label class="checkbox-inline" style="margin-left:80px">
+                    <input type="checkbox" value="">Sale 
+                </label>
+                <label class="checkbox-inline"  style="margin-left:80px">
+                    <input type="checkbox" value="">Rejected 
+                </label>
+                <label class="checkbox-inline"  style="margin-left:80px">
+                    <input type="checkbox" value="">Shop
+                </label>
+                </form>
+                <div style="width:700px">
+                    <span style="margin-right:100px">Store Keeper &nbsp; </span>
+                    <span style="margin-right:100px">Foreman</span>
 
-                <span style="margin-right:100px">Gate Incharge</span>
-                <span>Authorized</span>
+                    <span style="margin-right:100px">Gate Incharge</span>
+                    <span>Authorized</span>
 
 
 
 
-            </div>
-        </div>
+                </div>
+</div>
     </article>
 
     <table class="as" id="footer">

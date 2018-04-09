@@ -294,141 +294,25 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201801121513001_new db.cs" />
-    <Compile Include="Migrations\201801121513001_new db.Designer.cs">
-      <DependentUpon>201801121513001_new db.cs</DependentUpon>
+    <Compile Include="Migrations\201803161300292_re create database.cs" />
+    <Compile Include="Migrations\201803161300292_re create database.Designer.cs">
+      <DependentUpon>201803161300292_re create database.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201801140717196_shopstock.cs" />
-    <Compile Include="Migrations\201801140717196_shopstock.Designer.cs">
-      <DependentUpon>201801140717196_shopstock.cs</DependentUpon>
+    <Compile Include="Migrations\201803190206341_shop stock ch additon.cs" />
+    <Compile Include="Migrations\201803190206341_shop stock ch additon.Designer.cs">
+      <DependentUpon>201803190206341_shop stock ch additon.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201801172015284_addition in shop stock.cs" />
-    <Compile Include="Migrations\201801172015284_addition in shop stock.Designer.cs">
-      <DependentUpon>201801172015284_addition in shop stock.cs</DependentUpon>
+    <Compile Include="Migrations\201803300338176_changes in worth rice.cs" />
+    <Compile Include="Migrations\201803300338176_changes in worth rice.Designer.cs">
+      <DependentUpon>201803300338176_changes in worth rice.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201801181935346_sdasd.cs" />
-    <Compile Include="Migrations\201801181935346_sdasd.Designer.cs">
-      <DependentUpon>201801181935346_sdasd.cs</DependentUpon>
+    <Compile Include="Migrations\201803300412432_changes in shop sale.cs" />
+    <Compile Include="Migrations\201803300412432_changes in shop sale.Designer.cs">
+      <DependentUpon>201803300412432_changes in shop sale.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201801181936101_das.cs" />
-    <Compile Include="Migrations\201801181936101_das.Designer.cs">
-      <DependentUpon>201801181936101_das.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801181939034_da.cs" />
-    <Compile Include="Migrations\201801181939034_da.Designer.cs">
-      <DependentUpon>201801181939034_da.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801181944315_sfas.cs" />
-    <Compile Include="Migrations\201801181944315_sfas.Designer.cs">
-      <DependentUpon>201801181944315_sfas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801191104358_priamry.cs" />
-    <Compile Include="Migrations\201801191104358_priamry.Designer.cs">
-      <DependentUpon>201801191104358_priamry.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801191105157_user id in shop stock.cs" />
-    <Compile Include="Migrations\201801191105157_user id in shop stock.Designer.cs">
-      <DependentUpon>201801191105157_user id in shop stock.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801191221470_delete table.cs" />
-    <Compile Include="Migrations\201801191221470_delete table.Designer.cs">
-      <DependentUpon>201801191221470_delete table.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801191223143_add table again.cs" />
-    <Compile Include="Migrations\201801191223143_add table again.Designer.cs">
-      <DependentUpon>201801191223143_add table again.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801191914090_sdasd1.cs" />
-    <Compile Include="Migrations\201801191914090_sdasd1.Designer.cs">
-      <DependentUpon>201801191914090_sdasd1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801200721442_hfg.cs" />
-    <Compile Include="Migrations\201801200721442_hfg.Designer.cs">
-      <DependentUpon>201801200721442_hfg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801241937121_mig_ab.cs" />
-    <Compile Include="Migrations\201801241937121_mig_ab.Designer.cs">
-      <DependentUpon>201801241937121_mig_ab.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801242158352_mig_ab1.cs" />
-    <Compile Include="Migrations\201801242158352_mig_ab1.Designer.cs">
-      <DependentUpon>201801242158352_mig_ab1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801251802213_Mig.cs" />
-    <Compile Include="Migrations\201801251802213_Mig.Designer.cs">
-      <DependentUpon>201801251802213_Mig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801251815508_Mig1.cs" />
-    <Compile Include="Migrations\201801251815508_Mig1.Designer.cs">
-      <DependentUpon>201801251815508_Mig1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801251817188_Mig_12.cs" />
-    <Compile Include="Migrations\201801251817188_Mig_12.Designer.cs">
-      <DependentUpon>201801251817188_Mig_12.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801291845449_Sale Invoice no.cs" />
-    <Compile Include="Migrations\201801291845449_Sale Invoice no.Designer.cs">
-      <DependentUpon>201801291845449_Sale Invoice no.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801292253036_change Datatype.cs" />
-    <Compile Include="Migrations\201801292253036_change Datatype.Designer.cs">
-      <DependentUpon>201801292253036_change Datatype.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802151745440_Addition in bpw.cs" />
-    <Compile Include="Migrations\201802151745440_Addition in bpw.Designer.cs">
-      <DependentUpon>201802151745440_Addition in bpw.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802161447397_raw chnges.cs" />
-    <Compile Include="Migrations\201802161447397_raw chnges.Designer.cs">
-      <DependentUpon>201802161447397_raw chnges.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802190810303_additon in raw rice seeling.cs" />
-    <Compile Include="Migrations\201802190810303_additon in raw rice seeling.Designer.cs">
-      <DependentUpon>201802190810303_additon in raw rice seeling.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802201522439_adition in production.cs" />
-    <Compile Include="Migrations\201802201522439_adition in production.Designer.cs">
-      <DependentUpon>201802201522439_adition in production.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803060851513_by product sales table.cs" />
-    <Compile Include="Migrations\201803060851513_by product sales table.Designer.cs">
-      <DependentUpon>201803060851513_by product sales table.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803060954119_chnages in worth sale table.cs" />
-    <Compile Include="Migrations\201803060954119_chnages in worth sale table.Designer.cs">
-      <DependentUpon>201803060954119_chnages in worth sale table.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803061926257_RawRice changes.cs" />
-    <Compile Include="Migrations\201803061926257_RawRice changes.Designer.cs">
-      <DependentUpon>201803061926257_RawRice changes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803071928436_new mig.cs" />
-    <Compile Include="Migrations\201803071928436_new mig.Designer.cs">
-      <DependentUpon>201803071928436_new mig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803080956311_Monthly perBag market price changes.cs" />
-    <Compile Include="Migrations\201803080956311_Monthly perBag market price changes.Designer.cs">
-      <DependentUpon>201803080956311_Monthly perBag market price changes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803081915111_chnges in db.cs" />
-    <Compile Include="Migrations\201803081915111_chnges in db.Designer.cs">
-      <DependentUpon>201803081915111_chnges in db.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803101408316_delete commison colums.cs" />
-    <Compile Include="Migrations\201803101408316_delete commison colums.Designer.cs">
-      <DependentUpon>201803101408316_delete commison colums.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803101409299_add commision colum.cs" />
-    <Compile Include="Migrations\201803101409299_add commision colum.Designer.cs">
-      <DependentUpon>201803101409299_add commision colum.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803121547116_gate pass outward.cs" />
-    <Compile Include="Migrations\201803121547116_gate pass outward.Designer.cs">
-      <DependentUpon>201803121547116_gate pass outward.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803121821296_changes.cs" />
-    <Compile Include="Migrations\201803121821296_changes.Designer.cs">
-      <DependentUpon>201803121821296_changes.cs</DependentUpon>
+    <Compile Include="Migrations\201804030910387_chages in raw rice table.cs" />
+    <Compile Include="Migrations\201804030910387_chages in raw rice table.Designer.cs">
+      <DependentUpon>201804030910387_chages in raw rice table.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -470,6 +354,7 @@
     <Compile Include="Models\Rice_Production_ShortFall.cs" />
     <Compile Include="Models\Shop.cs" />
     <Compile Include="Models\ShopStock.cs" />
+    <Compile Include="Models\ShopStock_pt.cs" />
     <Compile Include="Models\Shop_Account.cs" />
     <Compile Include="Models\Transaction_Shop.cs" />
     <Compile Include="Models\Transaction.cs" />
@@ -1251,6 +1136,25 @@
     <Content Include="Views\RawRice_Sales\GatePassOutward.cshtml" />
     <Content Include="Views\RawRice_Sales\GatePass.cshtml" />
     <Content Include="Views\RawRice\GatePass2.cshtml" />
+    <Content Include="Views\Reports\Party_Remaining.cshtml" />
+    <Content Include="Views\Reports\TodayTransaction.cshtml" />
+    <Content Include="Views\ProducedRiceSales\GatePassOutward.cshtml" />
+    <Content Include="Views\ProducedRiceSales\GatePass.cshtml" />
+    <Content Include="Views\ProductWorthSales\GatePassOutward.cshtml" />
+    <Content Include="Views\ProductWorthSales\GatePass.cshtml" />
+    <Content Include="Views\ShopStock\GatePassOutward.cshtml" />
+    <Content Include="Views\ShopStock\GatePass.cshtml" />
+    <Content Include="Views\ShopRiceSales\GatePassOutward.cshtml" />
+    <Content Include="Views\ShopRiceSales\GatePass.cshtml" />
+    <Content Include="Views\RiceProduction\PreviousRice.cshtml" />
+    <Content Include="Views\RiceProduction\Index2.cshtml" />
+    <Content Include="Views\RiceProduction\WorthRiceStock.cshtml" />
+    <Content Include="Views\ShopStock\ShopRiceStock.cshtml" />
+    <Content Include="Views\RawRice\ShopRiceStock.cshtml" />
+    <Content Include="Views\ShopStock\ShopStock.cshtml" />
+    <Content Include="Views\ShopStock\ShopRiceStockEdit.cshtml" />
+    <Content Include="Views\RawRice\RiceStockEdit.cshtml" />
+    <Content Include="Views\RiceProduction\RiceStockEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1265,107 +1169,20 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801121513001_new db.resx">
-      <DependentUpon>201801121513001_new db.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803161300292_re create database.resx">
+      <DependentUpon>201803161300292_re create database.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801140717196_shopstock.resx">
-      <DependentUpon>201801140717196_shopstock.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803190206341_shop stock ch additon.resx">
+      <DependentUpon>201803190206341_shop stock ch additon.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801172015284_addition in shop stock.resx">
-      <DependentUpon>201801172015284_addition in shop stock.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803300338176_changes in worth rice.resx">
+      <DependentUpon>201803300338176_changes in worth rice.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801181935346_sdasd.resx">
-      <DependentUpon>201801181935346_sdasd.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803300412432_changes in shop sale.resx">
+      <DependentUpon>201803300412432_changes in shop sale.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801181936101_das.resx">
-      <DependentUpon>201801181936101_das.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801181939034_da.resx">
-      <DependentUpon>201801181939034_da.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801181944315_sfas.resx">
-      <DependentUpon>201801181944315_sfas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801191104358_priamry.resx">
-      <DependentUpon>201801191104358_priamry.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801191105157_user id in shop stock.resx">
-      <DependentUpon>201801191105157_user id in shop stock.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801191221470_delete table.resx">
-      <DependentUpon>201801191221470_delete table.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801191223143_add table again.resx">
-      <DependentUpon>201801191223143_add table again.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801191914090_sdasd1.resx">
-      <DependentUpon>201801191914090_sdasd1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801200721442_hfg.resx">
-      <DependentUpon>201801200721442_hfg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801241937121_mig_ab.resx">
-      <DependentUpon>201801241937121_mig_ab.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801242158352_mig_ab1.resx">
-      <DependentUpon>201801242158352_mig_ab1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801251802213_Mig.resx">
-      <DependentUpon>201801251802213_Mig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801251815508_Mig1.resx">
-      <DependentUpon>201801251815508_Mig1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801251817188_Mig_12.resx">
-      <DependentUpon>201801251817188_Mig_12.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801291845449_Sale Invoice no.resx">
-      <DependentUpon>201801291845449_Sale Invoice no.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801292253036_change Datatype.resx">
-      <DependentUpon>201801292253036_change Datatype.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802151745440_Addition in bpw.resx">
-      <DependentUpon>201802151745440_Addition in bpw.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802161447397_raw chnges.resx">
-      <DependentUpon>201802161447397_raw chnges.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802190810303_additon in raw rice seeling.resx">
-      <DependentUpon>201802190810303_additon in raw rice seeling.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802201522439_adition in production.resx">
-      <DependentUpon>201802201522439_adition in production.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803060851513_by product sales table.resx">
-      <DependentUpon>201803060851513_by product sales table.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803060954119_chnages in worth sale table.resx">
-      <DependentUpon>201803060954119_chnages in worth sale table.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803061926257_RawRice changes.resx">
-      <DependentUpon>201803061926257_RawRice changes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803071928436_new mig.resx">
-      <DependentUpon>201803071928436_new mig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803080956311_Monthly perBag market price changes.resx">
-      <DependentUpon>201803080956311_Monthly perBag market price changes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803081915111_chnges in db.resx">
-      <DependentUpon>201803081915111_chnges in db.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803101408316_delete commison colums.resx">
-      <DependentUpon>201803101408316_delete commison colums.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803101409299_add commision colum.resx">
-      <DependentUpon>201803101409299_add commision colum.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803121547116_gate pass outward.resx">
-      <DependentUpon>201803121547116_gate pass outward.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803121821296_changes.resx">
-      <DependentUpon>201803121821296_changes.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201804030910387_chages in raw rice table.resx">
+      <DependentUpon>201804030910387_chages in raw rice table.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\All_Rice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

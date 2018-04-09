@@ -17,13 +17,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Produced Rice Detail</title>
+    <title>Processing Report</title>
 
 
 
     <link rel="stylesheet" href="~/Content/Invoices/style.css">
     <style type="text/css">
-        @@media print {
+        .watermark {
+            background: url("/Content/Invoices/logo.png") no-repeat;
+            opacity: 0.6;
+            opacity: 0.6;
+            background-position: center 10px;
+            position: absolute;
+            width: 100%;
+            height: 80%;
+        }
+
+      @@media print {
 
 
             table.as, th.as, td.as {
@@ -34,6 +44,8 @@
             }
         }
     </style>
+
+
 
 </head>
 <body>
@@ -48,25 +60,22 @@
     </head>
     <body>
         <header>
-            <h1>Produced Rice Report</h1>
+            <h1>Processing Report</h1>
             <address contenteditable>
                 <p>55-Circular Road</p>
                 <p>Akbari Mandi Lahore</p>
                 <p>03018412091,03229112107</p>
             </address>
-            <span><img alt="" src="~/Content/Invoices/logo.png"><input type="file" accept="image/*"></span>
+            <span><img alt="" src="~/Content/Invoices/logo3.png" height="82" width="103"><input type="file" accept="image/*"></span>
         </header>
         <article>
+            <div class="watermark"></div>
             <h1>Recipient</h1>
             <address>
 
             </address>
             <div class="row">
-                <div class="col-lg-4">
-                    <p>Rice Name: @Model.Rice_Production_name</p>
-                </div>
-                <div class="col-lg-4"></div>
-                <div class="col-lg-4">
+               
                     <table class="meta">
                      
                         <tr>
@@ -76,18 +85,20 @@
 
                     </table>
                 </div>
-            </div>
-            <table class="inventory">
+           <br />
+            <h4 align="center">Name : @Model.Rice_Production_name</h4>
+            <span style="margin-left:350px">Input</span>
+            <table class="inventory" style="margin-bottom:5px">
                 <thead>
                     <tr>
                   
 
-                        <th>Rice used</th>
-                        @*<th>Rate</th>*@
-                        <th>Bags Used</th>
+                        <th>S.No</th>
+                        <th>Variety</th>
+                        <th>%</th>
+                        <th>Bags Qty</th>
+                        <th>Pakcing</th>
                         <th>Weight</th>
-                        <th>Rate</th>
-                        <th>Market Rate</th>
 
 
 
@@ -111,15 +122,15 @@
                         //SumAmount += raw.rsc_price;
 
                         <tr>
-                         
+                            <td>@sr</td>
 
-                            <td>@item.RawRice.Item_Name</td>
+                            <td>@item.RawRice.Item_Name (@item.RawRice.Item_Code)</td>
                             @*@{ var rate = item2.rsc_price / item2.rsc_qty; }*@
-
+                            <td></td>
                             <td>@item.Purchase_Rice_BagsUsed</td>
+                            <td>@item.Packing_Id kg</td>
                             <td>@item.Total_Weight</td>
-                            <td>@item.Purchase_Rice_Rate</td>
-                            <td>@item.Market_Rate</td>
+                           
                             @{  }
 
 
@@ -129,89 +140,114 @@
                                 <td>@item.packing.Packing_Type kg</td>*@
 
                         </tr>
+
                                 }
-                    <tr>                      
-                        <th >ShortFall Description</th>
-                  
-                     
-                        <th>Amount</th>
-                    </tr>
-@foreach (var item2 in db.Rice_Production_ShortFalls.Where(r => r.Rice_Produce_Bags_id == producebags.Rice_Produce_Bags_id).ToList())
-{
                     <tr>
-                     
-                        <td>@item2.Rice_Production_ShortFall_name</td>
-                        <td>@item2.Rice_Production_ShortFall_Amount</td>
+                        <td>Total</td>
+                        <td></td>
+                        <td></td>
+                        <td> @producebags.Rice_Produce_TotalBags</td>
+                        <td></td>
+                        <td></td>
                     </tr>
-}
-<tr>
-    <th>Expenses</th>
-
-    
-    <th>Amount</th>
-</tr>
-@foreach (var item3 in db.Rice_Production_Expenses.Where(r => r.Rice_Produce_Bags_id == producebags.Rice_Produce_Bags_id).ToList())
-{
-    <tr>
-    
-        <td>@item3.Rice_Production_Expense_name</td>
-        <td>@item3.Rice_Production_Expense_Amount</td>
-    </tr>
-}
-
-                    <tr>
-                        <th>ByProduct Worth</th>
-
-
-                        <th>Qty</th>
-                        <th>Amount</th>
-                    </tr>
-                    @foreach (var item4 in db.Rice_Production_ProductWorths.Where(r => r.Rice_Produce_Bags_id == producebags.Rice_Produce_Bags_id).ToList())
-                    {
-                        <tr>
-
-                            <td>@item4.Rice_Production_ProductWorth_name</td>
-                            <td>@item4.Rice_Production_ProductWorth_Qty</td>
-                            <td>@item4.Rice_Production_ProductWorth_Amount</td>
-                        </tr>
-                    }
-
-
-                    <tr>
-                        <th>Total Bags Produce </th>
-
-                        <th>Average</th>
-                        <th>Stockworth</th>
-                        <th>Factory Cost</th>
-                        <th>PBP</th>
-                        <th>MPBP</th>
-
-                    </tr>
-                
-                        <tr>
-                            <td>@producebags.Rice_Produce_TotalBagsProduce</td>
-                            <td>@producebags.Rice_Produce_Bag_Average</td>
-                            <td>@producebags.Rice_Produce_Bag_StockWorth</td>
-                            <td>@producebags.Rice_Produce_Bag_FactoryCost</td>
-                            <td>@producebags.Rice_Produce_Bag_PerBagPrice</td>
-                            <td>@producebags.Rice_Produce_Bag_PerBagMarketPrice</td>
-                        </tr>
-              
-
-
-
+                   
+                    <br />
 
                 </tbody>
 
+            </table>
+            <span style="margin-left:350px">Output</span>
+            <table class="inventory" style="margin-bottom:5px">
+                <thead>
+                    <tr>
+
+
+                        <th>S.No</th>
+                        <th>Variety</th>
+                        <th>%</th>
+                        <th>Bags Qty</th>
+                        <th>Pakcing</th>
+                        <th>Weight</th>
 
 
 
 
 
+                    </tr>
+                </thead>
+                <tbody>
+             
+                      
+
+                        <tr>
+                            <td></td>
+
+                            <td>@Model.Rice_Production_name</td>
+                          
+                            <td></td>
+                            <td> @producebags.Rice_Produce_TotalBagsProduce</td>
+                            <td></td>
+                            <td></td>
+
+                           
+
+
+                           
+
+                    </tr>
+                    <tr>
+                        @{  var shortfal = db.Rice_Production_ShortFalls.Where(s=> s.Rice_Produce_Bags_id==producebags.Rice_Produce_Bags_id).ToList(); }
+                       
+                        @foreach (var item4 in shortfal)
+                        {
+                        <td></td>
+                        <td>@item4.Rice_Production_ShortFall_name</td>
+                        <td></td>
+                        <td>@item4.Rice_Production_ShortFall_Amount</td>
+                        <td></td>
+                        <td></td>
+                        }
+        
+
+                    </tr>
+                    <tr>
+                        @{  var worth = db.Rice_Production_ProductWorths.Where(s => s.Rice_Produce_Bags_id == producebags.Rice_Produce_Bags_id).ToList(); }
+
+                        @foreach (var item5 in worth)
+                        {
+                            <td></td>
+                            <td>@item5.Rice_Production_ProductWorth_name</td>
+                            <td></td>
+                            <td>@item5.Rice_Production_ProductWorth_Qty</td>
+                            <td></td>
+                            <td></td>
+                        }
+
+
+                    </tr>   
+
+                    <tr>
+                        <td>Total</td>
+                        <td></td>
+                        <td></td>
+                        <td> @producebags.Rice_Produce_TotalBags</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <br />
+
+                </tbody>
 
             </table>
+            <div style="width:700px;margin-top:50px ">
+                <span>Sign Forman Incharge ______________________ &nbsp; </span>
+                <span >Sign Manager _______________________ &nbsp; </span>
 
-       
+
+
+
+            </div>
         </article>
         <table class="as" id="footer">
             <tr>

@@ -1,0 +1,160 @@
+﻿@model IEnumerable<DHMRice.Models.Transaction>
+@using DHMRice.Models;
+@{
+    ViewBag.Title = "AllRice";
+    Layout = null;
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>invoice</title>
+
+
+
+    <link rel="stylesheet" href="~/Content/Invoices/style.css">
+    <style type="text/css">
+        .watermark {
+            background: url("/Content/Invoices/logo.png") no-repeat;
+            opacity: 0.6;
+            opacity: 0.6;
+            background-position: center 10px;
+            position: absolute;
+            width: 100%;
+            height: 80%;
+        }
+
+        @@media print {
+
+
+            table.as, th.as, td.as {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Invoice</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="license" href="https://www.opensource.org/licenses/mit-license/">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Today Report</h1>
+            <address contenteditable>
+                <p>55-Circular Road</p>
+                <p>Akbari Mandi Lahore</p>
+                <p>03018412091,03229112107</p>
+            </address>
+            <span><img alt="" src="~/Content/Invoices/logo3.png" height="82" width="103"><input type="file" accept="image/*"></span>
+        </header>
+        <article>
+            <div class="watermark"></div>
+            <h1>Recipient</h1>
+            <address contenteditable>
+
+            </address>
+            <div class="col-lg-4">
+
+            </div>
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <table class="meta">
+                   
+                    <tr>
+                        <th><span contenteditable>Date</span></th>
+                        <td><span contenteditable>@DateTime.Now</span></td>
+                    </tr>
+                
+                </table>
+            </div>
+
+            <table class="inventory">
+                <thead>
+                    <tr>
+                        <th><span contenteditable>Sr#</span></th>
+                        <th><span contenteditable>Item Type</span></th>
+                        <th><span contenteditable>Item Description</span></th>
+                        <th><span contenteditable>Credit</span></th>
+                        <th><span contenteditable>Debit</span></th>
+                        <th><span contenteditable>Amount Type</span></th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{decimal TotalCreditt = 0; decimal TotalDebit = 0; var sr = 0; }
+                    @foreach (var item in Model)
+                    {
+                        sr++;
+                        //var pricing = db.Pricing.Where(r => r.item_id == item.RawRice_id && r.item_Type == "RawRice").SingleOrDefault();
+                        //var expense = db.RawRiceExpense.Where(p => p.RawRice_id == item.RawRice_id).ToList();
+                        //if (expense != null)
+                        //{
+                        //    foreach (var exp in expense)
+                        //    {
+                        //        TotalExpense += exp.RawRiceExpense_Amount;
+                        //    }
+                        //}
+                        <tr>
+                            <td>@sr</td>
+                            <td>@item.Transaction_item_type</td>
+                            <td>@item.Transaction_Description</td>
+                            <td>Rs @item.Credit</td>
+                            <td>Rs @item.Debit</td>
+                            @{ TotalCreditt += item.Credit;
+                                TotalDebit += item.Debit;
+                                 }
+                            @if (item.isByCash == true)
+                            {
+                                <td>By Cash</td>
+                            }
+                            else
+                            {
+                                <td>By Check</td>
+                            }
+
+
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+            <table class="balance">
+                <tr>
+                    <th><span contenteditable>Total Credit</span></th>
+                    <td>@TotalCreditt</td>
+                </tr>
+                <tr>
+                    <th><span contenteditable>Total Debit</span></th>
+                    <td>@TotalDebit</td>
+                </tr>
+             
+            </table>
+        </article>
+        <table class="as" id="footer">
+            <tr>
+                <td class="as" width="100%" style="border-style:none; text-align:center">
+                    Designed by Digicon-Valley.com
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
+
+<script src="/Content/Invoices/index.js"></script>
+</body>
+</html>
+

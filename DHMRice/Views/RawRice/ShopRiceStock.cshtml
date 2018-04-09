@@ -1,0 +1,150 @@
+﻿@model DHMRice.Models.RawRice
+
+@{
+    ViewBag.Title = "ShopRiceStock";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Raw Rice </h4>
+                    <ol class="breadcrumb p-0 m-0">
+
+                        <li>
+                            <a href="#">Raw Rice </a>
+                        </li>
+                        <li class="active">
+                            Add New Rice
+                        </li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="container card-box">
+            <div class="">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+
+
+                    <div class="form-horizontal">
+                        @using (Html.BeginForm("ShopRiceStock", "RawRice", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div style="color:red">
+                                @Html.ValidationSummary()
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label class="control-label col-md-1">Rice Category</label>
+                                    <div class="col-md-11">
+                                        @Html.DropDownList("Rice_category_Id", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Rice_category_Id, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Rice Name</label>
+                                    <input type="text" class="form-control" name="Item_Name" id="Item_Name" placeholder="" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                    <div class="col-md-10">
+                                        <label for="Section Name"> Rice Code</label>
+                                        <input type="text" class="form-control" id="Item_Code" name="Item_Code" placeholder="" required>
+                                    </div>
+                                </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Totl Qty</label>
+                                    <input type="text" class="form-control" name="Bags_qty" placeholder="" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <select name="Packing_Id" class="form-control" data-style="btn-default" required>
+                                        <option value="null">Packing Type</option>
+
+                                        <option value="1">25 kg</option>
+                                        <option value="2">50 kg</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <label for="Section Name">Per Bag Price</label>
+                                        <input type="text" class="form-control" name="PerBagPrice" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <label for="Section Name">Per Bag Market Price Price</label>
+                                        <input type="text" class="form-control" name="PerBagMarketPrice" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <label for="Section Name">Total Price</label>
+                                        <input type="text" class="form-control" name="Pricing_Total" placeholder="" required>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                <br />
+
+                                <div class="form-group">
+                                    <div class="col-md-10">
+
+                                        <input type="submit" value="submit" class="btn btn-success" />
+                                    </div>
+                                </div>
+                        }
+                    </div>
+
+
+                </div>
+                <div class="col-lg-1"></div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+

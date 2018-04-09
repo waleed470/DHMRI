@@ -1,0 +1,151 @@
+﻿@model DHMRice.Models.RawRice
+@using DHMRice.Models
+@{
+    ViewBag.Title = "RiceStockEdit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Raw Rice </h4>
+                    <ol class="breadcrumb p-0 m-0">
+
+                        <li>
+                            <a href="#">Raw Rice </a>
+                        </li>
+                        <li class="active">
+                            Add New Rice
+                        </li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="container card-box">
+            <div class="">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+                    @{ var price = db.Pricing.Where(p => p.item_id == Model.RawRice_id && p.item_Type == "RawRice").SingleOrDefault(); }
+
+                    <div class="form-horizontal">
+                        @using (Html.BeginForm("RiceStockEdit", "RawRice", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div style="color:red">
+                                @Html.ValidationSummary()
+                            </div>
+                            <input type="hidden" name="RawRice_id" value="@(Model.RawRice_id)" />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label class="control-label col-md-1">Rice Category</label>
+                                    <div class="col-md-11">
+                                        @Html.DropDownList("Rice_category_Id", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Rice_category_Id, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Rice Name</label>
+                                    <input type="text" class="form-control" name="Item_Name" id="Item_Name" value="@(Model.Item_Name)" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name"> Rice Code</label>
+                                    <input type="text" class="form-control" id="Item_Code" name="Item_Code" value="@(Model.Item_Code)" required>
+                                </div>
+                            </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <label for="Section Name">Totl Qty</label>
+                                        <input type="text" class="form-control" name="Bags_qty" value="@(Model.Bags_qty)" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <select name="Packing_Id" class="form-control" data-style="btn-default" required>
+                                            <option value="null">Packing Type</option>
+
+                                            <option value="1">25 kg</option>
+                                            <option value="2">50 kg</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                        
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <label for="Section Name">Per Bag Price</label>
+                                        <input type="text" class="form-control" name="PerBagPrice"  value="@(price.PerBagPrice)" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <label for="Section Name">Per Bag Market Price Price</label>
+                                        <input type="text" class="form-control" name="PerBagMarketPrice" value="@(price.PerBagMarketPrice)" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <label for="Section Name">Total Price</label>
+                                        <input type="text" class="form-control" name="Pricing_Total" value="@(price.Pricing_Total)" required>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                <br />
+
+                                <div class="form-group">
+                                    <div class="col-md-10">
+
+                                        <input type="submit" value="submit" class="btn btn-success" />
+                                    </div>
+                                </div>
+                        }
+                    </div>
+
+
+                </div>
+                <div class="col-lg-1"></div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+

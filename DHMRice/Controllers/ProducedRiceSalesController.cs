@@ -21,6 +21,47 @@ namespace DHMRice.Controllers
         {
             return View();
         }
+
+
+        public ActionResult GatePassOutward(int id)
+        {
+            var gate = db.GatePassOutward.Where(g => g.RiceTypeId == id && g.RiceType == "Produced Rice Sales").SingleOrDefault();
+            if (gate == null)
+            {
+                var rawsale = db.ProducedRiceSales_pt.Find(id);
+                return View(rawsale);
+            }
+            else
+            {
+                return RedirectToAction("GatePass", "ProducedRiceSales", new { id = id });
+            }
+        }
+        [HttpPost]
+        public ActionResult GatePassOutward(GatePassOutward GatePass, FormCollection form)
+        {
+            if (ModelState.IsValid)
+            {
+
+                GatePass.Date = DateTime.Now;
+                GatePass.RiceType = "Produced Rice Sales";
+                db.GatePassOutward.Add(GatePass);
+
+
+                db.SaveChanges();
+                var GatePassId = GatePass.RiceTypeId;
+                return RedirectToAction("GatePass", "ProducedRiceSales", new { id = GatePassId });
+            }
+
+            return View(GatePass);
+        }
+        public ActionResult GatePass(int id)
+        {
+
+            GatePassOutward Gatepas = db.GatePassOutward.Where(r => r.RiceTypeId == id && r.RiceType == "Produced Rice Sales").SingleOrDefault();
+            db.SaveChanges();
+            return View(Gatepas);
+        }
+
         [HttpPost]
         public JsonResult Get_pt()
         {

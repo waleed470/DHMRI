@@ -25,12 +25,12 @@
     @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
         </script>*@
     <script src="~/Content/assets/js/jquery.min.js"></script>
-    <script>
+   <script>
         var IsAuthenticated="@Session["UserId"]";
         if(IsAuthenticated==""){
             window.location = "/Account/Login";
         }
-        function CheckIntialOpening() {
+         function CheckIntialOpening() {
             $.ajax({
                 type: "POST",
                 traditional: true,
@@ -107,7 +107,7 @@
         <div class="topbar">
             <!-- LOGO -->
             <div class="topbar-left">
-                <a href="index.html" class="logo"><span>ADmin<span>Panel</span></span><i class="mdi mdi-cube"></i></a>
+                <a href="index.html" class="logo"><span>DHM<span>RiceMills</span></span><i class="mdi mdi-cube"></i></a>
             </div>
             <!-- Button mobile view to collapse sidebar menu -->
             <div class="navbar navbar-default" role="navigation">
@@ -293,11 +293,11 @@
                     <div class="user-details">
                         <div class="overlay"></div>
                         <div class="text-center">
-                            <img src="~/Content/assets/images/users/avatar-1.jpg" alt="" class="thumb-md img-circle">
+                            @*<img src="~/Content/assets/images/users/avatar-1.jpg" alt="" class="thumb-md img-circle">*@
                         </div>
                         <div class="user-info">
                             <div>
-                                <a href="#setting-dropdown" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">waleed <span class="mdi mdi-menu-down"></span></a>
+                                <a href="#setting-dropdown" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <span class="mdi mdi-menu-down"></span></a>
                             </div>
                         </div>
                     </div>
@@ -318,10 +318,11 @@
                             <ul class="list-unstyled">
                                 <li><a href="~/RawRice/Index">View RawRice Purchasing</a></li>
                                 <li><a href="~/RawRice/AddNew">Add RawRice Purchasing</a></li>
-                               
+                                <li><a href="~/RawRice/ShopRiceStock">Add Previous Stock</a></li>
                                 <li><a href="~/RawRice_Sales/Index">RawRice Selling</a></li>
                             </ul>
                         </li>
+                     
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Rice Category </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
@@ -339,6 +340,7 @@
                             <ul class="list-unstyled">
                                 <li><a href="~/RiceProduction/Index">View Produced Rice</a></li>
                                 <li><a href="~/RiceProduction/AddNew">Produce a rice</a></li>
+                                <li><a href="~/RiceProduction/PreviousRice">Add Existing Rice</a></li>
                                 <li><a href="~/ProducedRiceSales/Index">Produced Rice Selling</a></li>
                             </ul>
                         </li>
@@ -378,6 +380,10 @@
                                 <li><a href="~/ShopRiceSales/Index">Sell Rice</a></li>
                             </ul>
                         </li>
+                        <li><a href="~/ShopStock/Index">Transfer Rice in Shop</a></li>
+                        <li><a href="~/ShopStock/ShopRiceStock">Add Previous Shop Stock</a></li>
+                        <li><a href="~/ShopStock/ShopStock">View previous Stock</a></li>
+
 }
 @if (User.IsInRole("Factory") || User.IsInRole("Admin"))
 {
@@ -425,6 +431,11 @@
                             </ul>
                         </li>
    }
+                        <li><a href="~/RawRice_Sales/Index">RawRice Selling</a></li>
+                        <li><a href="~/ShopRiceSales/Index">Sell Rice</a></li>
+                        <li><a href="~/ProductWorthSales/Index">Sell Worth Rice</a></li>
+                        <li><a href="~/ProducedRiceSales/Index">Produced Rice Selling</a></li>
+                        <li><a href="~/Reports/Index">Reports</a></li>
                                             @*<li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Rice_category </span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">

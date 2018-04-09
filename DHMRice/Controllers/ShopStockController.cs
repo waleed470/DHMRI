@@ -1,7 +1,10 @@
 ﻿using DHMRice.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -16,6 +19,109 @@ namespace DHMRice.Controllers
         {
             return View();
         }
+        public ActionResult ShopStock()
+        {
+            return View(db.ShopStock.Where(s=> s.Rice_Production==null).ToList());
+        }
+        public ActionResult ShopRiceStock()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ShopRiceStock(FormCollection form, ShopStock worth)
+        {
+            string idd = Convert.ToString(Session["UserId"]);
+
+            var RiceName = Convert.ToString(form["RiceName"]);
+
+            worth.srsc_title = RiceName;
+
+            worth.Qty = Convert.ToInt32(form["BAgs"]);
+            worth.packing_type = Convert.ToInt32(form["packing"]);
+            worth.PerBagPrice = Convert.ToDecimal(form["Price"]);
+            db.ShopStock.Add(worth);
+            db.SaveChanges();
+
+            return RedirectToAction("ShopStock");
+        }
+
+
+        public ActionResult ShopRiceStockEdit(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ShopStock shop = db.ShopStock.Find(id);
+            
+            if (shop == null)
+            {
+                return HttpNotFound();
+            }
+            return View(shop);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ShopRiceStockEdit(FormCollection form, ShopStock worth)
+        {
+            worth.ShopStockId = Convert.ToInt32(form["ShopStockId"]);
+            ShopStock shop = db.ShopStock.Find(worth.ShopStockId);
+
+            string idd = Convert.ToString(Session["UserId"]);
+
+            var RiceName = Convert.ToString(form["RiceName"]);
+
+            shop.srsc_title = RiceName;
+            
+            shop.Qty = Convert.ToInt32(form["BAgs"]);
+            shop.packing_type = Convert.ToInt32(form["packing"]);
+            shop.PerBagPrice = Convert.ToDecimal(form["Price"]);
+            db.Entry(shop).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("ShopStock");
+        }
+
+        public ActionResult GatePassOutward(int id)
+        {
+            var gate = db.GatePassOutward.Where(g => g.RiceTypeId == id && g.RiceType == "Shop Stock").SingleOrDefault();
+            if (gate == null)
+            {
+                var rawsale = db.ShopStock_pts.Find(id);
+                return View(rawsale);
+            }
+            else
+            {
+                return RedirectToAction("GatePass", "ShopStock", new { id = id });
+            }
+        }
+        [HttpPost]
+        public ActionResult GatePassOutward(GatePassOutward GatePass, FormCollection form)
+        {
+            if (ModelState.IsValid)
+            {
+
+                GatePass.Date = DateTime.Now;
+                GatePass.RiceType = "Shop Stock";
+                db.GatePassOutward.Add(GatePass);
+
+
+                db.SaveChanges();
+                var GatePassId = GatePass.RiceTypeId;
+                return RedirectToAction("GatePass", "ShopStock", new { id = GatePassId });
+            }
+
+            return View(GatePass);
+        }
+        public ActionResult GatePass(int id)
+        {
+
+            GatePassOutward Gatepas = db.GatePassOutward.Where(r => r.RiceTypeId == id && r.RiceType == "Shop Stock").SingleOrDefault();
+            db.SaveChanges();
+            return View(Gatepas);
+        }
+
 
         public IQueryable<Shop> GetDepartment()
         {
@@ -33,7 +139,7 @@ namespace DHMRice.Controllers
         public JsonResult Get_Stock()
         {
             //var datee = "";
-            var obj = db.ShopStock.Where(m => m.Status).ToList();
+            var obj = db.ShopStock_pts.ToList();
             //foreach (var item in obj)
             //{
             //    datee = item.ShopDate.ToShortDateString();
@@ -90,22 +196,33 @@ namespace DHMRice.Controllers
 
         public void Insert_sales(FormCollection form)
         {
-            string idd = Convert.ToString(Session["UserId"]);
+            //string idd = Convert.ToString(Session["UserId"]);
+            string idd = User.Identity.GetUserId();
             var js = new JavaScriptSerializer();
             decimal SumWeight_Mann = Convert.ToDecimal(form["SumWeight_Mann"]);
             decimal SumWeight_KG = Convert.ToDecimal(form["SumWeight_KG"]);
             decimal NetTotal = Convert.ToDecimal(form["NetTotal"]);
             int shopid = Convert.ToInt16(form["Shop_Id"]);
 
+            ShopStock_pt ProducedRiceSales_pt = js.Deserialize<ShopStock_pt>(form["ProducedRiceSales_pt"]);
+            ProducedRiceSales_pt.srsp_Total_Amount = NetTotal;
+            ProducedRiceSales_pt.srsp_Title = ProducedRiceSales_pt.srsp_Title + " to " + db.Shopes.Find(shopid).Shop_Name;
+            ProducedRiceSales_pt.srsp_status = true;
+            ProducedRiceSales_pt.Shop_Id = shopid;
+            ProducedRiceSales_pt.Id = idd;
+            ProducedRiceSales_pt.srsp_date = DateTime.Now;
+            db.ShopStock_pts.Add(ProducedRiceSales_pt);
+            db.SaveChanges();
+            int prsp_id = db.ShopStock_pts.Max(m => m.srsp_id);
+
             List<ShopStock> ShopStock = js.Deserialize<ShopStock[]>(form["ProducedRiceSales_ch"].ToString()).ToList();
             foreach (var item in ShopStock)
             {
+                item.srsp_id = prsp_id;
                 //item.ShopDate = DateTime.Now;
-                item.NetTotal = NetTotal;
-                item.SumWeight_Mann = SumWeight_Mann;
-                item.SumWeight_KG = SumWeight_KG;
-                item.Shop_Id = shopid;
-                item.Id = idd;
+
+
+                //item.Id = idd;
                 item.Status = true;
 
                 db.ShopStock.Add(item);
@@ -313,7 +430,7 @@ namespace DHMRice.Controllers
                 ProducedRiceSales_pt.Status = false;
                 db.Entry(ProducedRiceSales_pt).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-            
+
             }
 
         }

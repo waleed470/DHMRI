@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewBag.Title = "PreviousRice";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Rice PRoduction Data Entry </h4>
+                    <ol class="breadcrumb p-0 m-0">
+
+                        <li>
+                            <a href="#">Rice PRoduction </a>
+                        </li>
+                        <li class="active">
+                            Add Stocked Rice
+                        </li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="container card-box">
+            <div class="">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+
+
+
+                    <div class="form-horizontal">
+                        @using (Html.BeginForm("PreviousRice", "RiceProduction", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div style="color:red">
+                                @Html.ValidationSummary()
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Produced Rice Name</label>
+                                    <input type="text" class="form-control" name="RiceName" id="RiceName" placeholder="" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Produced Rice Code</label>
+                                    <input type="text" class="form-control" id="RiceCode" name="RiceCode" placeholder="" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Totl Produced Bags</label>
+                                    <input type="text" class="form-control" name="BAgs" placeholder="" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <select name="packing"  class="form-control" data-style="btn-default" required>
+                                        <option value="null">Packing Type</option>
+                                     
+                                            <option value="1">25 kg</option>
+                                        <option value="2">50 kg</option>
+                                   
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label for="Section Name">Per Bag Price</label>
+                                    <input type="text" class="form-control" name="Price" placeholder="" required>
+                                </div>
+                            </div>
+                           
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <br />
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+
+                                    <input type="submit" value="submit" class="btn btn-success" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+                <div class="col-lg-1"></div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+

@@ -696,7 +696,7 @@ namespace DHMRice.Controllers
             trans.Transaction_DateTime = DateTime.Now;
             trans.Transaction_Description = "Received Remaining from " + db.Parties.Find(RawRice_Sales_pt.Party_Id).Party_Name;
             trans.Transaction_item_id = Convert.ToInt32(form["id"]);
-            trans.Transaction_item_type = SellingCategory.RawRice_Sales;
+            trans.Transaction_item_type = SellingCategory.RawRice_Sales_Remaining;
             trans.Debit = 0;
             trans.Credit = Convert.ToInt32(form["Remaining"]);
             trans.status = true;

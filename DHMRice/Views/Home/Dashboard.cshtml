@@ -34,7 +34,7 @@
 
         <div class="row text-center">
 
-            <div class="col-lg-3 col-md-6 col-sm-9">
+            <div class="col-lg-2 col-md-6 col-sm-9">
                 <div class="card-box widget-box-one">
                     <div class="wigdet-one-content">
                         <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Total Credit </p>
@@ -58,7 +58,7 @@
                 </div>
             </div><!-- end col -->
 
-            <div class="col-lg-3 col-md-6 col-sm-9">
+            <div class="col-lg-2 col-md-6 col-sm-9">
                 <div class="card-box widget-box-one">
                     <div class="wigdet-one-content">
                         <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Total Debit </p>
@@ -81,10 +81,10 @@
             </div><!-- end col -->
 
 
-            <div class="col-lg-3 col-md-6 col-sm-9">
+            <div class="col-lg-2 col-md-6 col-sm-9">
                 <div class="card-box widget-box-one">
                     <div class="wigdet-one-content">
-                        <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Today Purchase</p>
+                        <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Today Debit</p>
                         @{
                             Decimal tod = 0;
                             string stod = "";
@@ -95,7 +95,7 @@
                             int year = DateTime.Now.Year;
                             foreach (var item in trn.Where(a => a.Transaction_DateTime.Day == Date && a.Transaction_DateTime.Month==Months && a.Transaction_DateTime.Year == year))
                             {
-                                tod = item.Debit;
+                                tod += item.Debit;
                                 stod = Convert.ToDecimal(tod).ToString("#,##0.00");
 
 
@@ -109,17 +109,52 @@
                     </div>
                 </div>
             </div><!-- end col -->
+            <div class="col-lg-2 col-md-6 col-sm-9">
+                <div class="card-box widget-box-one">
+                    <div class="wigdet-one-content">
+                        <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Today Expenses</p>
+                        @{
+                            Decimal eod = 0;
+                            string seod = "";
+
+                            DateTime myedate = DateTime.Now;
+                            int eDate = DateTime.Now.Day;
+                            int eMonths = DateTime.Now.Month;
+                            int eyear = DateTime.Now.Year;
+                            foreach (var item in trn.Where(a => a.Transaction_DateTime.Day == eDate && a.Transaction_DateTime.Month == eMonths && a.Transaction_DateTime.Year == eyear && a.Transaction_item_type== "Manual"))
+                            {
+                                eod += item.Debit;
+                                seod = Convert.ToDecimal(eod).ToString("#,##0.00");
+
+
+                            }
+                            foreach (var item in trn.Where(a => a.Transaction_DateTime.Day == eDate && a.Transaction_DateTime.Month == eMonths && a.Transaction_DateTime.Year == eyear && a.Transaction_item_type == "DriverExpense"))
+                            {
+                                eod += item.Debit;
+                                seod = Convert.ToDecimal(eod).ToString("#,##0.00");
+
+
+                            }
+                            <h2 class="text-danger"><span data-plugin="counterup">@seod</span></h2>
+                            //var lastd = trn.Last();
+                            @*<p class="text-muted m-0"><b>Last:</b> @lastd.Debit</p>*@
+                        }
+
+
+                    </div>
+                </div>
+            </div><!-- end col -->
 
             <div class="col-lg-3 col-md-6 col-sm-9">
                 <div class="card-box widget-box-one">
                     <div class="wigdet-one-content">
-                        <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Today Sale</p>
+                        <p class="m-0 text-uppercase font-600 font-secondary text-overflow">Today Credit</p>
                         @{
                             Decimal toc = 0;
                             string stoc= "";
                             foreach (var item in trn.Where(a => a.Transaction_DateTime.Day == Date && a.Transaction_DateTime.Month == Months && a.Transaction_DateTime.Year == year))
                             {   
-                                toc = item.Credit;
+                                toc += item.Credit;
                                 stoc = Convert.ToDecimal(toc).ToString("#,##0.00");
                             }
                             <h2 class="text-danger"><span data-plugin="counterup">@stoc</span></h2>

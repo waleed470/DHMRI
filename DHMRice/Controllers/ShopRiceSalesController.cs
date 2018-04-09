@@ -20,10 +20,52 @@ namespace DHMRice.Controllers
         {
             return View();
         }
+
+
+        public ActionResult GatePassOutward(int id)
+        {
+            var gate = db.GatePassOutward.Where(g => g.RiceTypeId == id && g.RiceType == "Shop Rice Sales").SingleOrDefault();
+            if (gate == null)
+            {
+                var rawsale = db.ShopRiceSales_pt.Find(id);
+                return View(rawsale);
+            }
+            else
+            {
+                return RedirectToAction("GatePass", "ShopRiceSales", new { id = id });
+            }
+        }
+        [HttpPost]
+        public ActionResult GatePassOutward(GatePassOutward GatePass, FormCollection form)
+        {
+            if (ModelState.IsValid)
+            {
+
+                GatePass.Date = DateTime.Now;
+                GatePass.RiceType = "Shop Rice Sales";
+                db.GatePassOutward.Add(GatePass);
+
+
+                db.SaveChanges();
+                var GatePassId = GatePass.RiceTypeId;
+                return RedirectToAction("GatePass", "ShopRiceSales", new { id = GatePassId });
+            }
+
+            return View(GatePass);
+        }
+        public ActionResult GatePass(int id)
+        {
+
+            GatePassOutward Gatepas = db.GatePassOutward.Where(r => r.RiceTypeId == id && r.RiceType == "Shop Rice Sales").SingleOrDefault();
+            db.SaveChanges();
+            return View(Gatepas);
+        }
+
+
         [HttpPost]
         public JsonResult Get_pt()
         {
-            List<Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int,int>> obj = new List<Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int,int>>();
+            List<Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int, int>> obj = new List<Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int, int>>();
             var list = db.ShopRiceSales_pt.Where(m => m.srsp_status).ToList();
             foreach (var item in list)
             {
@@ -46,7 +88,7 @@ namespace DHMRice.Controllers
                     }
                     int invoice_no = db.SaleInvoice.Where(m => m.Sale_id == item.srsp_id && m.SaleInvoice_type == SaleInvoiceType.ShopRiceSales).SingleOrDefault().SaleInvoice_no;
 
-                    obj.Add(new Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int,int>(item, item.srsp_date.ToShortDateString(), recieved, item.srsp_Total_Amount - recieved, item.srsp_Total_Amount - recieved, action,invoice_no));
+                    obj.Add(new Tuple<ShopRiceSales_pt, string, decimal, decimal, decimal, int, int>(item, item.srsp_date.ToShortDateString(), recieved, item.srsp_Total_Amount - recieved, item.srsp_Total_Amount - recieved, action, invoice_no));
 
                 }
                 catch (Exception)
@@ -203,7 +245,7 @@ namespace DHMRice.Controllers
         {
             try
             {
-                var mShopStock = db.ShopStock.Where(m => m.ShopStockId == id && m.Shop_Id == 2).First();
+                var mShopStock = db.ShopStock.Where(m => m.ShopStockId == id && m.ShopStock_pt.Shop_Id == 2).First();
                 decimal srsc_ttl_qty = mShopStock.Qty;
                 int srsc_sld_qty = mShopStock.SoldQty;
                 int srsc_packing_type = mShopStock.packing_type;
@@ -470,7 +512,7 @@ namespace DHMRice.Controllers
                     trans.Transaction_Shop_DateTime = DateTime.Now;
                     trans.Transaction_Shop_Description = "Received Remaining from " + db.Customers.Find(ShopRiceSales_pt1.Customer_Id).Customer_Name;
                     trans.Transaction_Shop_item_id = remaining_srsp_id[i];
-                    trans.Transaction_Shop_item_type =SellingCategory.Shop_Rice_Sales_Remaining;
+                    trans.Transaction_Shop_item_type = SellingCategory.Shop_Rice_Sales_Remaining;
                     trans.Debit = 0;
                     trans.Credit = Remaining;
                     trans.status = true;
@@ -589,7 +631,7 @@ namespace DHMRice.Controllers
 
             }
 
-            foreach (var item in db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == ShopRiceSales_pt.srsp_id && m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales&& m.status))
+            foreach (var item in db.Transaction_Shop.Where(m => m.Transaction_Shop_item_id == ShopRiceSales_pt.srsp_id && m.Transaction_Shop_item_type == SellingCategory.Shop_Rice_Sales && m.status))
             {
                 db.Transaction_Shop.Remove(item);
             }

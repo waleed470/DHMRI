@@ -256,9 +256,28 @@ namespace DHMRice.Controllers
                 TempData["Todaysale"] = Todaysale;
                 return RedirectToAction("TodaySale");
             }
-          
+
+            if (Invoice == 6)
+            {
+                int Date = DateTime.Now.Day;
+                int Months = DateTime.Now.Month;
+                int year = DateTime.Now.Year;
+                var TodayTransaction = db.Transaction.Where(r =>r.Transaction_DateTime.Month == Months && r.Transaction_DateTime.Day >= Date && r.Transaction_DateTime.Year <= year).ToList();
+                TempData["TodayTransaction"] = TodayTransaction;
+                return RedirectToAction("TodayTransaction");
+            }
+
             return View();
 
+        }
+        public ActionResult TodayTransaction()
+        {
+
+            var TodayTransaction = TempData["TodayTransaction"];
+
+
+
+            return View(TodayTransaction);
         }
         [HttpPost]
         public ActionResult DriverExpense(int? ReportType, int? Month, int? Invoice, int? DateFrom, int? DateTo)
@@ -286,6 +305,36 @@ namespace DHMRice.Controllers
 
             return View();
 
+        }
+        [HttpPost]
+        public ActionResult PartyRemaining(int? Party_Id, int? Month, int? DateFrom, int? DateTo)
+        {
+          
+                int Date = DateTime.Now.Day;
+                int Months = DateTime.Now.Month;
+                int year = DateTime.Now.Year;
+            TempData["DateFrom"] = DateFrom;
+            TempData["DateTo"] = DateTo;
+            TempData["Month"] = Month;
+            var parties = db.PartyRemaining.Where(r => r.Party_Id == Party_Id);
+                var PartyRemaining = db.Transaction.Where(r => r.Transaction_DateTime.Day == Date && r.Transaction_DateTime.Month == Months && r.Transaction_DateTime.Year == year && r.Transaction_item_type == "PartyRemaining Payed" && r.Transaction_item_id==Party_Id).ToList();
+                TempData["PartyRemaining"] = parties;
+                return RedirectToAction("Party_Remaining");
+          
+        }
+
+        public ActionResult Party_Remaining()
+        {
+            ViewBag.DateFrom = TempData["DateFrom"];
+            ViewBag.DateTo = TempData["DateTo"];
+            ViewBag.Month = TempData["Month"];
+            //ViewBag.Month = Month;
+            //ViewBag.DateTo = DateTo;
+            var parties = TempData["PartyRemaining"];
+
+
+
+            return View(parties);
         }
         public ActionResult RawStock()
         {

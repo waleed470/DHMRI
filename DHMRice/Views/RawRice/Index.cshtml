@@ -8,7 +8,7 @@
     var rawRice_List = Model.ToList();
 }
 <script>
-    CheckIntialOpening();
+    //CheckIntialOpening();
 </script>
 @section Css {
     <!-- DataTables -->
@@ -170,14 +170,29 @@
                                     <input name="PerBagMarketPrice" ng-model="Pricing[@count].PerBagMarketPrice" ng-change="ValidatePricing()" type="number"/> 
                                     </td>                                
                                     <td>@(Convert.ToDecimal(db.Pricing.Where(m => m.item_id == @item.RawRice_id && m.item_Type == "RawRice").Max(c => c.Pricing_NetTotal)).ToString("#,##0.00"))</td>
-                                    <td>@item.party.Party_Name</td>
-                                    <td>
-                                        @item.broker.Broker_Name @((item.Pay_CommissionPercentage)?"(Commission Payed)":"")
-                                        @if (!item.Pay_CommissionPercentage && item.BrokerCommissionPercentage > 0)
+                                   
+                                    @if (item.party == null)
+                                    {
+                                    <td></td> }
+                                    else
+                                    {
+                                        <td>@item.party.Party_Name</td>
+                                    } 
+                                  
+                                        @if (item.broker == null)
                                         {
-                                            <input type="button" value="Pay @item.BrokerCommissionPercentage% Commission" style="margin-left:1%" class="btn btn-primary btn-sm" onclick="PayCommision(@item.RawRice_id)" />
+                                        <td></td> }
+                                        else
+                                        {
+                                            <td>
+                                                @item.broker.Broker_Name @((item.Pay_CommissionPercentage) ? "(Commission Payed)" : "")
+                                                @if (!item.Pay_CommissionPercentage && item.BrokerCommissionPercentage > 0)
+                                                {
+                                                    <input type="button" value="Pay @item.BrokerCommissionPercentage% Commission" style="margin-left:1%" class="btn btn-primary btn-sm" onclick="PayCommision(@item.RawRice_id)" />
+                                                }
+                                            </td>
                                         }
-                                    </td>
+                                       
                                     @{
                                         string Rawrice_Date = item.Date.ToShortDateString();
 
@@ -197,8 +212,16 @@
                                     <td class="actions">
                                         @if (oc_obj != null)
                                         {
-                                            <a href="~/RawRice/Edit?id=@item.RawRice_id" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-                                            <a href="~/RawRice/Delete?id=@item.RawRice_id" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                            if (item.broker == null)
+                                            {
+                                                <a href="~/RawRice/RiceStockEdit?id=@item.RawRice_id" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="~/RawRice/Edit?id=@item.RawRice_id" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                                <a href="~/RawRice/Delete?id=@item.RawRice_id" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                            }
+
                                         }
                                         else
                                         {

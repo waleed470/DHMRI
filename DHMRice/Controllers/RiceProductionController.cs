@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -21,6 +22,114 @@ namespace DHMRice.Controllers
         public ActionResult WorthRice()
         {
             return View(db.Rice_Production_ProductWorths.ToList());
+        }
+        public ActionResult PreviousRice()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult PreviousRice(FormCollection form, Rice_Production Rice, Rice_Produce_Bag Rice_Produce_Bag)
+        {
+            string idd = Convert.ToString(Session["UserId"]);
+                        
+            var RiceName = Convert.ToString(form["RiceName"]);
+
+            Rice.Rice_Production_name = RiceName;
+            Rice.Rice_Production_Code = Convert.ToString(form["RiceCode"]);
+            Rice.Packing_Id = Convert.ToInt32(form["packing"]);
+            Rice.Rice_Production_Date = DateTime.Now;
+            Rice.Id = idd;
+            Rice.Status = true;
+            db.Rice_Productions.Add(Rice);
+            db.SaveChanges();
+            var Rice_Production_id = db.Rice_Productions.Max(m => m.Rice_Production_id);
+
+            Rice_Produce_Bag.Rice_Production_id = Rice_Production_id;
+            Rice_Produce_Bag.Rice_Produce_TotalBagsProduce = Convert.ToInt32(form["BAgs"]);
+            Rice_Produce_Bag.Rice_Produce_Bag_PerBagMarketPrice = Convert.ToDecimal(form["Price"]);
+            Rice_Produce_Bag.Status = true;
+            Rice_Produce_Bag.Rice_Produce_Bag_Date = DateTime.Now;
+            db.Rice_Produce_Bags.Add(Rice_Produce_Bag);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+            }
+
+
+        public ActionResult RiceStockEdit(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Rice_Production RawRice = db.Rice_Productions.Find(id);
+
+            if (RawRice == null)
+            {
+                return HttpNotFound();
+            }
+           
+            return View(RawRice);
+        }
+        [HttpPost]
+        public ActionResult RiceStockEdit(FormCollection form, Rice_Production Ricee, Rice_Produce_Bag Rice_Produce_Bag)
+        {
+            string idd = Convert.ToString(Session["UserId"]);
+
+            int Rice_Production_id = Convert.ToInt32(form["Rice_Production_id"]);
+            var RiceName = Convert.ToString(form["RiceName"]);
+            Rice_Production rice = db.Rice_Productions.Find(Rice_Production_id);
+
+            rice.Rice_Production_name = RiceName;
+            rice.Rice_Production_Code = Convert.ToString(form["RiceCode"]);
+            rice.Packing_Id = Convert.ToInt32(form["packing"]);
+            rice.Rice_Production_Date = DateTime.Now;
+            rice.Id = idd;
+            rice.Status = true;
+
+            db.Entry(rice).State = EntityState.Modified;
+            db.SaveChanges();
+
+            var price = db.Rice_Produce_Bags.Where(p => p.Rice_Production_id == Rice_Production_id).SingleOrDefault();
+
+            price.Rice_Production_id = Rice_Production_id;
+            price.Rice_Produce_TotalBagsProduce = Convert.ToInt32(form["BAgs"]);
+            price.Rice_Produce_Bag_PerBagMarketPrice = Convert.ToDecimal(form["Price"]);
+            price.Status = true;
+            price.Rice_Produce_Bag_Date = DateTime.Now;
+    
+            db.Entry(price).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult WorthRiceStock()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult WorthRiceStock(FormCollection form,Rice_Production_ProductWorth worth)
+        {
+            string idd = Convert.ToString(Session["UserId"]);
+
+            var RiceName = Convert.ToString(form["RiceName"]);
+
+            worth.Rice_Production_ProductWorth_name = RiceName;
+
+            worth. Rice_Production_ProductWorth_Qty = Convert.ToInt32(form["BAgs"]);
+            worth.Rice_Production_ProductWorth_PBA = Convert.ToDecimal(form["Price"]);
+            db.Rice_Production_ProductWorths.Add(worth);
+            db.SaveChanges();
+         
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Index2()
+        {
+            return View(db.Rice_Productions.Where(m => m.Status).ToList());
         }
         public ActionResult AddNew()
         {

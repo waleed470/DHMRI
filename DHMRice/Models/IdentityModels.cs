@@ -39,6 +39,7 @@ namespace DHMRice.Models
 
         public static ApplicationDbContext Create()
 
+
         {
             return new ApplicationDbContext();
         }
@@ -80,6 +81,7 @@ namespace DHMRice.Models
         public DbSet<BpRiceSales_ch> BpRiceSales_chs { get; set; }
         public DbSet<PartyRemaining> PartyRemaining { get; set; }
         public DbSet<GatePassOutward> GatePassOutward { get; set; }
+        public DbSet<ShopStock_pt> ShopStock_pts { get; set; }
 
     }
 }
