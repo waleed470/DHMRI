@@ -53,27 +53,27 @@
 
             CheckIntialOpening_Shop();      //Call if user role is shop
         }
-        function CheckIntialOpening_Shop() {
-            $.ajax({
-                type: "POST",
-                traditional: true,
-                async: false,
-                cache: false,
-                url: '/OpeningClosingShop/CheckIntialOpening',
-                context: document.body,
-                success: function (json) {
-                    if (json == 1) {
-                        window.location = "/OpeningClosingShop/AddInitialOpenningDay";
-                    }
-                }
-                ,
-                error: function (xhr) {
-                    //debugger;
-                    alert('error');
-                }
-            });
+        //function CheckIntialOpening_Shop() {
+        //    $.ajax({
+        //        type: "POST",
+        //        traditional: true,
+        //        async: false,
+        //        cache: false,
+        //        url: '/OpeningClosingShop/CheckIntialOpening',
+        //        context: document.body,
+        //        success: function (json) {
+        //            if (json == 1) {
+        //                window.location = "/OpeningClosingShop/AddInitialOpenningDay";
+        //            }
+        //        }
+        //        ,
+        //        error: function (xhr) {
+        //            //debugger;
+        //            alert('error');
+        //        }
+        //    });
 
-        }
+        //}
 
     </script>
     <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->

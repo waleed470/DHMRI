@@ -8,7 +8,7 @@
     var rawRice_List = Model.ToList();
 }
 <script>
-    //CheckIntialOpening();
+    CheckIntialOpening();
 </script>
 @section Css {
     <!-- DataTables -->
@@ -32,27 +32,30 @@
         var price_obj = {};
         @foreach(var item  in Model )
         {
-        <text>
+            if (item.RawRice_id!=0) {
+                 <text>
             price_obj={};
             price_obj.Pricing_id=@(db.Pricing.Where(m => m.item_id == item.RawRice_id && m.item_Type == "RawRice").Max(c => c.Pricing_id));
+
             price_obj.PerBagPrice=@(db.Pricing.Where(m => m.item_id == @item.RawRice_id && m.item_Type == "RawRice").Max(c => c.PerBagPrice));
             price_obj.PerBagMarketPrice=@(db.Pricing.Where(m => m.item_id == @item.RawRice_id && m.item_Type == "RawRice").Max(c => c.PerBagMarketPrice));
             $scope.Pricing.push(price_obj);
         </text>
+            }
+
         }
-        $scope.ValidatePricing=function(){
-            var list=$scope.Pricing;
+        $scope.ValidatePricing = function () {
+            var list = $scope.Pricing;
             for (var i = 0; i < list.length; i++) {
-                if(list[i].PerBagMarketPrice==null){     
-                    list[i].PerBagMarketPrice=0;
-                }  
+                if (list[i].PerBagMarketPrice == null) {
+                    list[i].PerBagMarketPrice = 0;
+                }
                 UpdatePrice(list[i]);
             }
-            $scope.Pricing=list;
+            $scope.Pricing = list;
 
-            };
-        function UpdatePrice(price_obj)
-        {
+        };
+        function UpdatePrice(price_obj) {
             $http.post(
                 '/RawRice/UpdatePrice',
                 JSON.stringify(price_obj),
@@ -74,15 +77,15 @@
             //    context: document.body,
             //    data: getReportColumnsParams,
             //    success: function (json) {
-                   
+
             //    },
             //    error: function (xhr) {
-                   
+
             //    }
             //});
         }
 
-       
+
 
 
     });

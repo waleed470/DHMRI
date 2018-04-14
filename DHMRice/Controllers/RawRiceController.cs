@@ -21,7 +21,13 @@ namespace DHMRice.Controllers
         public ActionResult Index()
         {
 
-            return View(db.RarRices.Where(m => m.Status).ToList());
+            return View(db.RarRices.Where(m => m.Status && m.Broker_Id != null).ToList());
+        }
+
+        public ActionResult PreviousStock()
+        {
+
+            return View(db.RarRices.Where(m => m.Status && m.Broker_Id==null).ToList());
         }
 
         public ActionResult Reports()

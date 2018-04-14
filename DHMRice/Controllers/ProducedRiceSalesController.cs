@@ -251,11 +251,11 @@ namespace DHMRice.Controllers
                 int prsc_sld_qty = db.Rice_Produce_Bags.Where(m => m.Rice_Production_id == id).Sum(m => m.Rice_Produce_BagsSold);
                 int prsc_packing_type = db.Rice_Productions.Find(id).packing.Packing_Type;
                 int max_Bags_id = db.Rice_Produce_Bags.Where(m => m.Rice_Production_id == id).Max(m => m.Rice_Produce_Bags_id);
-                decimal prsc_Weight_kg_ttl = db.Rice_Produce_Bags.OrderByDescending(p => p.Rice_Produce_Bag_Date).FirstOrDefault().Rice_Produce_Bag_TotalWeight;
+                decimal prsc_Weight_kg_ttl = db.Rice_Produce_Bags.Where(m => m.Rice_Production_id == id).OrderByDescending(p => p.Rice_Produce_Bag_Date).FirstOrDefault().Rice_Produce_Bag_TotalWeight;
 
                 int Rice_Production_id = id;
                 string prsc_title = db.Rice_Productions.Find(id).Rice_Production_name;
-                decimal prsc_PerBagMarketPrice = db.Rice_Produce_Bags.OrderByDescending(p => p.Rice_Produce_Bag_Date).FirstOrDefault().Rice_Produce_Bag_PerBagMarketPrice;
+                decimal prsc_PerBagMarketPrice = db.Rice_Produce_Bags.Where(m => m.Rice_Production_id == id).OrderByDescending(p => p.Rice_Produce_Bag_Date).FirstOrDefault().Rice_Produce_Bag_PerBagMarketPrice;
                 Tuple<decimal, int, decimal, int, int, string, decimal> tpl = new Tuple<decimal, int, decimal, int, int, string, decimal>
                 (
                 prsc_ttl_qty,

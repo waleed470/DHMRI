@@ -1152,6 +1152,7 @@
     <Content Include="Views\ShopStock\ShopRiceStockEdit.cshtml" />
     <Content Include="Views\RawRice\RiceStockEdit.cshtml" />
     <Content Include="Views\RiceProduction\RiceStockEdit.cshtml" />
+    <Content Include="Views\RawRice\PreviousStock.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
