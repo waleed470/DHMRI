@@ -4,7 +4,8 @@
     ViewBag.Title = "IncreaseRicee";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     ApplicationDbContext db = new ApplicationDbContext();
-  
+    var chexxk = 0;
+
 }
 
 <script>
@@ -117,54 +118,55 @@
 
 
 
+                          
                             <div id="Expenses">
-                                @{ int i = -1; }
                                 <div class="row" id="row_0">
-                                @foreach (var item in db.Production_Rices.Where(m => m.Rice_Produce_Bags_id == Rice_Produce_Bags.Rice_Produce_Bags_id).ToList())
-                                {
-                                    i++;
-                                    int i_new = i;
+
                                     <div class="col-sm-12">
 
-                                        <div class="col-md-2">
+                                        <div class="col-sm-2">
+                                            <label>Rice1</label>
+                                            <div class="">
+
+                                                <select name="Production_Rice[0].RawRice_id" onchange="calculateThin_0(this.value)" id="RawRice_id_0" class="form-control" data-style="btn-default">
+                                                    <option value="null">Select Rice</option>
+                                                    @foreach (var item in db.RarRices)
+                                                    {
+                                                        <option value="@item.RawRice_id">@item.Item_Name</option>
+                                                    }
+                                                </select>
+                                                @*@Html.DropDownList("RawRice_id", null, htmlAttributes: new { @class = "form-control, selectpicker" })*@
+                                                @*<input name="RawRiceExpense[0].RawRiceExpense_Name" id="RawRiceExpense_Name_0" class="form-control" required />*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
                                             <div class="form-group">
 
-                                                <label for="Section Name">Rice </label>
+                                                <label for="Section Name">Rate</label>
 
-                                                <input type="text" class="form-control" name="" value="@item.RawRice.Item_Name" id="RawRice_id_@i_new" readonly="readonly">
-                                                <input type="hidden" class="form-control" name="Production_Rice[@i_new].RawRice_id" value="@item.RawRice.RawRice_id" id="RawRice_id_@i_new" >
-
+                                                <input type="text" class="form-control" name="Production_Rice[0].Purchase_Rice_Rate" id="PerBagPrice_0" onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()" value="0" readonly="readonly">
 
                                                 <div style="color:red"></div>
 
                                             </div>
                                         </div>
-                                      
-                                        
-                                        @foreach (var item2 in db.RarRices.Where(raw => raw.RawRice_id == item.RawRice_id))
-                                        {
-                                            var remaining = item2.Bags_qty - item2.Bags_Sold_qty;
-
-
-
                                         <div class="col-md-1">
                                             <div class="form-group">
 
                                                 <label for="Section Name">Total Bags</label>
 
-                                                <input type="text" class="form-control" name="" id="TotalBags_@i_new" value="@remaining" readonly="readonly">
+                                                <input type="text" class="form-control" name="" id="TotalBags_0" value="0" readonly="readonly">
 
                                                 <div style="color:red"></div>
 
                                             </div>
                                         </div>
-                                        }
                                         <div class="col-md-1">
                                             <div class="form-group">
 
                                                 <label for="Section Name">Bags Use</label>
 
-                                                <input type="text" class="form-control" onkeyup="calculateProductionWeight_@(i_new)()" onfocusout="CalculateNetTotal()" name="Production_Rice[@i_new].Purchase_Rice_BagsUsed" id="Rice_Production_Bags_@i_new" value="" placeholder="Enter Qty">
+                                                <input type="text" class="form-control" onkeyup="calculateProductionWeight_0()" onfocusout="CalculateNetTotal()" name="Production_Rice[0].Purchase_Rice_BagsUsed" id="Rice_Production_Bags_0" placeholder="Enter Qty">
 
                                                 <div style="color:red"></div>
 
@@ -175,8 +177,8 @@
 
                                                 <label for="Section Name">Pkg Type</label>
 
-                                                <input type="text" class="form-control" name="" id="Packing_Id_@i_new" value="@item.RawRice.packing.Packing_Type" readonly="readonly">
-                                                <input type="hidden" class="form-control" name="Production_Rice[@i_new].Packing_Id" value="@item.RawRice.packing.Packing_Id" >
+                                                <input type="text" class="form-control" name="Production_Rice[0].Packing_Id" id="Packing_Id_0" value="0" readonly="readonly">
+
                                                 <div style="color:red"></div>
 
                                             </div>
@@ -186,7 +188,7 @@
 
                                                 <label for="Section Name">T.Weight</label>
 
-                                                <input type="text" class="form-control" name="Production_Rice[@i_new].Total_Weight" id="Rice_Production_TotalWieght_@i_new" value="0" readonly="readonly">
+                                                <input type="text" class="form-control" name="Production_Rice[0].Total_Weight" id="Rice_Production_TotalWieght_0" value="0" readonly="readonly">
 
                                                 <div style="color:red"></div>
 
@@ -197,22 +199,7 @@
 
                                                 <label for="Section Name">Worth</label>
 
-                                                <input type="text" class="form-control" name="Production_Rice[@i_new].Total_Worth" id="Rice_Production_TotalWorth_@i_new" value="0" readonly="readonly">
-
-                                                <div style="color:red"></div>
-
-                                            </div>
-                                        </div>
-                                       
-                                        @foreach (var item3 in db.Pricing.Where(pri=>pri.item_id == item.RawRice_id && pri.item_Type== "RawRice"))
-                                        {
-                                            
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-
-                                                <label for="Section Name">Rate</label>
-
-                                                <input type="text" class="form-control" name="Production_Rice[@i_new].Purchase_Rice_Rate" id="PerBagPrice_@i_new" onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()" value="@item3.PerBagPrice" readonly="readonly">
+                                                <input type="text" class="form-control" name="Production_Rice[0].Total_Worth" id="Rice_Production_TotalWorth_0" value="0" readonly="readonly">
 
                                                 <div style="color:red"></div>
 
@@ -223,31 +210,30 @@
 
                                                 <label for="Section Name">Market Rate</label>
 
-                                                <input type="text" class="form-control" name="Production_Rice[0].Market_Rate" id="PerBagMarketPrice_@i_new" onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()" value="@item3.PerBagMarketPrice">
+                                                <input type="text" class="form-control" name="Production_Rice[0].Total_Rate" id="PerBagMarketPrice_0" onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()" value="0">
 
                                                 <div style="color:red"></div>
 
                                             </div>
                                         </div>
-                                        }
                                         <div class="col-md-1">
                                             <div class="form-group">
 
                                                 <label for="Section Name">Market Worth</label>
 
-                                                <input type="text" class="form-control" name="Production_Rice[0].Market_Worth" id="Rice_Production_MarketWorth_@i_new" onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()" value="0">
+                                                <input type="text" class="form-control" name="Production_Rice[0].Market_Worth" id="Rice_Production_MarketWorth_0" onkeyup="CalculateNetTotal()" onfocusout="CalculateNetTotal()" value="0">
 
                                                 <div style="color:red"></div>
 
                                             </div>
                                         </div>
-                                        @*<div class="col-sm-2 text-center">
+                                        <div class="col-sm-2 text-center">
                                             <button type="button" id="btnAdd_Rice_0" class="btn btn-warning" onclick="JavaScript: return Add_Rice_0();" required>Add</button>
                                             <button id="btnDelete_RawRiceExpense_0" class="btn btn-danger" onclick="JavaScript: return Delete_RawRiceExpense_1();" required>Delete</button>
 
-                                        </div>*@
+                                        </div>
                                     </div>
-}
+
                                 </div>
                             </div>
 
@@ -276,7 +262,7 @@
                                         <div class="form-group">
 
                                             <label for="Section Name">Total bags</label>
-                                            <input type="text" class="form-control" id="SumTotalBags" name="Rice_Production_TotalBags" readonly="readonly" placeholder="0">
+                                            <input type="text" class="form-control" id="SumTotalBags" name="" readonly="readonly" placeholder="0">
                                             <div style="color:red"></div>
 
                                         </div>
@@ -289,7 +275,7 @@
                                         <div class="form-group">
 
                                             <label for="Section Name">Total used</label>
-                                            <input type="text" class="form-control" id="TotalUsedBags" name="Rice_Production_Bags" placeholder="0">
+                                            <input type="text" class="form-control" id="TotalUsedBags" name="Rice_Production_TotalBags" placeholder="0">
                                             <div style="color:red"></div>
 
                                         </div>
@@ -536,17 +522,31 @@
                                         <div class="row" id="row_0">
                                             <div class="row">
 
-                                                <div class="col-sm-5">
+                                                <div class="col-sm-4">
                                                     <label>By Product Name</label>
 
                                                     <input name="Rice_Production_ProductWorth[0].Rice_Production_ProductWorth_name" id="RawRiceExpense_Name_0" class="form-control" required />
 
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-2">
+
+                                                    <label>Quantity</label>
+
+                                                    <input name="Rice_Production_ProductWorth[0].Rice_Production_ProductWorth_Qty" class="form-control" required />
+
+                                                </div>
+                                                <div class="col-sm-2">
 
                                                     <label>Amount</label>
 
                                                     <input name="Rice_Production_ProductWorth[0].Rice_Production_ProductWorth_Amount" id="BPW_0" onkeyup="calculateBPW()" onfocusout="calculateBPW()" class="form-control" required />
+
+                                                </div>
+                                                <div class="col-sm-2">
+
+                                                    <label>Market Price</label>
+
+                                                    <input name="Rice_Production_ProductWorth[0].Rice_Production_ProductWorth_PBA" id="" class="form-control" required />
 
                                                 </div>
                                                 <div class="col-sm-2 text-center">
@@ -615,13 +615,13 @@
         $('#OutputTotalUsedBags').val(TotalUsedBags);
         var SumTotalWeight = $('#SumTotalWeight').val();
         $('#OutputTotalWeight').val(SumTotalWeight);
-
+        calculateShortFall();
     }
 
 
     function calculateProductionWeight_0() {
 
-        //alert("dfa");
+      //  alert("dfa");
         var BagsQty = $('#Rice_Production_Bags_0').val();
         var packingType = $('#Packing_Id_0').val();
         var Totaleight_Kg = parseFloat(packingType * BagsQty);
@@ -919,8 +919,8 @@
             var ExtraRice = parseFloat($('#ExtraRice').val());
 
             var addition = TotalUsed + TotalShortFall;
-            var Average = SumTotalWorth / addition;
-            var MarketAverage = SumTotalMarkerWorth / addition;
+            var Average = SumTotalWorth / TotalUsed;
+            var MarketAverage = SumTotalMarkerWorth / TotalUsed;
 
             //if (Packing_Iddd == 1) {
             //    var checkingShortFall = ExtraRice + TotalShortFall;
@@ -969,16 +969,27 @@
 
             var PTExpenses = parseFloat($('#PTExpenses').val());
 
+            var TotalUsed = parseFloat($('#OutputTotalUsedBags').val());
 
+            var divi = PTExpenses/ TotalUsed;
 
-            var StockWorth = Average + PTExpenses;
-            var MarketStockWorth = MarketAverage + PTExpenses;
+            var StockWorth = Average + divi;
+            var MarketStockWorth = MarketAverage + divi;
 
-            $('#TotalStockWorth').val(StockWorth);
+            //var StockWorth = Average + PTExpenses;
+            //var MarketStockWorth = MarketAverage + PTExpenses;
 
-            $('#PTExpenses').val(TotalProductionExpese);
-            $('#PTExpenses').val(TotalProductionExpese);
-            $('#TotalMarketStockWorth').val(MarketStockWorth);
+            $('#TotalStockWorth').val(StockWorth.toFixed(2));
+
+            $('#PTExpenses').val(TotalProductionExpese.toFixed(2));
+
+            $('#TotalMarketStockWorth').val(MarketStockWorth.toFixed(2));
+
+            //$('#TotalStockWorth').val(StockWorth);
+
+            //$('#PTExpenses').val(TotalProductionExpese);
+            //$('#PTExpenses').val(TotalProductionExpese);
+            //$('#TotalMarketStockWorth').val(MarketStockWorth);
         }
         else {
             $('#PTExpenses').val(0);
@@ -1015,20 +1026,47 @@
 
             var TotalBAgss = parseFloat($('#SumTotalShortFall').val());
 
-            var FactoryCost = TotalStockWorth - TotalBPW;
-            var MarketFactoryCost = TotalMarketStockWorth - TotalBPW;
+            var TotalUsed = parseFloat($('#OutputTotalUsedBags').val());
+            
+            var ttt= TotalStockWorth*TotalUsed;
+           
+            var ttt2= TotalMarketStockWorth*TotalUsed;
 
-            $('#TotalBPW').val(TotalBPW);
+            var FactoryCost = ttt - TotalBPW;
+            var MarketFactoryCost = ttt2 - TotalBPW;
+
+            $('#TotalBPW').val(TotalBPW);    
 
             $('#FactoryCost').val(FactoryCost);
             $('#MarketFactoryCost').val(MarketFactoryCost);
 
-            var PBP = FactoryCost / TotalBAgss;
-            var MPBP = MarketFactoryCost / TotalBAgss;
+            //var PBP = FactoryCost / TotalBAgss;
+            //var MPBP = MarketFactoryCost / TotalBAgss;
+            var PBP = FactoryCost/ TotalUsed;
+            var MPBP = MarketFactoryCost/TotalUsed ;
+
+            $('#NewPerBagPrice').val(PBP.toFixed(2));
+            $('#MNewPerBagPrice').val(MPBP.toFixed(2));
 
 
-            $('#NewPerBagPrice').val(PBP);
-            $('#MNewPerBagPrice').val(MPBP);
+
+
+
+
+            //var FactoryCost = TotalStockWorth - TotalBPW;
+            //var MarketFactoryCost = TotalMarketStockWorth - TotalBPW;
+
+            //$('#TotalBPW').val(TotalBPW);
+
+            //$('#FactoryCost').val(FactoryCost);
+            //$('#MarketFactoryCost').val(MarketFactoryCost);
+
+            //var PBP = FactoryCost / TotalBAgss;
+            //var MPBP = MarketFactoryCost / TotalBAgss;
+
+
+            //$('#NewPerBagPrice').val(PBP);
+            //$('#MNewPerBagPrice').val(MPBP);
         }
         else {
             $('#PTExpenses').val(0);

@@ -698,25 +698,25 @@ namespace DHMRice.Controllers
             return File(stream, "application/pdf", "All_Rice.pdf");
         }
         [HttpGet]
-        public void MonthWisePerbagMarketPriceUpdation()
-        {
-            var RawRices = db.RarRices.Where(m => m.Status).ToList();
-            foreach (var item in RawRices)
-            {
-                Pricing pricing = db.Pricing.Where(m => m.item_id == item.RawRice_id && m.item_Type == "RawRice").First();
-                if (pricing != null)
-                {
-                    var m = pricing.Pricing_ModifiedDate.AddMonths(1);
-                    if (DateTime.Now >= m)
-                    {
-                        pricing.PerBagMarketPrice += 15;
-                        pricing.Pricing_ModifiedDate = DateTime.Now;
-                        db.Entry(pricing).State = EntityState.Modified;
-                        db.SaveChanges();
-                    }
-                }
-            }
-        }
+        //public void MonthWisePerbagMarketPriceUpdation()
+        //{
+        //    var RawRices = db.RarRices.Where(m => m.Status).ToList();
+        //    foreach (var item in RawRices)
+        //    {
+        //        Pricing pricing = db.Pricing.Where(m => m.item_id == item.RawRice_id && m.item_Type == "RawRice").First();
+        //        if (pricing != null)
+        //        {
+        //            var m = pricing.Pricing_ModifiedDate.AddMonths(1);
+        //            if (DateTime.Now >= m)
+        //            {
+        //                pricing.PerBagMarketPrice += 15;
+        //                pricing.Pricing_ModifiedDate = DateTime.Now;
+        //                db.Entry(pricing).State = EntityState.Modified;
+        //                db.SaveChanges();
+        //            }
+        //        }
+        //    }
+        //}
         protected override void Dispose(bool disposing)
         {
             if (disposing)

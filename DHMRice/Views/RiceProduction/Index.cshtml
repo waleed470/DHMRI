@@ -60,6 +60,7 @@
                                 <th>Packing</th>
                                
                                 <th>Produce Bags Last Time</th>
+                                <th>Remaining Bags</th>
                                 <th>PBP</th>
                                 <th>PBMP</th>
                               
@@ -102,6 +103,7 @@
                                   
                                    
                                     <td>@ProduceBags.Rice_Produce_TotalBagsProduce</td>
+                                    <td>@ProduceBags.Rice_Produce_RemainingBags</td>
                                     <td>@ProduceBags.Rice_Produce_Bag_PerBagPrice</td>
                                     <td>@ProduceBags.Rice_Produce_Bag_PerBagMarketPrice</td>
                                     <td>@ProduceBags.Rice_Produce_Bag_TotalWeight</td>
@@ -113,6 +115,7 @@
                                         @if (ProduceBags.Rice_Produce_Bag_ShortFall_total == 0)
                                         {
                                             <a href="~/RiceProduction/RiceStockEdit?id=@item.Rice_Production_id" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                            <a href="~/RiceProduction/IncreaseRicee?id=@item.Rice_Production_id" class="on-default remove-row"><i class="mdi mdi-plus"></i></a>
                                         }
                                         else
                                         {
